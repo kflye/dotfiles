@@ -1,0 +1,2 @@
+CapsLock::Esc
+;AppsKey::CapsLock

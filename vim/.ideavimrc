@@ -1,0 +1,164 @@
+source ~/.vimrc
+
+let mapleader=" "
+
+" --- SET ---
+set number relativenumber   " add line numbers (relative)
+
+set ignorecase
+set smartcase
+
+set nohlsearch              " do not highlight search result
+set incsearch               " incremental search, go to match before pressing enter
+
+set scrolloff=8             " Minimal number of screen lines to keep above and below the cursor 
+
+set ideajoin
+set ideamarks
+set idearefactormode=keep
+
+set clipboard+=unnamed
+set clipboard+=ideaput
+
+set visualbell
+set noerrorbells
+
+" --- PLUGINS ---
+
+" https://towardsdatascience.com/the-essential-ideavim-remaps-291d4cd3971b
+"https://github.com/JetBrains/ideavim/wiki/NERDTree-support - remember shortcuts
+Plug 'preservim/nerdtree'    "Plugin Section
+                             
+" Replace deleted/yanked text: gr{motion}
+Plug 'vim-scripts/ReplaceWithRegister'
+
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+
+Plug 'machakann/vim-highlightedyank'
+"let g:highlightedyank_highlight_color = "rgba(160, 160, 160, 155)"
+
+Plug 'dbakker/vim-paragraph-motion'
+
+" --- REMAPS --- " remaps not used while coding starts with \
+nmap \e :e ~/.ideavimrc<CR>
+nmap \r :action IdeaVim.ReloadVimRc.reload<CR>
+
+" --- Vim remaps ---
+" Map 0 to go to the first charactor of the line
+nnoremap 0 g^
+" Move line up/down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Refactorings
+nmap <leader>ca :action ShowIntentionActions<CR>
+nmap <leader>rr :action Refactorings.QuickListPopupAction<CR>
+nmap <leader>re :action RenameElement<CR>
+" ri(v/f/p) refactor introduce variable / field / parameter 
+nmap <leader>riv <Action>(IntroduceVariable) 
+
+" Search and replace
+nnoremap <Leader><Leader>r :%s//g<Left><Left>
+
+" Jump
+nmap <leader>se :action SearchEverywhere<CR>
+nmap <leader>sg <Action>(FindInPath)
+map <leader>sw <Action>(EditorSelectWord)
+
+nmap <leader>sf <Action>(GotoFile)
+nmap <leader>sb :action RecentFiles<CR>
+nmap <leader>rl :action RecentLocations<CR>
+nmap <C-o> :action Back<CR>
+nmap <C-i> :action Forward<CR>
+
+" Navigation
+nmap [[ :action MethodUp<CR>
+nmap ]] :action MethodDown<CR>
+
+" BuildWholeSolutionAction
+nmap <leader>bs <Action>(BuildWholeSolutionAction)
+nmap <leader>ba <Action>(RebuildSolutionAction)
+
+" Running and Debugging
+nmap <leader>tb :action ToggleLineBreakpoint<CR>
+nmap <leader>ur :action RiderUnitTestRunContextAction<CR>
+nmap <leader>ud :action RiderUnitTestDebugContextAction<CR>
+nmap <leader>ua :action RiderUnitTestRunSolutionAction<CR>
+nmap <leader>rc :action ChooseRunConfiguration <CR>
+nmap <leader>ru :action Run<CR>
+nmap <leader>ra :action Rerun<CR>
+nmap <leader>rd :action Debug<CR>
+nmap <leader>rs :action Stop<CR>
+
+" Window management
+nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
+nmap <leader>wr <Action>(ActivateRunToolWindow)
+nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+nmap <leader>ws <Action>(LocateInSolutionView)
+nmap <leader>we <Action>(ActivateProjectToolWindow)
+nmap <leader>ww <Action>(HideAllWindows)
+nmap <leader>wz <Action>(ToggleZenMode)
+nmap <leader>wd <Action>(ToggleDistractionFreeMode)
+nmap <leader>wh <Action>(HideSideWindows)
+
+" Split
+" nmap <c-w>o <Action>(UnsplitAll)<Action>(CloseAllEditorsButActive)<CR>
+nmap <leader>bd <Action>(CloseContent)
+nmap <leader>qa <Action>(CloseAllEditorsButActive)
+nmap <c-w>v <Action>(MoveTabRight)
+nmap <c-w>s <Action>(MoveTabDown)
+
+nmap <leader>gd <Action>(GotoDeclaration)
+"  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+nmap <leader>gi <Action>(GotoImplementation)
+nmap <leader>go <Action>(GotoTypeDeclaration)
+nmap <leader>gr <Action>(ShowUsages)
+nmap <leader>= :action ReformatCode<CR>
+
+nmap K <Action>(QuickJavaDoc)
+nmap <c-k> <Action>(ParameterInfo)
+
+" Utilities
+map <leader>oi :action OptimizeImports<CR>
+
+" --- Diagnostics ---
+nmap <leader>e <Action>(ShowErrorDescription)
+nmap [d <Action>(GotoPreviousError)
+nmap ]d <Action>(GotoNextError)
+" - rider specific -
+nmap <leader>ge :action ReSharperGotoNextErrorInSolution<CR>
+nmap <leader>gE :action ReSharperGotoPrevErrorInSolution<CR>
+
+sethandler <C-2> a:vim
+sethandler <C-6> a:vim
+sethandler <C-A> a:vim
+sethandler <C-B> a:vim
+sethandler <C-C> a:vim
+sethandler <C-D> a:vim
+sethandler <C-E> a:vim
+sethandler <C-F> a:vim
+sethandler <C-G> a:vim
+sethandler <C-H> a:vim
+sethandler <C-I> a:vim
+sethandler <C-J> a:vim
+sethandler <C-K> a:vim
+sethandler <C-L> a:vim
+sethandler <C-M> a:vim
+sethandler <C-N> a:vim
+sethandler <C-O> a:vim
+sethandler <C-P> a:vim
+sethandler <C-Q> a:vim
+sethandler <C-R> a:vim
+sethandler <C-S> a:vim
+sethandler <C-T> a:ide
+sethandler <C-U> a:vim
+sethandler <C-V> a:vim
+sethandler <C-W> a:vim
+sethandler <C-X> a:vim
+sethandler <C-Y> a:vim
+sethandler <C-[> a:vim

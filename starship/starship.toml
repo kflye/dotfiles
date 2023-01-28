@@ -1,0 +1,39 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$time\
+$all"""
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+modified = "!${count}"
+
+
+# Replace the "❯" symbol in the prompt with "➜"
+[character] # The name of the module we are configuring is "character"
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
+
+[sudo]
+disabled = false
+
+[time]
+disabled = false
+format = "[$time]($style) "
+
+[directory]
+disabled = false
+format = "📁 [$path]($style)[$read_only]($read_only_style) "
+
+[username]
+style_user = "white bold"
+style_root = "bold red"
+format = "⚡"
+disabled = false
+show_always = false

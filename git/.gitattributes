@@ -1,0 +1,16 @@
+# https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/#line-endings-in-git
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+# Set the default behavior. Force crlf on all files
+
+# Use to check index / working tree eol
+# git ls-files --eol
+
+# git add --renormalize .
+
+# After commit - fix local files
+# git rm --cached -r .
+# git reset --hard
+
+# core.autocrlf=true	* text=auto eol=crlf	LF	    CRLF
+# core.autocrlf=input	* text=auto	            LF	    original (LF or CRLF)
+* text=auto

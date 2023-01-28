@@ -1,0 +1,6 @@
+[core]
+	sshCommand = 'C:\\Windows\\System32\\OpenSSH\\ssh.exe'
+    
+[user]
+	name = 
+	email = 

@@ -1,0 +1,93 @@
+;; This is a sample configuration file that showcases every feature in kanata.
+;; If anything is confusing or hard to discover, please file an issue or
+;; contribute a pull request to help improve the document.
+;;
+;; Comments are prefixed by double-semicolon. A single semicolon is parsed as the
+;; keyboard key. Comments are ignored for the configuration file.
+;;
+;; This configuration language is Lisp-like and uses S-Expression syntax.
+;; If you're unfamiliar with Lisp, don't be alarmed. The maintainer jtroo is
+;; also unfamiliar with Lisp. You don't need to know Lisp in-depth to
+;; be able to configure kanata.
+;;
+;; If you follow along with the examples, you should be fine. Kanata should
+;; also hopefully have helpful error messages in case something goes wrong.
+;; If you need help, you are welcome to ask.
+
+;; Exactly one defcfg entry is required. This is used for configuration key-pairs.
+(defcfg
+  ;; Your keyboard device will likely differ from this. I believe /dev/input/by-id/
+  ;; is preferable; I recall reading that it's less likely to change names on you,
+  ;; but I didn't find any keyboard device in there in my VM.
+  ;; linux-dev /dev/input/by-path/platform-i8042-serio-0-event-kbd
+  ;; If you want to read from multiple devices, separate them by `:`.
+  ;; linux-dev /dev/input/<dev1>:/dev/input/<dev2>
+
+  ;; Windows doesn't need any input/output configuration entries; however, there
+  ;; must still be a defcfg entry.
+  ;;
+  ;; There is an optional configuration entry for Windows to help mitigate strange
+  ;; behaviour of AltGr if your layout uses that. Uncomment one of the items below
+  ;; to change what kanata does with the key.
+  ;;
+  ;; For more context, see: https://github.com/jtroo/kanata/issues/55.
+  ;;
+  ;; windows-altgr cancel-lctl-press ;; remove the lctl press that comes as a combo with ralt
+ windows-altgr add-lctl-release  ;; add an lctl release when ralt is released
+  ;;
+  ;; NOTE: even with these workarounds, putting lctl+ralt in your defsrc may
+  ;; not work too well with other applications that use WH_KEYBOARD_LL.
+  ;; Known applications with issues: GWSL/VcXsrv
+
+  ;; Optional configuration: enable kanata to execute commands.
+  ;;
+  ;; I consider this feature a hazard so it is conditionally compiled out of
+  ;; the default binary.
+  ;;
+  ;; This is dangerous because it allows kanata to execute arbitrary commands.
+  ;; Using a binary compiled with the cmd feature enabled, uncomment below to
+  ;; enable command execution:
+  ;; danger-enable-cmd yes
+  process-unmapped-keys yes
+)
+
+(defsrc
+  
+  tab     
+  caps          
+  lsft    
+  lctl    lmet lalt           spc            ralt 
+)
+
+(deflayer qwerty
+  _ 
+  esc 
+  _
+  _    _ _           @spc2           _
+)
+
+
+(defalias
+  ;; aliases to change the base layer to qwerty or dvorak
+  qwr (layer-switch qwerty)
+ 
+  cap (tap-hold 200 200 caps lctl)
+  spc (tap-hold 200 200 spc lctl)
+  spc2 (tap-hold-release 200 150 spc lctl)
+
+)
+
+(defalias
+  ;; shifted keys
+  { S-[
+  } S-]
+  : S-;
+
+  dk C-ralt
+ 
+
+  ;; alias numbers as themselves for use in macro
+  8 8
+  0 0
+)
+

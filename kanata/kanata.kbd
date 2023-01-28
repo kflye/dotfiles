@@ -1,0 +1,175 @@
+;; This is a sample configuration file that showcases every feature in kanata.
+;; If anything is confusing or hard to discover, please file an issue or
+;; contribute a pull request to help improve the document.
+;;
+;; Comments are prefixed by double-semicolon. A single semicolon is parsed as the
+;; keyboard key. Comments are ignored for the configuration file.
+;;
+;; This configuration language is Lisp-like and uses S-Expression syntax.
+;; If you're unfamiliar with Lisp, don't be alarmed. The maintainer jtroo is
+;; also unfamiliar with Lisp. You don't need to know Lisp in-depth to
+;; be able to configure kanata.
+;;
+;; If you follow along with the examples, you should be fine. Kanata should
+;; also hopefully have helpful error messages in case something goes wrong.
+;; If you need help, you are welcome to ask.
+
+;; Exactly one defcfg entry is required. This is used for configuration key-pairs.
+(defcfg
+  ;; Your keyboard device will likely differ from this. I believe /dev/input/by-id/
+  ;; is preferable; I recall reading that it's less likely to change names on you,
+  ;; but I didn't find any keyboard device in there in my VM.
+  ;; linux-dev /dev/input/by-path/platform-i8042-serio-0-event-kbd
+  ;; If you want to read from multiple devices, separate them by `:`.
+  ;; linux-dev /dev/input/<dev1>:/dev/input/<dev2>
+
+  ;; Windows doesn't need any input/output configuration entries; however, there
+  ;; must still be a defcfg entry.
+  ;;
+  ;; There is an optional configuration entry for Windows to help mitigate strange
+  ;; behaviour of AltGr if your layout uses that. Uncomment one of the items below
+  ;; to change what kanata does with the key.
+  ;;
+  ;; For more context, see: https://github.com/jtroo/kanata/issues/55.
+  ;;
+  ;; windows-altgr cancel-lctl-press ;; remove the lctl press that comes as a combo with ralt
+  windows-altgr add-lctl-release  ;; add an lctl release when ralt is released
+  ;;
+  ;; NOTE: even with these workarounds, putting lctl+ralt in your defsrc may
+  ;; not work too well with other applications that use WH_KEYBOARD_LL.
+  ;; Known applications with issues: GWSL/VcXsrv
+
+  ;; Optional configuration: enable kanata to execute commands.
+  ;;
+  ;; I consider this feature a hazard so it is conditionally compiled out of
+  ;; the default binary.
+  ;;
+  ;; This is dangerous because it allows kanata to execute arbitrary commands.
+  ;; Using a binary compiled with the cmd feature enabled, uncomment below to
+  ;; enable command execution:
+  ;; danger-enable-cmd yes
+)
+
+;; Only one defsrc is allowed.
+;;
+;; defsrc defines the keys that will be intercepted by kanata. The order of the
+;; keys matches the deflayer declarations and all deflayer declarations must
+;; have the same number of keys as defsrc.
+;;
+;; The visual/spatial positioning is *not* mandatory; it is done by convention
+;; for visual ease. These items are parsed as a long list with newlines being
+;; ignored.
+;;
+;; If you are looking for other keys, the file src/keys/mod.rs should hopefully
+;; provide some insight.
+(defsrc
+  grv     1    2    3    4    5    6    7    8    9    0    -    =    bspc     
+  tab     q    w    e    r    t    y    u    i    o    p    [    ]             
+  caps    a    s    d    f    g    h    j    k    l    ;    '    \    ret      
+  lsft    102d z    x    c    v    b    n    m    ,    .    /         rsft   
+  lctl    lmet lalt           spc            ralt rmet cmp            rctl
+)
+
+;; The first layer defined is the layer that will be active by default when
+;; kanata starts up. This layer is the standard QWERTY layout except for the
+;; backtick/grave key (@grl) which is an alias for a tap-hold key.
+;;
+;; There are currently a maximum of 25 layers allowed.
+(deflayer qwerty
+  grv     1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab     q    w    e    r    t    y    u    i    o    p    [    ]
+  esc     a    s    d    f    g    h    j    k    l    ;    '    \    ret
+  lsft    102d z    x    c    v    b    n    m    ,    .    /         rsft
+  lctl    lmet lalt           @spc           ralt rmet cmp            rctl
+)
+
+;; defalias is used to declare a shortcut for a more complicated action to keep
+;; the deflayer declarations clean and aligned. The alignment in deflayers is not
+;; necessary, but is strongly recommended for ease of understanding visually.
+;;
+;; Aliases are referred to by `@<alias_name>`. Aliases can refer to each other,
+;; e.g. in the `anm` alias. However, an alias can only refer to another alias
+;; that has been defined before it in the file.
+(defalias
+  ;; aliases to change the base layer to qwerty or dvorak
+  qwr (layer-switch qwerty)
+
+  ;; Aliases for layer "toggling". It's not quite toggling because the layer
+  ;; will be active while the key is held and deactivated when the key is
+  ;; released. An alternate action name you can use is layer-while-held.
+  ;; However, the rest of this document will use The term "toggle" for brevity.
+  num (layer-toggle numbers)
+;;  sym (layer-toggle symbols)
+  arr (layer-toggle arrows)
+
+  ;; tap-hold aliases with tap for dvorak key, and hold for toggle layers
+  ;;
+  ;; tap-hold parameter order:
+  ;; 1. tap timeout
+  ;; 2. hold timeout
+  ;; 3. tap action
+  ;; 4. hold action
+  ;;
+  ;; The hold timeout is the number of milliseconds after which the hold action
+  ;; will activate.
+  ;;
+  ;; The tap timeout is best explained in a roundabout way. When you press and
+  ;; hold a standard key on your keyboard (e.g. 'a'), your operating system will
+  ;; read that and keep sending 'a' to the active application. To be able to
+  ;; replicate this behaviour with a tap-hold key, you must press-release-press
+  ;; the key within the tap timeout window (number is milliseconds). Simply
+  ;; holding the key results in the hold action activating, which is why you
+  ;; need to double-press for the tap action to stay pressed.
+  ;;
+  ;; There are two additional versions of tap-hold available:
+  ;; 1. tap-hold-press: if there is a key press, the hold action is activated
+  ;; 2. tap-hold-release: if there is a press and release of another key, the
+  ;; hold action is activated
+  ;;
+  ;; These versions are useful if you don't want to wait for the whole hold
+  ;; timeout to activate, but want to activate the hold action immediately
+  ;; based on the next key press or press and release of another key. These
+  ;; versions might be great to implement home row mods.
+  ;;
+  ;; If you come from kmonad, tap-hold-press and tap-hold-release are similar
+  ;; to tap-hold-next and tap-hold-next-release, respectively. If you know
+  ;; the underlying keyberon crate, tap-hold-press is the HoldOnOtherKeyPress
+  ;; and tap-hold-release is the PermissiveHold configuration.
+  anm (tap-hold 200 200 a @num)   ;; tap: a      hold: numbers layer
+  oar (tap-hold 200 200 o @arr)   ;; tap: o      hold: arrows layer
+
+  ;; tap for capslk, hold for lctl
+  cap (tap-hold 200 200 caps lctl)
+  spc (tap-hold 200 200 spc lctl)
+
+)
+
+(defalias
+  ;; shifted keys
+  { S-[
+  } S-]
+  : S-;
+
+  ;; alias numbers as themselves for use in macro
+  8 8
+  0 0
+)
+
+;; The underscore _ means transparent. The key on the base layer will be used
+;; instead. XX means no-op. The key will do nothing.
+(deflayer numbers
+  _       _    _    _    _    _    nlk  kp7  kp8  kp9  _    _    _    _
+  _       _    _    _    _    XX   _    kp4  kp5  kp6  -    _    _
+  _       _    C-z  _    _    XX   _    kp1  kp2  kp3  +    _    _    _
+  _       C-z  C-x  C-c  C-v  XX   _    kp0  kp0  .    /    _         _
+  _       _    _              _              _    _    _              _
+)
+
+
+(deflayer arrows
+  _       f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  _
+  _       _    _    _    _    _    _    _    pgup up   pgdn _    _
+  _       _    _    _    _    _    _    home left down rght end  _    _
+  _       _    _    _    _    _    _    _    _    _    _    _         _
+  _       _    _              _              _    _    _              _
+)

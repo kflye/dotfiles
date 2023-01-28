@@ -1,0 +1,128 @@
+{
+    "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+    "blocks": [
+      {
+        "alignment": "left",
+        "segments": [
+          {
+            "background": "#f1184c",
+            "foreground": "#242424",
+            "powerline_symbol": "\ue0c4",
+            "style": "powerline",
+            "template": "\uf0e7",
+            "type": "root"
+          },
+          {
+            "background": "#282c34",
+            "foreground": "#3A86FF",
+            "leading_diamond": " ",
+            "style": "diamond",
+            "template": "{{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+            "type": "os"
+          },
+          {
+            "background": "#242424",
+            "foreground": "#FFBB00",
+            "powerline_symbol": "\ue0c4",
+            "properties": {
+              "time_format": "15:04:05"
+            },
+            "style": "powerline",
+            "template": "{{ .CurrentDate | date .Format }} ",
+            "type": "time"
+          },
+          {
+            "background": "#242424",
+            "foreground": "#33DD2D",
+            "powerline_symbol": "\ue0b0",
+            "properties": {
+              "folder_separator_icon": "/",
+              "style": "folder"
+            },
+            "style": "powerline",
+            "template": "\ue5ff {{ .Path }} ",
+            "type": "path"
+          },
+          {
+            "background": "#242424",
+            "foreground": "#3A86FF",
+            "powerline_symbol": "\ue0b0",
+            "properties": {
+              "fetch_stash_count": true,
+              "fetch_status": true,
+              "fetch_upstream_icon": true
+            },
+            "style": "powerline",
+            "template": "{{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} ",
+            "type": "git"
+          },
+          {
+            "background": "#0184bc",
+            "foreground": "#ffffff",
+            "powerline_symbol": "\ue0c4",
+            "style": "powerline",
+            "template": " \ue70c {{ if .Unsupported }}\uf071{{ else }}{{ .Full }}{{ end }} ",
+            "type": "dotnet"
+          },
+          {
+            "background": "#ffeb3b",
+            "background_templates": [
+              "{{ if eq \"Full\" .State.String }}#4caf50{{ end }}",
+              "{{ if eq \"Charging\" .State.String }}#40c4ff{{ end }}",
+              "{{ if eq \"Discharging\" .State.String }}#ff5722{{ end }}"
+            ],
+            "foreground": "#193549",
+            "powerline_symbol": "\ue0c4",
+            "properties": {
+              "charged_icon": "\ue22f ",
+              "charging_icon": "\ue234 ",
+              "discharging_icon": "\ue231 "
+            },
+            "style": "powerline",
+            "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }}\uf295 ",
+            "type": "battery"
+          },
+          {
+            "background": "#8800dd",
+            "foreground": "#ffffff",
+            "powerline_symbol": "\ue0c4",
+            "properties": {
+              "style": "austin",
+              "threshold": 1
+            },
+            "style": "powerline",
+            "template": " <#fefefe>\ufbab</> {{ .FormattedMs }} ",
+            "type": "executiontime"
+          },
+          {
+            "background": "#33DD2D",
+            "background_templates": [
+              "{{ if gt .Code 0 }}#f1184c{{ end }}"
+            ],
+            "foreground": "#242424",
+            "powerline_symbol": "\ue0b4",
+            "style": "powerline",
+            "template": " \ufc8d{{ if gt .Code 0 }}\uf00d{{ else }}\uf42e{{ end }} ",
+            "type": "exit"
+          }
+        ],
+        "type": "prompt"
+      },
+      {
+        "alignment": "left",
+        "newline": true,
+        "segments": [
+          {
+            "foreground": "#f1184c",
+            "style": "plain",
+            "template": "\u279c ",
+            "type": "text"
+          }
+        ],
+        "type": "prompt"
+      }
+    ],
+    "console_title_template": "{{if .Root}}(Admin) {{end}}{{.Folder}}",
+    "version": 2
+  }
+  
