@@ -47,6 +47,8 @@ nmap \r :action IdeaVim.ReloadVimRc.reload<CR>
 " --- Vim remaps ---
 " Map 0 to go to the first charactor of the line
 nnoremap 0 g^
+nnoremap x "_x
+
 " Move line up/down
 nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==

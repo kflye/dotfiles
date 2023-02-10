@@ -1,7 +1,7 @@
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
 -- https://www.youtube.com/watch?v=vdn_pKJUda8 - keymaps for slip s(v|h|e|x) tabs t(o|x|n|p)
-vim.keymap.set("n", "x", "_x")
+vim.keymap.set("n", "x", "\"_x")
 
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
