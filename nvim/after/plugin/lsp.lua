@@ -92,7 +92,6 @@ local on_attach = function(client, bufnr)
         nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports') -- organize imports (not in youtube nvim video)
         -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
     end
-
 end
 
 local lsp_flags = {
@@ -147,6 +146,13 @@ lspconfig['jsonls'].setup {
     capabilities = capabilities,
     on_attach = on_attach,
     flags = lsp_flags
+}
+
+lspconfig['powershell_es'].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    flags = lsp_flags,
+    bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
 }
 
 local formatting = null_ls.builtins.formatting
