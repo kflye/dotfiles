@@ -71,32 +71,20 @@
                 "source": "Windows.Terminal.Azure"
             },
             {
-                "guid": "{3777f1b7-03e6-552a-913e-bb1a93258529}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
             },
             {
-                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
-                "hidden": true,
-                "name": "Visual Studio Debug Console",
-                "source": "VSDebugConsole"
-            },
-            {
-                "guid": "{9ae1334e-2ffb-5346-87ef-9c714bd12e0b}",
+                "guid": "{f125f8e7-374f-51e6-884a-54f059ce0b00}",
                 "hidden": false,
-                "name": "Developer Command Prompt for VS 2022 (2)",
+                "name": "Developer Command Prompt for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
             },
             {
-                "guid": "{b778831e-2814-502f-bba1-bc7ba23d7130}",
+                "guid": "{c2ab201d-6554-52b0-b784-6bfbfa3c5cd2}",
                 "hidden": false,
-                "name": "Developer PowerShell for VS 2022 (2)",
+                "name": "Developer PowerShell for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
             }
         ]
@@ -356,5 +344,6 @@
             "white": "#C0C0C0",
             "yellow": "#808000"
         }
-    ]
+    ],
+    "themes": []
 }

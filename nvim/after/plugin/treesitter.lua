@@ -7,10 +7,11 @@ end
 local treesitter_install = require 'nvim-treesitter.install'
 
 treesitter_install.prefer_git = false
-treesitter_install.compilers = { "clang" }
+treesitter_install.compilers = { "zig" }
 
 treesitter.setup {
     ensure_installed = "all",
+    ignore_install = { "svelte" },
     auto_install = true,
     highlight = {
         enable = true

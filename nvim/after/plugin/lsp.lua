@@ -32,7 +32,7 @@ mason.setup({})
 
 mason_lsp.setup {
     automatic_installation = false,
-    ensure_installed = { "sumneko_lua", "rust_analyzer", "omnisharp", "tsserver", "yamlls", "dockerls" }
+    ensure_installed = { "lua_ls", "rust_analyzer", "omnisharp", "tsserver", "yamlls", "dockerls", "powershell_es" }
 }
 
 -- Diagnostic keymaps
@@ -88,7 +88,7 @@ local on_attach = function(client, bufnr)
     if client.name == "tsserver" then
         client.server_capabilities.documentFormattingProvider = false
         client.server_capabilities.documentRangeFormattingProvider = false
-        nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile') -- rename file and update imports
+        nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile')           -- rename file and update imports
         nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports') -- organize imports (not in youtube nvim video)
         -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
     end
@@ -101,7 +101,7 @@ local lsp_flags = {
 
 local capabilities = cmp_nvim_lsp.default_capabilities()
 
-lspconfig['sumneko_lua'].setup {
+lspconfig['lua_ls'].setup {
     capabilities = capabilities,
     on_attach = on_attach,
     flags = lsp_flags,
@@ -112,8 +112,8 @@ lspconfig['sumneko_lua'].setup {
             },
             workspace = {
                 library = {
-                    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                    [vim.fn.stdpath("config") .. "/lua"] = true
+                        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                        [vim.fn.stdpath("config") .. "/lua"] = true
                 }
             }
         }
@@ -138,7 +138,7 @@ lspconfig['rust_analyzer'].setup {
     flags = lsp_flags,
     -- Server-specific settings...
     settings = {
-        ["rust-analyzer"] = {}
+            ["rust-analyzer"] = {}
     }
 }
 
