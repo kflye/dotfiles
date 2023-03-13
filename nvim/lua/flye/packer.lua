@@ -68,10 +68,13 @@ packer.startup(function()
     use {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.x',
-        requires = { {
+        requires = { 
+            {
             'nvim-telescope/telescope-fzf-native.nvim',
             run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" && cmake --build build --config Release && cmake --install build --prefix build'
-        }, { 'nvim-lua/plenary.nvim' } }
+            }, 
+            { 'nvim-lua/plenary.nvim' }, 
+            {'nvim-telescope/telescope-ui-select.nvim' }}
     }
 
     -- Treesitter

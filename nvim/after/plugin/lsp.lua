@@ -36,11 +36,12 @@ mason_lsp.setup {
 }
 
 -- Diagnostic keymaps
--- TODO: look at folke/trouble!
+-- TODO: look at folke/trouble! <leader>xx to toggle trouble
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<leader>sx', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -67,7 +68,7 @@ local on_attach = function(client, bufnr)
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
     nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
-    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+    nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols')
     nmap('<leader>dS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols')
 
     -- Lesser used LSP functionality
@@ -76,7 +77,7 @@ local on_attach = function(client, bufnr)
 
     nmap('<leader>re', vim.lsp.buf.rename, '[R]ename [E]lement')
     nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions')
-    --   map('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>') TODO: what does it do?
+    -- TODO: Code actions for current document? or use diagnostics to find, and then code_actions?
 
     nmap('<leader>=', function()
         vim.lsp.buf.format {

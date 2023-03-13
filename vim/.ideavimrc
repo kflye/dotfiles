@@ -67,10 +67,16 @@ nmap <leader>riv <Action>(IntroduceVariable)
 " Search and replace
 nnoremap <Leader><Leader>r :%s//g<Left><Left>
 
-" Jump
+"""""" Jump
 nmap <leader>se :action SearchEverywhere<CR>
-nmap <leader>sg <Action>(FindInPath)
-map <leader>sw <Action>(EditorSelectWord)
+" [S]earch [T]ext by [G]rep
+nmap <leader>stg <Action>(FindInPath) 
+" [S]earch [T]ext by current [W]ord
+map <leader>stw <Action>(EditorSelectWord) 
+
+nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
+nmap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
+nmap <leader>sds <Action>(FileStructurePopup)
 
 nmap <leader>sf <Action>(GotoFile)
 nmap <leader>sb :action RecentFiles<CR>
