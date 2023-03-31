@@ -3,7 +3,7 @@
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
 	autocrlf = true
-	# whitespace = cr-at-eol # Something with ^M
+	# whitespace = cr-at-eol # Something with
 	# fsmonitor = true  https://github.blog/2022-06-27-highlights-from-git-2-37/
 
 [include]
@@ -15,21 +15,36 @@
 	hist = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
 	st = status
 	treeStat = log --graph --all --pretty=format:'%C(yellow)%h -%C(auto)%d %C(bold cyan)%s %C(bold white)(%cr)%Creset %C(dim white)<%an>' --stat
+    d = difftool
+    m = mergetool
 
 [merge]
-	tool = kdiff3
+	tool = nvimdiff
+
+[mergetool]
+	keepBackup = false
+    # Git writes temporary BASE, LOCAL, and REMOTE versions of conflicting files in the worktree by default. Git will attempt to use a temporary directory for these files when set true. Defaults to false.
+	# keepTemporaries = true ? (default = false)
 
 [mergetool "kdiff3"]
 	path = C:/Program Files/KDiff3/kdiff3.exe
 	trustExitCode = false
 
-[mergetool]
-	keepBackup = false
-	# keepTemporaries = false (default)
-	# keepTemporaries = true ? (default = false)
-	# Git writes temporary BASE, LOCAL, and REMOTE versions of conflicting files in the worktree by default. Git will attempt to use a temporary directory for these files when set true. Defaults to false.
+[mergetool "nvimdiff"]
+    layout = "(LOCAL,BASE,REMOTE)/MERGED"
+    #cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
+
+[diff]
+	tool = nvimdiff
+
+[difftool]
+    prompt = false
+
+[difftool "nvimdiff"]
+    # nvimdiff specific options
 
 [push]
 	autoSetupRemote = true
+
 [safe]
 	directory = *

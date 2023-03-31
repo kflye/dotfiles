@@ -2,7 +2,7 @@ choco install kdiff3 `
     starship fzf bat firacodenf zoxide `
     neovim zig fd ripgrep `
     7zip powertoys ntop.portable `
-    mingw cmake nodejs `
+    mingw cmake nodejs zoxide`
     -y
 
 # zig -> c++ compiler for nvim-treesitter parsers
