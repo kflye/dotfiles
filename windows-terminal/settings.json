@@ -39,8 +39,8 @@
             "colorScheme": "Gruvbox Dark",
             "font": 
             {
-                "face": "FiraCode NF",
-                "weight": "light"
+                "face": "JetBrainsMono NF",
+                "weight": "extra-light"
             }
         },
         "list": 

@@ -11,4 +11,4 @@
 
 require("flye.set")
 require("flye.remap")
-require("flye.packer")
+require("flye.lazy")

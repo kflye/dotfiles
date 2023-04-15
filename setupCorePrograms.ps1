@@ -1,5 +1,5 @@
 choco install kdiff3 `
-    starship fzf bat firacodenf zoxide `
+    starship fzf bat firacodenf JetBrainsMonoNF zoxide `
     neovim zig fd ripgrep `
     7zip powertoys ntop.portable `
     mingw cmake nodejs zoxide`
