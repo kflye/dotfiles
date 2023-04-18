@@ -1,8 +1,0 @@
-if !empty($USERPROFILE) 
-	let $HOME = $USERPROFILE
-end
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-source ~/.vimrc
-
-

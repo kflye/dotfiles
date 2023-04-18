@@ -82,13 +82,13 @@
                 "source": "Windows.Terminal.Wsl"
             },
             {
-                "guid": "{340e6476-3e79-51a6-a40b-1cf9dc25ded0}",
+                "guid": "{71e711df-6f20-5fbd-8379-67adf23af7d8}",
                 "hidden": false,
                 "name": "Developer Command Prompt for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
             },
             {
-                "guid": "{3da98bae-27a2-59d5-b483-21443f3b0d30}",
+                "guid": "{0aa8fbda-6765-5818-aaf4-ef58b9d14209}",
                 "hidden": false,
                 "name": "Developer PowerShell for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
