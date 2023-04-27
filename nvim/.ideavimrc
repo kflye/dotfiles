@@ -63,6 +63,8 @@ nmap <leader>rr :action Refactorings.QuickListPopupAction<CR>
 nmap <leader>re :action RenameElement<CR>
 " ri(v/f/p) refactor introduce variable / field / parameter 
 nmap <leader>riv <Action>(IntroduceVariable) 
+nmap <leader>rif <Action>(IntroduceField) 
+nmap <leader>rip <Action>(IntroduceParameter) 
 
 " Search and replace
 nnoremap <Leader><Leader>r :%s//g<Left><Left>

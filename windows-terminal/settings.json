@@ -14,10 +14,26 @@
         {
             "command": 
             {
+                "action": "splitPane",
+                "split": "right"
+            },
+            "keys": "alt+shift+v"
+        },
+        {
+            "command": 
+            {
                 "action": "copy",
                 "singleLine": false
             },
             "keys": "ctrl+c"
+        },
+        {
+            "command": "unbound",
+            "keys": "alt+shift+plus"
+        },
+        {
+            "command": "unbound",
+            "keys": "alt+shift+minus"
         },
         {
             "command": 
@@ -27,6 +43,14 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "down"
+            },
+            "keys": "alt+shift+h"
         }
     ],
     "copyFormatting": "none",
