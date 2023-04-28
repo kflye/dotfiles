@@ -113,8 +113,8 @@ lspconfig['lua_ls'].setup {
             },
             workspace = {
                 library = {
-                        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                        [vim.fn.stdpath("config") .. "/lua"] = true
+                    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                    [vim.fn.stdpath("config") .. "/lua"] = true
                 }
             }
         }
@@ -129,7 +129,20 @@ lspconfig['tsserver'].setup {
 
 lspconfig['omnisharp'].setup {
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = function(client, bufnr)
+        -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
+        local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
+        for i, v in ipairs(tokenModifiers) do
+            tmp = string.gsub(v, ' ', '_')
+            tokenModifiers[i] = string.gsub(tmp, '-_', '')
+        end
+        local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
+        for i, v in ipairs(tokenTypes) do
+            tmp = string.gsub(v, ' ', '_')
+            tokenTypes[i] = string.gsub(tmp, '-_', '')
+        end
+        on_attach(client, bufnr)
+    end,
     flags = lsp_flags
 }
 
@@ -139,7 +152,7 @@ lspconfig['rust_analyzer'].setup {
     flags = lsp_flags,
     -- Server-specific settings...
     settings = {
-            ["rust-analyzer"] = {}
+        ["rust-analyzer"] = {}
     }
 }
 

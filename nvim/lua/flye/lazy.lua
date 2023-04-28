@@ -80,7 +80,7 @@ local plugins = {
     --    }
     --},
 
-    -- lualine extension extensions = { "neo-tree" }, bufferline offset 
+    -- lualine extension extensions = { "neo-tree" }, bufferline offset
     {
         'nvim-neo-tree/neo-tree.nvim',
         branch = 'v2.x',
@@ -108,19 +108,21 @@ local plugins = {
         "akinsho/bufferline.nvim",
         dependencies = 'nvim-tree/nvim-web-devicons'
     },
+    -- execution and debugging
+    { "mfussenegger/nvim-dap" },
 
     -- TODO: Figure out how to use as in rider
     { "moll/vim-bbye" }, -- Bbye allows you to do delete buffers (close files) without closing your windows or messing up your layout.
 
     -- Replace deleted/yanked text: gr{motion}
-    { 'vim-scripts/ReplaceWithRegister' },
+    { "vim-scripts/ReplaceWithRegister" },
 
     -- ds / cs / ys - additional s for whole line
     -- e.g ds", cs"[ , ysiw"
-    { 'tpope/vim-surround' },
+    { "tpope/vim-surround" },
 
     --    use 'folke/tokyonight.nvim'
-    { 'gruvbox-community/gruvbox',      lazy = false, priority = 1000, },
+    { "gruvbox-community/gruvbox",      lazy = false, priority = 1000, },
 
     -- TODO: toggleterm for a terminal
 
