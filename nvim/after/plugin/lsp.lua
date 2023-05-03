@@ -28,6 +28,17 @@ if not null_ls_status_ok then
     return
 end
 
+local neodev_status, neodev = pcall(require, "neodev")
+if not neodev_status then
+    vim.notify('neodev not found')
+    return
+end
+
+neodev.setup({
+    -- add any options here, or leave empty to use the default settings
+    library = { plugins = { "nvim-dap-ui" }, types = true },
+})
+
 mason.setup({})
 
 mason_lsp.setup {
@@ -108,14 +119,14 @@ lspconfig['lua_ls'].setup {
     flags = lsp_flags,
     settings = {
         Lua = {
-            diagnostics = {
-                globals = { "vim" }
-            },
+            -- diagnostics = {
+            --     globals = { "vim" }
+            -- },
             workspace = {
-                library = {
-                    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                    [vim.fn.stdpath("config") .. "/lua"] = true
-                }
+                checkThirdParty = false,
+            },
+            completion = { -- comes from https://github.com/folke/neodev.nvim
+                callSnippet = "Replace"
             }
         }
     }

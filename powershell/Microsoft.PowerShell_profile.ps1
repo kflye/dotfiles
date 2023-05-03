@@ -1,13 +1,14 @@
-if ($IsMacOS) {
-  $env:PATH += ":/usr/local/bin"
-  Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(#{HOMEBREW_PREFIX}/bin/brew shellenv) | Invoke-Expression'
-}
-elseif ($IsWindows) {
-  $env:PATH += ";$env:APPDATA\local\bin"
-  $env:HOME = "$env:userprofile"
-}
-elseif ($IsLinux) {
-  Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(#{HOMEBREW_PREFIX}/bin/brew shellenv) | Invoke-Expression'
+if ($IsMacOS)
+{
+    $env:PATH += ":/usr/local/bin"
+    Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(#{HOMEBREW_PREFIX}/bin/brew shellenv) | Invoke-Expression'
+} elseif ($IsWindows)
+{
+    $env:PATH += ";$env:APPDATA\local\bin"
+    $env:HOME = "$env:userprofile"
+} elseif ($IsLinux)
+{
+    Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(#{HOMEBREW_PREFIX}/bin/brew shellenv) | Invoke-Expression'
 }
 
 Import-Module Terminal-Icons
@@ -26,9 +27,13 @@ function Invoke-Starship-PreCommand
 Invoke-Expression (&starship init powershell)
 
 Invoke-Expression (& {
-    $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
+        $hook = if ($PSVersionTable.PSVersion.Major -lt 6)
+        { 'prompt' 
+        } else
+        { 'pwd' 
+        }
     (zoxide init --hook $hook powershell | Out-String)
-})
+    })
 
 ############################################ fzf
 # fzf
@@ -117,6 +122,16 @@ $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile))
 {
     Import-Module "$ChocolateyProfile"
+}
+
+function tcp_prog
+{
+    param (
+        [PSDefaultValue(Help = 'TCP Port to lookup')]
+        $Port
+    )
+
+    Get-Process -Id (Get-NetTCPConnection -LocalPort $Port).OwningProcess
 }
 
 $env:LOCAL_NUGET = "$env:HOME\.nuget_local"

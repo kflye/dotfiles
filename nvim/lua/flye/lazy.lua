@@ -43,6 +43,9 @@ local plugins = {
         "folke/trouble.nvim",
         dependencies = "nvim-tree/nvim-web-devicons",
     },
+    
+    -- configure lua language server for neovim config
+    { "folke/neodev.nvim" },
 
     -- Telescope
     {
@@ -109,7 +112,7 @@ local plugins = {
         dependencies = 'nvim-tree/nvim-web-devicons'
     },
     -- execution and debugging
-    { "mfussenegger/nvim-dap" },
+    { "rcarriga/nvim-dap-ui",           dependencies = { "mfussenegger/nvim-dap" } },
 
     -- TODO: Figure out how to use as in rider
     { "moll/vim-bbye" }, -- Bbye allows you to do delete buffers (close files) without closing your windows or messing up your layout.
@@ -122,7 +125,7 @@ local plugins = {
     { "tpope/vim-surround" },
 
     --    use 'folke/tokyonight.nvim'
-    { "gruvbox-community/gruvbox",      lazy = false, priority = 1000, },
+    { "gruvbox-community/gruvbox",      lazy = false,                              priority = 1000, },
 
     -- TODO: toggleterm for a terminal
 
