@@ -64,6 +64,7 @@
             "font": 
             {
                 "face": "JetBrainsMono NF",
+                "size": 10.0,
                 "weight": "extra-light"
             }
         },
