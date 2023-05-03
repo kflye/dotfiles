@@ -18,5 +18,6 @@ foreach ($source in $files) {
     #Write-Host "dest: ${dest} - target ${source}"
     New-Item -ItemType SymbolicLink -Force -Path $dest -Target $source;
 }
+New-Item -ItemType SymbolicLink -Force -Path $config/lazy-lock.json -Target $PSScriptRoot\lazy-lock.json
 
 New-Item -ItemType SymbolicLink -Force -Path $HOME/.ideavimrc -Target $PSScriptRoot\.ideavimrc
