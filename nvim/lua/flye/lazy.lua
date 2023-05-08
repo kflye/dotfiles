@@ -17,15 +17,20 @@ local plugins = {
     { 'williamboman/mason-lspconfig.nvim' },
 
 
-    -- Autocompletion
+    ---- Autocompletion
+    -- Completion framework:
     { 'hrsh7th/nvim-cmp' },
+
+    -- LSP completion source:
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { "onsails/lspkind.nvim" }, -- vscode like icons to lsp
+
+    -- Useful completion sources:
+    { 'hrsh7th/cmp-nvim-lua' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
     { 'saadparwaiz1/cmp_luasnip' },
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { 'hrsh7th/cmp-nvim-lua' },
 
-    { "onsails/lspkind.nvim" }, -- vscode like icons to lsp
 
     -- Snippets
     { 'L3MON4D3/LuaSnip' },
@@ -43,7 +48,7 @@ local plugins = {
         "folke/trouble.nvim",
         dependencies = "nvim-tree/nvim-web-devicons",
     },
-    
+
     -- configure lua language server for neovim config
     { "folke/neodev.nvim" },
 

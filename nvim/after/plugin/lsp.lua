@@ -47,7 +47,41 @@ mason_lsp.setup {
 }
 
 -- Diagnostic keymaps
--- TODO: look at folke/trouble! <leader>xx to toggle trouble
+-- LSP Diagnostics Options Setup
+local sign = function(opts)
+    vim.fn.sign_define(opts.name, {
+        texthl = opts.name,
+        text = opts.text,
+        numhl = ''
+    })
+end
+
+sign({ name = 'DiagnosticSignError', text = '' })
+sign({ name = 'DiagnosticSignWarn', text = '' })
+sign({ name = 'DiagnosticSignHint', text = '' })
+sign({ name = 'DiagnosticSignInfo', text = '' })
+
+vim.diagnostic.config({
+    virtual_text = { source = true },
+    signs = true,             -- default
+    update_in_insert = false, -- default
+    underline = true,         -- default
+    severity_sort = true,
+    float = {
+        border = 'rounded',
+        source = true,
+        header = '',
+        prefix = '',
+    },
+})
+
+-- TODO: Is this better than virtual_text, with <leader>e to open float
+vim.cmd([[
+set signcolumn=yes
+autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+]])
+
+
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
@@ -80,7 +114,7 @@ local on_attach = function(client, bufnr)
     nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
     nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols')
-    nmap('<leader>dS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols')
+    nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols')
 
     -- Lesser used LSP functionality
     nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
