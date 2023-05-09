@@ -62,7 +62,7 @@ sign({ name = 'DiagnosticSignHint', text = '' })
 sign({ name = 'DiagnosticSignInfo', text = '' })
 
 vim.diagnostic.config({
-    virtual_text = { source = true },
+    virtual_text = true,
     signs = true,             -- default
     update_in_insert = false, -- default
     underline = true,         -- default

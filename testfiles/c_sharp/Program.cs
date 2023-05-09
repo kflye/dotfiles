@@ -63,3 +63,4 @@ public record AnswerReason() : IEnumerationType<AnswerReason>
     
     public string Value { get; }
 }
+
