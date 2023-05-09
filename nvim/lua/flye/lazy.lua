@@ -59,7 +59,7 @@ local plugins = {
         dependencies = {
             {
                 'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'MinGW32-make '
+                build = 'make '
             },
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-telescope/telescope-ui-select.nvim' } }
