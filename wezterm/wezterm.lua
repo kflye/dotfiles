@@ -1,8 +1,8 @@
 local wezterm = require 'wezterm'
 
 return {
-    font = wezterm.font("FiraCode NF", { weight = 'Light'}),
+    font = wezterm.font("JetBrainsMono Nerd Font", { weight = 'Light'}),
     color_scheme = "Gruvbox dark, medium (base16)",
 
-   -- default_prog = { 'pwsh', '-l' },
+   default_prog = { '/snap/bin/pwsh', '-l' },
 }

@@ -7,8 +7,11 @@ int i = 0;
 var reason = RejectionReason.MeteringPointNotIdentifiable;
 i++;
 
+Foo a = null; 
 var b = 0;
-var c = 0;
+var c = 1;
+
+var d = a.Do("A", "B") + {};
 
 var f = new Foo();
 
@@ -33,6 +36,7 @@ public record RejectionReason() : IEnumerationType<RejectionReason>
     public static readonly RejectionReason MeteringPointNotIdentifiable = new RejectionReason("E10");
 
     public string Value { get; }
+    public string Reason { get; }
 
     private RejectionReason(string value) : this()
     {
@@ -59,3 +63,4 @@ public record AnswerReason() : IEnumerationType<AnswerReason>
     
     public string Value { get; }
 }
+

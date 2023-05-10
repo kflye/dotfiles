@@ -24,6 +24,17 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
+-- :help completeopt
+-- menuone: popup even when there's only one match
+-- noinsert: Do not insert text until a selection is made
+-- noselect: Do not select, force to select one from the menu
+vim.opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
+-- shortness: avoid showing extra messages when using completion
+-- don't give |ins-completion-menu| messages; for		*shm-c*
+-- example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
+vim.opt.shortmess = vim.opt.shortmess + { c = true }
+
+
 -- apperance
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
@@ -46,3 +57,4 @@ vim.g.mapleader = " "
 -- disable netrw at the very start of your init.lua (strongly advised) nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+

@@ -17,15 +17,20 @@ local plugins = {
     { 'williamboman/mason-lspconfig.nvim' },
 
 
-    -- Autocompletion
+    ---- Autocompletion
+    -- Completion framework:
     { 'hrsh7th/nvim-cmp' },
+
+    -- LSP completion source:
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { "onsails/lspkind.nvim" }, -- vscode like icons to lsp
+
+    -- Useful completion sources:
+    { 'hrsh7th/cmp-nvim-lua' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
     { 'saadparwaiz1/cmp_luasnip' },
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { 'hrsh7th/cmp-nvim-lua' },
 
-    { "onsails/lspkind.nvim" }, -- vscode like icons to lsp
 
     -- Snippets
     { 'L3MON4D3/LuaSnip' },
@@ -47,6 +52,9 @@ local plugins = {
     -- configure lua language server for neovim config
     { "folke/neodev.nvim" },
 
+    -- configure lua language server for neovim config
+    { "folke/neodev.nvim" },
+
     -- Telescope
     {
         'nvim-telescope/telescope.nvim',
@@ -54,7 +62,7 @@ local plugins = {
         dependencies = {
             {
                 'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'MinGW32-make '
+                build = 'make '
             },
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-telescope/telescope-ui-select.nvim' } }
@@ -67,7 +75,8 @@ local plugins = {
         dependencies = {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
             { "p00f/nvim-ts-rainbow" },
-            { "JoosepAlviste/nvim-ts-context-commentstring" }
+            { "JoosepAlviste/nvim-ts-context-commentstring" },
+            { "nvim-treesitter/nvim-treesitter-context" }
         }
     },
 

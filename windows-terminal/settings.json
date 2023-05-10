@@ -51,7 +51,10 @@
                 "split": "down"
             },
             "keys": "alt+shift+h"
-        }
+        },
+        { "command": "unbound", "keys": "f10" },
+        { "command": "unbound", "keys": "f11" },
+        { "command": "unbound", "keys": "f12" }
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,

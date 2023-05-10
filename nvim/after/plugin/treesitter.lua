@@ -10,8 +10,27 @@ treesitter_install.prefer_git = false
 treesitter_install.compilers = { "zig" }
 
 treesitter.setup {
-    ensure_installed = "all",
-    ignore_install = { "svelte" },
+    ensure_installed = {
+        "bash",
+        "c_sharp",
+        "cpp",
+        "dockerfile",
+        "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore",
+        "go",
+        "javascript",
+        "jsdoc",
+        "json",
+        "kotlin",
+        "lua",
+        "luadoc",
+        "markdown",
+        "regex",
+        "rust",
+        "sql",
+        "toml",
+        "typescript",
+        "yaml",
+    },
     auto_install = true,
     highlight = {
         enable = true
