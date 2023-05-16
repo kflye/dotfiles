@@ -3,3 +3,10 @@
 .idea
 bin
 obj
+
+# rust
+debug/
+target/
+
+**/*.rs.bk
+
