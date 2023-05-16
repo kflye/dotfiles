@@ -14,26 +14,18 @@
         {
             "command": 
             {
-                "action": "splitPane",
-                "split": "right"
-            },
-            "keys": "alt+shift+v"
-        },
-        {
-            "command": 
-            {
                 "action": "copy",
                 "singleLine": false
             },
             "keys": "ctrl+c"
         },
         {
-            "command": "unbound",
-            "keys": "alt+shift+plus"
-        },
-        {
-            "command": "unbound",
-            "keys": "alt+shift+minus"
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "right"
+            },
+            "keys": "alt+shift+v"
         },
         {
             "command": 
@@ -45,16 +37,33 @@
             "keys": "alt+shift+d"
         },
         {
+            "command": "unbound",
+            "keys": "alt+shift+plus"
+        },
+        {
+            "command": "unbound",
+            "keys": "alt+shift+minus"
+        },
+        {
+            "command": "unbound",
+            "keys": "f10"
+        },
+        {
+            "command": "unbound",
+            "keys": "f11"
+        },
+        {
+            "command": "unbound",
+            "keys": "f12"
+        },
+        {
             "command": 
             {
                 "action": "splitPane",
                 "split": "down"
             },
             "keys": "alt+shift+h"
-        },
-        { "command": "unbound", "keys": "f10" },
-        { "command": "unbound", "keys": "f11" },
-        { "command": "unbound", "keys": "f12" }
+        }
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
@@ -120,6 +129,12 @@
                 "hidden": false,
                 "name": "Developer PowerShell for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
+                "hidden": true,
+                "name": "Visual Studio Debug Console",
+                "source": "VSDebugConsole"
             }
         ]
     },

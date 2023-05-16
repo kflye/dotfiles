@@ -16,6 +16,8 @@ local plugins = {
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
 
+    -- rust
+    { 'simrat39/rust-tools.nvim' },
 
     ---- Autocompletion
     -- Completion framework:
@@ -48,7 +50,7 @@ local plugins = {
         "folke/trouble.nvim",
         dependencies = "nvim-tree/nvim-web-devicons",
     },
-    
+
     -- configure lua language server for neovim config
     { "folke/neodev.nvim" },
 

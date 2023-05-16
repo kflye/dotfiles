@@ -34,6 +34,12 @@ if not neodev_status then
     return
 end
 
+local rusttools_status, rusttools = pcall(require, "rust-tools")
+if not neodev_status then
+    vim.notify('rust-tools not found')
+    return
+end
+
 neodev.setup({
     -- add any options here, or leave empty to use the default settings
     library = { plugins = { "nvim-dap-ui" }, types = true },
@@ -130,6 +136,7 @@ local on_attach = function(client, bufnr)
         }
     end, 'Format current buffer with LSP')
 
+    vim.notify(client.name)
     -- typescript specific keymaps (e.g. rename file and update imports)
     if client.name == "tsserver" then
         client.server_capabilities.documentFormattingProvider = false
@@ -191,15 +198,18 @@ lspconfig['omnisharp'].setup {
     flags = lsp_flags
 }
 
-lspconfig['rust_analyzer'].setup {
-    capabilities = capabilities,
+-- lspconfig['rust_analyzer'].setup {
+--     capabilities = capabilities,
+--     on_attach = on_attach,
+--     flags = lsp_flags,
+--     -- Server-specific settings...
+--     settings = {
+--         ["rust-analyzer"] = {}
+--     }
+-- }
+rusttools.setup({
     on_attach = on_attach,
-    flags = lsp_flags,
-    -- Server-specific settings...
-    settings = {
-        ["rust-analyzer"] = {}
-    }
-}
+})
 
 lspconfig['jsonls'].setup {
     capabilities = capabilities,
