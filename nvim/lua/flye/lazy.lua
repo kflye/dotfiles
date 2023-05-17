@@ -54,9 +54,6 @@ local plugins = {
     -- configure lua language server for neovim config
     { "folke/neodev.nvim" },
 
-    -- configure lua language server for neovim config
-    { "folke/neodev.nvim" },
-
     -- Telescope
     {
         'nvim-telescope/telescope.nvim',
