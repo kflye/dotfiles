@@ -1,9 +1,9 @@
+vim.notify("nvim-dap.lua")
 local status_ok, dap = pcall(require, "dap")
 if not status_ok then
     vim.notify("nvim-dap not found")
     return
 end
-
 
 local status_ok_dapui, dapui = pcall(require, "dapui")
 if not status_ok_dapui then
@@ -11,14 +11,11 @@ if not status_ok_dapui then
     return
 end
 
-
-
 dap.adapters.coreclr = {
     type = "executable",
     command = "C:/Program Files (x86)/netcoredbg/netcoredbg.exe",
     args = { "--interpreter=vscode" }
 }
-
 
 -- TODO: check with rust how these should behave
 dap.defaults.fallback.terminal_win_cmd = 'tabnew'
@@ -34,35 +31,6 @@ dap.configurations.cs = {
         end,
     },
 }
-
--- local mason_registry = require("mason-registry")
---
--- local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
--- local codelldb_path = codelldb_root .. "/extension/" .. "bin/codelldb"
--- local liblldb_path = codelldb_root .. "/extension/" .. "lldb/lib/liblldb"
--- local this_os = vim.loop.os_uname().sysname
---
--- if this_os:find "Windows" then
---     codelldb_path = codelldb_root .. "/extension/" .. "adapter\\codelldb.exe"
---     liblldb_path = codelldb_root .. "/extension/" .. "lldb\\bin\\liblldb.dll"
--- else
---     -- The liblldb extension is .so for linux and .dylib for macOS
---     liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
--- end
--- dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
--- TODO: could this be used with a file per project, what about tests?
--- dap.configurations.rust = {
---     {
---         name = "Launch file",
---         type = "codelldb",
---         request = "launch",
---         program = function()
---             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
---         end,
---         cwd = "${workspaceFolder}",
---         stopOnEntry = false,
---     },
--- }
 
 vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
 vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
