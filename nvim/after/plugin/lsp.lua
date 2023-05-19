@@ -35,7 +35,7 @@ if not neodev_status then
 end
 
 local rusttools_status, rusttools = pcall(require, "rust-tools")
-if not neodev_status then
+if not rusttools_status then
     vim.notify('rust-tools not found')
     return
 end
@@ -167,7 +167,6 @@ local on_attach = function(client, bufnr)
         }
     end, 'Format current buffer with LSP')
 
-    vim.notify(client.name)
     -- typescript specific keymaps (e.g. rename file and update imports)
     if client.name == "tsserver" then
         client.server_capabilities.documentFormattingProvider = false
@@ -229,17 +228,24 @@ lspconfig['omnisharp'].setup {
 
 local mason_registry = require("mason-registry")
 
-local codelldb_root = mason_registry.get_package("codelldb"):get_install_path() .. "/extension/"
-local codelldb_path = codelldb_root .. "adapter/codelldb"
-local liblldb_path = codelldb_root .. "lldb/lib/liblldb.so" -- there is a .lib and not a .so file, windows?
+local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
+local codelldb_path = codelldb_root .. "/codelldb"
+local liblldb_path = codelldb_root .. "/extension/" .. "lldb/lib/liblldb"
+local this_os = vim.loop.os_uname().sysname
+
+if this_os:find "Windows" then
+    codelldb_path = codelldb_root .. "/extension/" .. "adapter\\codelldb.exe"
+    liblldb_path = codelldb_root .. "/extension/" .. "lldb\\bin\\liblldb.dll"
+else
+    -- The liblldb extension is .so for linux and .dylib for macOS
+    liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+end
+
 vim.notify(liblldb_path)
+vim.notify(codelldb_path)
 local opts = {
     tools = {
-        -- rust-tools options
-
-        -- how to execute terminal commands
-        -- options right now: termopen / quickfix
-        executor = require("rust-tools.executors").termopen,
+        executor = require("rust-tools.executors").termopen, -- options right now: termopen / quickfix
 
         -- callback to execute once rust-analyzer is done initializing the workspace
         -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
@@ -250,52 +256,27 @@ local opts = {
 
         -- These apply to the default RustSetInlayHints command
         inlay_hints = {
-            -- automatically set inlay hints (type hints)
-            -- default: true
             auto = true,
-
-            -- Only show inlay hints for the current line
             only_current_line = false,
-
-            -- whether to show parameter hints with the inlay hints or not
-            -- default: true
             show_parameter_hints = true,
-
-            -- prefix for parameter hints
-            -- default: "<-"
             parameter_hints_prefix = "<- ",
-
-            -- prefix for all the other hints (type, chaining)
-            -- default: "=>"
             other_hints_prefix = "=> ",
-
-            -- whether to align to the length of the longest line in the file
             max_len_align = false,
-
-            -- padding from the left if max_len_align is true
             max_len_align_padding = 1,
-
-            -- whether to align to the extreme right or not
             right_align = false,
-
-            -- padding from the right if right_align is true
             right_align_padding = 7,
-
-            -- The color of the hints
             highlight = "Comment",
         },
     },
 
-    -- all the opts to send to nvim-lspconfig
-    -- these override the defaults set by rust-tools.nvim
-    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
     server = {
-        -- standalone file support
-        -- setting it to false may improve startup time
-        standalone = true,
         on_attach = function(client, bufnr)
             on_attach(client, bufnr)
-            -- setup rust-tool specific keybindings, after to override default for other languages
+            vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions,
+                { buffer = bufnr, desc = "Rusttools hover actions" })
+
+            vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
+            vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
             -- add hover options back if rust-tool specific hovers are used
         end
     }, -- rust-analyzer options
@@ -310,10 +291,11 @@ local opts = {
 }
 -- rust tools wiki - https://github.com/simrat39/rust-tools.nvim/wiki/Debugging
 -- https://github.com/simrat39/dotfiles/blob/master/nvim/.config/nvim/lua/sim_config/rust-tools.lua
--- https://alpha2phi.medium.com/modern-neovim-debugging-and-testing-8deda1da1411 - 
+-- https://alpha2phi.medium.com/modern-neovim-debugging-and-testing-8deda1da1411 -
 -- random example setup https://gitlab.com/david_wright/nvim/-/blob/main/lua/plugins/rust_tools.lua
 -- youtube video
 -- https://github.com/cpow/cpow-dotfiles/blob/master/lua/core/plugin_config/rust_config.lua
+-- https://github.com/ChristianChiarulli/lvim/tree/master
 rusttools.setup(opts)
 
 lspconfig['jsonls'].setup {

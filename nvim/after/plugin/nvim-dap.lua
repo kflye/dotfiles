@@ -11,11 +11,14 @@ if not status_ok_dapui then
     return
 end
 
+
+
 dap.adapters.coreclr = {
     type = "executable",
     command = "C:/Program Files (x86)/netcoredbg/netcoredbg.exe",
     args = { "--interpreter=vscode" }
 }
+
 
 -- TODO: check with rust how these should behave
 dap.defaults.fallback.terminal_win_cmd = 'tabnew'
@@ -31,6 +34,35 @@ dap.configurations.cs = {
         end,
     },
 }
+
+-- local mason_registry = require("mason-registry")
+--
+-- local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
+-- local codelldb_path = codelldb_root .. "/extension/" .. "bin/codelldb"
+-- local liblldb_path = codelldb_root .. "/extension/" .. "lldb/lib/liblldb"
+-- local this_os = vim.loop.os_uname().sysname
+--
+-- if this_os:find "Windows" then
+--     codelldb_path = codelldb_root .. "/extension/" .. "adapter\\codelldb.exe"
+--     liblldb_path = codelldb_root .. "/extension/" .. "lldb\\bin\\liblldb.dll"
+-- else
+--     -- The liblldb extension is .so for linux and .dylib for macOS
+--     liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+-- end
+-- dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+-- TODO: could this be used with a file per project, what about tests?
+-- dap.configurations.rust = {
+--     {
+--         name = "Launch file",
+--         type = "codelldb",
+--         request = "launch",
+--         program = function()
+--             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+--         end,
+--         cwd = "${workspaceFolder}",
+--         stopOnEntry = false,
+--     },
+-- }
 
 vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
 vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
@@ -57,37 +89,6 @@ vim.keymap.set('n', '<Leader>ds', function()
     widgets.centered_float(widgets.scopes)
 end)
 
--- show options and defaults :h dapui.setup()
--- {
--- mappings = {
---     -- Use a table to apply multiple mappings --  TODO: Remove later, this section is default!
---     expand = { "<CR>", "<2-LeftMouse>" },
---     open = "o",
---     remove = "d",
---     edit = "e",
---     repl = "r",
---     toggle = "t",
--- },
--- -- Layouts define sections of the screen to place windows.
--- -- The position can be "left", "right", "top" or "bottom".
--- -- The size specifies the height/width depending on position. It can be an Int
--- -- or a Float. Integer specifies height/width directly (i.e. 20 lines/columns) while
--- -- Float value specifies percentage (i.e. 0.3 - 30% of available lines/columns)
--- -- Elements are the elements shown in the layout (in order).
--- -- Layouts are opened in order so that earlier layouts take priority in window sizing.
--- layouts = {
---     -- size of elements, repl, scopes, etc
--- },
--- floating = {
---     -- TODO: default is not defined , is that nil then?
---     max_height = nil, -- These can be integers or a float between 0 and 1.
---     max_width = nil, -- Floats will be treated as percentage of your screen.
--- },
--- render = {
---     -- TODO: default is not defined , is that nil then?
---     max_type_length = nil, -- Can be integer or nil.
--- }
--- }
 dapui.setup({})
 
 dap.listeners.after.event_initialized["dapui_config"] = function()

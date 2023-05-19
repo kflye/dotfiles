@@ -14,10 +14,23 @@ fn main() {
         .expect("Failed to read line");
 
     println!("You guessed: {guess}");
+    bob(guess);
 
     // match guess.cmp(&secret_number) {
     //     std::cmp::Ordering::Less => println!("Too small!"),
     //     std::cmp::Ordering::Greater => println!("Too big!"),
     //     std::cmp::Ordering::Equal => println!("You win!"),
     // }
+}
+
+fn bob(h: String) {
+    println!("{h}")
+}
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
 }
