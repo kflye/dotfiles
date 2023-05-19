@@ -45,7 +45,9 @@ neodev.setup({
     library = { plugins = { "nvim-dap-ui" }, types = true },
 })
 
-mason.setup({})
+mason.setup({
+    ensure_installed = { "codelldb" }
+})
 
 mason_lsp.setup {
     automatic_installation = false,
@@ -224,6 +226,13 @@ lspconfig['omnisharp'].setup {
     flags = lsp_flags
 }
 
+
+local mason_registry = require("mason-registry")
+
+local codelldb_root = mason_registry.get_package("codelldb"):get_install_path() .. "/extension/"
+local codelldb_path = codelldb_root .. "adapter/codelldb"
+local liblldb_path = codelldb_root .. "lldb/lib/liblldb.so" -- there is a .lib and not a .so file, windows?
+vim.notify(liblldb_path)
 local opts = {
     tools = {
         -- rust-tools options
@@ -288,20 +297,23 @@ local opts = {
             on_attach(client, bufnr)
             -- setup rust-tool specific keybindings, after to override default for other languages
             -- add hover options back if rust-tool specific hovers are used
-
         end
     }, -- rust-analyzer options
 
     -- debugging stuff
     dap = {
-        adapter = {
-            type = "executable",
-            command = "lldb-vscode",
-            name = "rt_lldb",
-        },
+        adapter = require("rust-tools.dap").get_codelldb_adapter(
+            codelldb_path,
+            liblldb_path
+        ),
     },
 }
-
+-- rust tools wiki - https://github.com/simrat39/rust-tools.nvim/wiki/Debugging
+-- https://github.com/simrat39/dotfiles/blob/master/nvim/.config/nvim/lua/sim_config/rust-tools.lua
+-- https://alpha2phi.medium.com/modern-neovim-debugging-and-testing-8deda1da1411 - 
+-- random example setup https://gitlab.com/david_wright/nvim/-/blob/main/lua/plugins/rust_tools.lua
+-- youtube video
+-- https://github.com/cpow/cpow-dotfiles/blob/master/lua/core/plugin_config/rust_config.lua
 rusttools.setup(opts)
 
 lspconfig['jsonls'].setup {
