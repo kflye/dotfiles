@@ -19,15 +19,15 @@
   tab     q    w    e    r    t    y    u    i    o    p    [    ]             
   caps    a    s    d    f    g    h    j    k    l    ;    '    \    ret      
   lsft    102d z    x    c    v    b    n    m    ,    .    /         rsft   
-  lctl    lmet lalt           spc            ralt rmet cmp            rctl
+  lctl    lmet lalt           spc            ralt ssrq cmp            rctl
 )
 
 (deflayer colemak
-  `       1    2    3    4    5    =    6    7    8    9    0    -    bspc
+  `       1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab     q    w    f    p    b    j    l    u    y    ;    _    _
   lsft    @h_a @h_r @h_s  t   g    m    n    @h_e @h_i @h_o rsft _    ret
   esc     z    x    c    d    v    XX   k    h    ,    .    _         rsft
-  _       lalt @nav           _              @sym rmet cmp            rctl
+  _       lalt @nav           _              @sym @num cmp            rctl
 )
 
 (deflayer navigation
@@ -46,20 +46,22 @@
   _    _ _           _           _ _ _            _
 )
 
-
-
+(deflayer numbers
+  _       _    _    _    _    _    _    _    _    _    _    _    _    _
+  _       _    7    8    9    _    _    _    _    _    _    _    _
+  _       ;    4    5    6    _    _    _    _    _    _    _    _    _
+  _       0    1    2    3    _    XX   _    _    _    _    _         _
+  _       _    _              _              _    _    _              _
+)
 
 
 (defalias
   ;; aliases to change the base layer to qwerty or dvorak
   col (layer-switch colemak)
 
-  ;;num (layer-toggle numbers)
   nav (tap-hold-release 220 200 esc (layer-toggle navigation))
-  sym (layer-toggle symbols)
-
-  cap (tap-hold 200 200 caps lctl)
-  spc (tap-hold 200 200 spc lctl)
+  sym (tap-hold-release 220 200 tab (layer-toggle symbols))
+  num (layer-toggle numbers)
 
   h_a (tap-hold-release 500 200 a met)	
   h_r (tap-hold-release 220 200 r alt)	
