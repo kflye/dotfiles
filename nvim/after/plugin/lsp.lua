@@ -58,7 +58,7 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
 )
 
 lspconfig['lua_ls'].setup {
-    capabilities = lsp_common.capabilities,
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
     on_attach = lsp_common.on_attach,
     flags = lsp_common.lsp_flags,
     settings = {
@@ -74,13 +74,13 @@ lspconfig['lua_ls'].setup {
 }
 
 lspconfig['tsserver'].setup {
-    capabilities = lsp_common.capabilities,
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
     on_attach = lsp_common.on_attach,
     flags = lsp_common.lsp_flags
 }
 
 lspconfig['omnisharp'].setup {
-    capabilities = lsp_common.capabilities,
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
     on_attach = function(client, bufnr)
         -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
         local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
@@ -99,13 +99,13 @@ lspconfig['omnisharp'].setup {
 }
 
 lspconfig['jsonls'].setup {
-    capabilities = lsp_common.capabilities,
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
     on_attach = lsp_common.on_attach,
     flags = lsp_common.lsp_flags
 }
 
 lspconfig['powershell_es'].setup {
-    capabilities = lsp_common.capabilities,
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
     on_attach = lsp_common.on_attach,
     flags = lsp_common.lsp_flags,
     bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"

@@ -12,9 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-    { 'neovim/nvim-lspconfig' },
-    { 'williamboman/mason.nvim' },
-    { 'williamboman/mason-lspconfig.nvim' },
 
     -- rust
     { 'simrat39/rust-tools.nvim' },
@@ -45,11 +42,7 @@ local plugins = {
     -- Useful status updates for LSP
     { 'j-hui/fidget.nvim' },
 
-    -- A pretty list for showing diagnostics, references, telescope results, quickfix and location lists
-    {
-        "folke/trouble.nvim",
-        dependencies = "nvim-tree/nvim-web-devicons",
-    },
+   
 
     -- configure lua language server for neovim config
     { "folke/neodev.nvim" },
