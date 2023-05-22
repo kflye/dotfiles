@@ -12,121 +12,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-
-    -- rust
-    { 'simrat39/rust-tools.nvim' },
-
-    ---- Autocompletion
-    -- Completion framework:
-    { 'hrsh7th/nvim-cmp' },
-
-    -- LSP completion source:
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { "onsails/lspkind.nvim" }, -- vscode like icons to lsp
-
-    -- Useful completion sources:
-    { 'hrsh7th/cmp-nvim-lua' },
-    { 'hrsh7th/cmp-buffer' },
-    { 'hrsh7th/cmp-path' },
-    { 'saadparwaiz1/cmp_luasnip' },
-
-
-    -- Snippets
-    { 'L3MON4D3/LuaSnip' },
-    { 'rafamadriz/friendly-snippets' },
-
-    -- formatting & linting
-    { "jay-babu/mason-null-ls.nvim" },
-    { "jose-elias-alvarez/null-ls.nvim" },
-
-    -- Useful status updates for LSP
-    { 'j-hui/fidget.nvim' },
-
    
-
-    -- configure lua language server for neovim config
-    { "folke/neodev.nvim" },
-
-    -- Telescope
-    {
-        'nvim-telescope/telescope.nvim',
-        version = '0.1.x',
-        dependencies = {
-            {
-                'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'make '
-            },
-            { 'nvim-lua/plenary.nvim' },
-            { 'nvim-telescope/telescope-ui-select.nvim' } }
-    },
-
-    -- Treesitter
-    {
-        'nvim-treesitter/nvim-treesitter',
-        build = ":TSUpdate",
-        dependencies = {
-            { "nvim-treesitter/nvim-treesitter-textobjects" },
-            { "p00f/nvim-ts-rainbow" },
-            { "JoosepAlviste/nvim-ts-context-commentstring" },
-            { "nvim-treesitter/nvim-treesitter-context" }
-        }
-    },
-
-
-    -- auto closing
-    { "windwp/nvim-autopairs" },
-    { "windwp/nvim-ts-autotag" },
-
-    -- 'nvim-tree'
-    --{
-    --    'nvim-tree/nvim-tree.lua',
-    --    dependencies = { 'nvim-tree/nvim-web-devicons' -- optional, for file icons
-    --    }
-    --},
-
-    -- lualine extension extensions = { "neo-tree" }, bufferline offset
-    {
-        'nvim-neo-tree/neo-tree.nvim',
-        branch = 'v2.x',
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons",
-            "MunifTanjim/nui.nvim",
-        }
-    },
-
-    {
-        'nvim-lualine/lualine.nvim', -- Fancier statusline
-        dependencies = { 'nvim-tree/nvim-web-devicons' }
-    },
-
-    { "numToStr/Comment.nvim" }, -- "gc" to comment visual regions/lines
-
-    -- Git related plugins
-    { "lewis6991/gitsigns.nvim" },
     -- TODO: Look into these plugins
     -- {'tpope/vim-fugitive' }
     -- {'tpope/vim-rhubarb' }
 
-    {
-        "akinsho/bufferline.nvim",
-        dependencies = 'nvim-tree/nvim-web-devicons'
-    },
-    -- execution and debugging
-    { "rcarriga/nvim-dap-ui",           dependencies = { "mfussenegger/nvim-dap" } },
-
-    -- TODO: Figure out how to use as in rider
-    { "moll/vim-bbye" }, -- Bbye allows you to do delete buffers (close files) without closing your windows or messing up your layout.
-
-    -- Replace deleted/yanked text: gr{motion}
-    { "vim-scripts/ReplaceWithRegister" },
-
-    -- ds / cs / ys - additional s for whole line
-    -- e.g ds", cs"[ , ysiw"
-    { "tpope/vim-surround" },
-
-    --    use 'folke/tokyonight.nvim'
-    { "gruvbox-community/gruvbox",      lazy = false,                              priority = 1000, },
 
     -- TODO: toggleterm for a terminal
 
@@ -134,4 +24,4 @@ local plugins = {
 
 local opts = {}
 
-require("lazy").setup(plugins, opts)
+require("lazy").setup("flye.plugins", opts)
