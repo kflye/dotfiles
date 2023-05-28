@@ -1,11 +1,7 @@
-local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not cmp_nvim_lsp_ok then
-    vim.notify("cmp_nvim_lsp not found")
-    return
-end
-
 local M = {}
-local on_attach = function(client, bufnr)
+
+function M.on_attach(client, bufnr)
+    vim.notify("m.on_attach")
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     local nmap = function(keys, func, desc)
@@ -57,14 +53,12 @@ local on_attach = function(client, bufnr)
     end
 end
 
-local lsp_flags = {
+M.lsp_flags = {
     -- This is the default in Nvim 0.7+
     debounce_text_changes = 150
 }
 
-local capabilities = cmp_nvim_lsp.default_capabilities()
-
-local float_opts = {
+M.float_opts = {
     border = {
         { "╭", "FloatBorder" },
         { "─", "FloatBorder" },
@@ -89,10 +83,5 @@ local float_opts = {
     header = '',
     prefix = '',
 }
-
-M.on_attach = on_attach;
-M.lsp_flags = lsp_flags;
-M.capabilities = capabilities;
-M.float_opts = float_opts;
 
 return M;
