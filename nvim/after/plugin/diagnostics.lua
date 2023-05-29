@@ -1,4 +1,4 @@
-local lsp_common_status, lsp_common = pcall(require, "flye.lsp.lsp-common")
+local lsp_common_status, lsp_common = pcall(require, "flye.lsp-common")
 if not lsp_common_status then
     vim.notify('flye-lsp-common not found')
     return

@@ -12,3 +12,4 @@
 require("flye.set")
 require("flye.remap")
 require("flye.lazy")
+require("flye.global")
