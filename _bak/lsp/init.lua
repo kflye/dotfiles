@@ -1,28 +1,7 @@
 vim.notify("lsp.init")
 
-function dump(o)
-    if type(o) == 'table' then
-        local s = '{ '
-        for k, v in pairs(o) do
-            if type(k) ~= 'number' then
-                k = '"' .. k .. '"'
-            end
-            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
-        end
-        return s .. '} '
-    else
-        return tostring(o)
-    end
-end
+-- TODO: https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/tj/lsp/init.lua
 
--- for key, value in pairs(plugin) do
---                print("found member " .. key);
---          end
--- 
---          for key, value in pairs(opts.library) do
---          print("found member " .. key);
---        print(dump(value))
---  end
 
 return {
     'neovim/nvim-lspconfig',

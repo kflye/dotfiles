@@ -128,7 +128,7 @@ return {
     {
         "jay-babu/mason-null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" },
+        dependencies = { "jose-elias-alvarez/null-ls.nvim" },
         opts = {
             automatic_installation = false,
             ensure_installed = { -- Opt to list sources here, when available in mason.
