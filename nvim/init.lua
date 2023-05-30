@@ -9,7 +9,7 @@
 -- rockerBOO/awesome-neovim
 --    awesome-{tool/language} (awesome-list repository)
 
+require("flye.global")
 require("flye.set")
 require("flye.remap")
 require("flye.lazy")
-require("flye.global")

@@ -11,7 +11,7 @@ Foo a = null;
 var b = 0;
 var c = 1;
 
-var d = a.Do("A", "B") + {};
+// var d = a.Do("A", "B") + {};
 
 var f = new Foo();
 

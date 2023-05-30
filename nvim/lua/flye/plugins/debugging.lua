@@ -1,28 +1,15 @@
-return {{
+return {
+    {
     "mfussenegger/nvim-dap",
     init = function()
         local dap = require("dap")
         local dapui = require("dapui")
         vim.notify("nvim-dap.lua")
 
-        dap.adapters.coreclr = {
-            type = "executable",
-            command = "C:/Program Files (x86)/netcoredbg/netcoredbg.exe",
-            args = {"--interpreter=vscode"}
-        }
+      --  -- TODO: check with rust how these should behave
+    --    dap.defaults.fallback.terminal_win_cmd = 'tabnew'
+    --    dap.defaults.fallback.focus_terminal = false
 
-        -- TODO: check with rust how these should behave
-        dap.defaults.fallback.terminal_win_cmd = 'tabnew'
-        dap.defaults.fallback.focus_terminal = false
-
-        dap.configurations.cs = {{
-            type = "coreclr",
-            name = "launch - netcoredbg",
-            request = "launch",
-            program = function()
-                return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
-            end
-        }}
 
         dap.listeners.after.event_initialized["dapui_config"] = function()
             vim.notify("dap.listeners.after.event_initialized")

@@ -117,15 +117,6 @@ return {
         end,
     },
     {
-        "folke/neodev.nvim",
-        opts = {
-            library = {
-                plugins = { "nvim-dap-ui" },
-                types = true
-            }
-        }
-    },
-    {
         "jay-babu/mason-null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" },

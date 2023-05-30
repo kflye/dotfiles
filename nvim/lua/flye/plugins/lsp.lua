@@ -1,40 +1,52 @@
 vim.notify("lsp.init")
+local LspCommon = require("flye.lsp-common")
 
-function dump(o)
-    if type(o) == 'table' then
-        local s = '{ '
-        for k, v in pairs(o) do
-            if type(k) ~= 'number' then
-                k = '"' .. k .. '"'
-            end
-            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
-        end
-        return s .. '} '
-    else
-        return tostring(o)
-    end
-end
-
--- for key, value in pairs(plugin) do
---                print("found member " .. key);
---          end
--- 
---          for key, value in pairs(opts.library) do
---          print("found member " .. key);
---        print(dump(value))
---  end
-
-return {
+return {{
     'neovim/nvim-lspconfig',
     dependencies = {{'hrsh7th/cmp-nvim-lsp'}, {
         'williamboman/mason.nvim',
         opts = {
             ensure_installed = {"codelldb"}
         },
-        config = function(plugin, opts)
+        config = function(_, opts)
             require("mason").setup(opts)
         end
-    }, {'williamboman/mason-lspconfig.nvim'}, {'simrat39/rust-tools.nvim'}},
+    }, {
+        "jay-babu/mason-nvim-dap.nvim",
+        opts = {
+            ensure_installed = {"coreclr", "codelldb"},
+            handlers = {
+                function(config)
+                    -- all sources with no handler get passed here
+                    -- Keep original functionality
+                    require('mason-nvim-dap').default_setup(config)
+                end,
+                coreclr = function(config)
+                    config.adapters = {
+                        type = "executable",
+                        command = "C:\\Users\\kaspe\\AppData\\Local\\nvim-data\\mason\\packages\\netcoredbg\\netcoredbg/netcoredbg.exe",
+                        args = {"--interpreter=vscode"}
+                    }
+                    require('mason-nvim-dap').default_setup(config)
+               end
+            }
+        },
+        config = function(_, opts)
+            require("mason-nvim-dap").setup(opts)
+        end
+    }, {'williamboman/mason-lspconfig.nvim'}, {'simrat39/rust-tools.nvim'}, {
+        "folke/neodev.nvim",
+        opts = {
+            library = {
+                plugins = {"nvim-dap-ui"},
+                types = true
+            }
+        },
+        config = function(_, opts)
+            vim.notify("neodev setup")
+            require("neodev").setup(opts)
+        end
+    }},
     opts = {
         servers = {
             lua_ls = {
@@ -55,14 +67,16 @@ return {
                     -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
                     local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
                     for i, v in ipairs(tokenModifiers) do
-                        tmp = string.gsub(v, ' ', '_')
+                        local tmp = string.gsub(v, ' ', '_')
                         tokenModifiers[i] = string.gsub(tmp, '-_', '')
                     end
                     local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
                     for i, v in ipairs(tokenTypes) do
-                        tmp = string.gsub(v, ' ', '_')
+                        local tmp = string.gsub(v, ' ', '_')
                         tokenTypes[i] = string.gsub(tmp, '-_', '')
                     end
+                    vim.notify("omnisharp custom on attach")
+                    LspCommon.on_attach(client, bufnr)
                 end
             },
             jsonls = {},
@@ -71,8 +85,6 @@ return {
             },
             rust_analyzer = {
                 tools = {
-                    
-
                     -- callback to execute once rust-analyzer is done initializing the workspace
                     -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
                     on_initialized = nil,
@@ -93,9 +105,9 @@ return {
                         right_align_padding = 7,
                         highlight = "Comment"
                     }
-                },
+                }
 
-                 -- rust-analyzer options
+                -- rust-analyzer options
 
             }
         },
@@ -104,7 +116,6 @@ return {
         ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
         setup = {
             rust_analyzer = function(_, opts)
-                local LspCommon = require("flye.lsp-common")
                 local rusttools = require("rust-tools")
 
                 local mason_registry = require("mason-registry")
@@ -145,21 +156,14 @@ return {
                 }
 
                 rusttools.setup(opts)
-                vim.notify("hello")
+                vim.notify("rust-tools extra setup done")
                 return true
             end
-            -- example to setup with typescript.nvim
-            -- tsserver = function(_, opts)
-            --   require("typescript").setup({ server = opts })
-            --   return true
-            -- end,
-            -- Specify * to use this function as a fallback for any server
-            -- ["*"] = function(server, opts) end,
         }
 
     },
     config = function(_, opts)
-        local LspCommon = require("flye.lsp-common")
+        vim.notify("nvim-lspconfig setup")
         vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
 
         vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
@@ -173,36 +177,13 @@ return {
         local function setup(server)
             local server_opts = vim.tbl_deep_extend("force", {
                 capabilities = vim.deepcopy(capabilities),
+                on_attach = LspCommon.on_attach,
                 flags = LspCommon.lsp_flags
             }, servers[server] or {})
-
-            local on_attach = server_opts.on_attach
-            if on_attach then
-                vim.notify("on attach " .. server)
-
-                server_opts.on_attach = function(client, bufnr)
-                    vim.notify("on attach: client " .. client.name)
-
-                    LspCommon.on_attach(client, bufnr)
-                    vim.notify("after LspCommon.on_attach")
-
-                    on_attach(client, bufnr)
-                    vim.notify("after on attach: client ")
-
-                end
-            else
-                vim.notify("on attach not override " .. server)
-
-                server_opts.on_attach = LspCommon.on_attach
-            end
 
             if opts.setup[server] then
                 if opts.setup[server](server, server_opts) then
                     vim.notify("skipping " .. server)
-                    return
-                end
-            elseif opts.setup["*"] then
-                if opts.setup["*"](server, server_opts) then
                     return
                 end
             end
@@ -228,7 +209,7 @@ return {
             end
         end
 
-        vim.notify(dump(ensure_installed))
+        P(ensure_installed)
 
         if have_mason then
             mlsp.setup({
@@ -236,6 +217,5 @@ return {
             })
             mlsp.setup_handlers({setup})
         end
-
     end
-}
+}}
