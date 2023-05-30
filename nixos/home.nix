@@ -13,6 +13,7 @@
     unzip
     gnumake
     nodejs
+    wl-clipboard
 
     nerdfonts
     kanata
