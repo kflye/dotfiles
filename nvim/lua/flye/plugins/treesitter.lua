@@ -1,9 +1,41 @@
 return {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
-    dependencies = {{"nvim-treesitter/nvim-treesitter-textobjects"}, {"p00f/nvim-ts-rainbow"},
-                    {"JoosepAlviste/nvim-ts-context-commentstring"}, {"nvim-treesitter/nvim-treesitter-context"},
-                    {"windwp/nvim-ts-autotag"}},
+    dependencies = {
+        {"nvim-treesitter/nvim-treesitter-textobjects"}, 
+        {"p00f/nvim-ts-rainbow"},
+        {"JoosepAlviste/nvim-ts-context-commentstring"}, 
+        {"nvim-treesitter/nvim-treesitter-context"},
+        {"windwp/nvim-ts-autotag"},
+        {
+            "windwp/nvim-autopairs",
+            opts = {
+                check_ts = true, -- enable treesitter
+                ts_config = {
+                    lua = {"string"},
+                    javascript = {"template_string"}
+                }
+            },
+            config = function(_, opts)
+                require("nvim-autopairs").setup(opts)
+        
+                local cmp_autopairs_status, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+                if not cmp_autopairs_status then
+                    vim.notify("nvim-autopairs.completion.cmp not found!")
+                    return
+                end
+        
+                local cmp_status, cmp = pcall(require, "cmp")
+                if not cmp_status then
+                    vim.notify("cmp not found!")
+                    return
+                end
+        
+                -- make autopairs and completion work together
+                cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+            end
+        }
+    },
     opts = {
         ensure_installed = {"bash", "c_sharp", "cpp", "dockerfile", "git_config", "git_rebase", "gitattributes",
                             "gitcommit", "gitignore", "go", "javascript", "jsdoc", "json", "kotlin", "lua", "luadoc",

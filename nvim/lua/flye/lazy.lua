@@ -24,4 +24,10 @@ local plugins = {
 
 local opts = {}
 
-require("lazy").setup("flye.plugins", opts)
+require("lazy").setup({
+    spec = {
+        {import = "flye.plugins"},
+        {import = "flye.plugins.editor"},
+        {import = "flye.plugins.ui"}
+    }
+}, opts)
