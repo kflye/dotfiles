@@ -124,8 +124,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo '\n### Installing additional packages'
 pacman -S --needed xorg xorg-server gnome gnome-tweaks \
     git wl-clipboard ttf-jetbrains-mono-nerd\
-    neovim \
-    zoxide fzf fish starship \
+    neovim nodejs npm fzf fd ripgrep\
+    zoxide fish starship \
     htop wget
 
 systemctl enable gdm.service
@@ -137,7 +137,7 @@ systemctl enable NetworkManager.service
 
 echo '\n### Setting system settings'
 genfstab -L /mnt >> /mnt/etc/fstab
-echo "FONT=jetbrains-mono-nerd" > /mnt/etc/vconsole.conf
+# echo "FONT=jetbrains-mono-nerd" > /mnt/etc/vconsole.conf
 echo "${hostname}" > /mnt/etc/hostname
 echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
 echo "en_DK.UTF-8 UTF-8" >> /mnt/etc/locale.gen
