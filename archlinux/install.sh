@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# Modified from https://github.com/maximbaz/dotfiles/blob/master/install.sh
+#
 # Run installation:
 #
 # - Connect to wifi via: `# iwctl station wlan0 connect WIFI-NETWORK`
