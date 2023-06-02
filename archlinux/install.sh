@@ -124,12 +124,15 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo '\n### Installing additional packages'
 pacman -S --needed xorg xorg-server gnome gnome-tweaks \
     git wl-clipboard ttf-jetbrains-mono-nerd\
-    neovim nodejs npm fzf fd ripgrep\
-    zoxide fish starship \
+    neovim nodejs npm fzf fd ripgrep zig\
+    zoxide fish starship bat tree\
     htop wget
 
 systemctl enable gdm.service
 systemctl enable NetworkManager.service
+
+# enable fractional scaling in gnome wayland
+gsettings set org.gnome.mutter experimental-features "[ 'scale-monitor-framebuffer' ]
 
 # keyboard layout
 # vconsole.conf 
