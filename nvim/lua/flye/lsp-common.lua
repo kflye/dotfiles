@@ -82,6 +82,7 @@ M.float_opts = {
     source = true,
     header = '',
     prefix = '',
+    winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
 }
 
 return M;

@@ -1,3 +1,5 @@
+local LspCommon = require("flye.lsp-common")
+
 return {
     -- TODO: why does it not load if it is a dependendy, no sources is loading, look at another config
     { "onsails/lspkind.nvim" },         -- vscode like icons to lsp
@@ -38,8 +40,10 @@ return {
                     end
                 },
                 window = {
-                    -- completion = cmp.config.window.bordered(),
-                    -- documentation = cmp.config.window.bordered(),
+                    -- completion = LspCommon.float_opts,
+                    -- documentation = LspCommon.float_opts,
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-p>'] = cmp.mapping.select_prev_item({
