@@ -79,7 +79,7 @@
     {
         "defaults": 
         {
-            "colorScheme": "Tokyo Night Storm",
+            "colorScheme": "Tokyo Night",
             "font": 
             {
                 "face": "JetBrainsMono NF",
@@ -124,24 +124,6 @@
                 "hidden": true,
                 "name": "Ubuntu",
                 "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "guid": "{71e711df-6f20-5fbd-8379-67adf23af7d8}",
-                "hidden": false,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{0aa8fbda-6765-5818-aaf4-ef58b9d14209}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
-                "hidden": true,
-                "name": "Visual Studio Debug Console",
-                "source": "VSDebugConsole"
             }
         ]
     },
