@@ -1,4 +1,5 @@
-return { 
+return {
     -- Useful status updates for LSP
-    {'j-hui/fidget.nvim'}
+    { 'j-hui/fidget.nvim', opts = {} }
 }
+
