@@ -59,6 +59,7 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Refactorings
 nmap <leader>ca :action ShowIntentionActions<CR>
+vmap <leader>ca :action ShowIntentionActions<CR>
 nmap <leader>rr :action Refactorings.QuickListPopupAction<CR>
 nmap <leader>re :action RenameElement<CR>
 " ri(v/f/p) refactor introduce variable / field / parameter 
@@ -132,6 +133,12 @@ nmap <leader>= :action ReformatCode<CR>
 
 nmap K <Action>(QuickJavaDoc)
 nmap <c-k> <Action>(ParameterInfo)
+
+" Snippets (templates)
+imap <c-y> <Action>(EditorChooseLookupItem)
+nmap <c-y> <Action>(EditorChooseLookupItem)
+imap <c-j> <Action>(NextTemplateVariable)
+imap <c-k> <Action>(PreviousTemplateVariable)
 
 " Utilities
 map <leader>oi :action OptimizeImports<CR>

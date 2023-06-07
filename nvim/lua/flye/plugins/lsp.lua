@@ -1,12 +1,11 @@
-vim.notify("lsp.init")
 local LspCommon = require("flye.lsp-common")
 
-return {{
+return { {
     'neovim/nvim-lspconfig',
-    dependencies = {{'hrsh7th/cmp-nvim-lsp'}, {
+    dependencies = { { 'hrsh7th/cmp-nvim-lsp' }, {
         'williamboman/mason.nvim',
         opts = {
-            ensure_installed = {"codelldb"}
+            ensure_installed = { "codelldb" }
         },
         config = function(_, opts)
             require("mason").setup(opts)
@@ -14,7 +13,7 @@ return {{
     }, {
         "jay-babu/mason-nvim-dap.nvim",
         opts = {
-            ensure_installed = {"coreclr", "codelldb"},
+            ensure_installed = { "coreclr", "codelldb", "netcoredbg" },
             handlers = {
                 function(config)
                     -- all sources with no handler get passed here
@@ -22,36 +21,55 @@ return {{
                     require('mason-nvim-dap').default_setup(config)
                 end,
                 coreclr = function(config)
+                    local mason_registry = require("mason-registry")
+
+                    local netcoredbg_path = mason_registry.get_package("netcoredbg"):get_install_path()
+                    netcoredbg_path = netcoredbg_path .. "/netcoredbg"
+                    local this_os = vim.loop.os_uname().sysname
+
+                    if this_os:find "Windows" then
+                        netcoredbg_path = netcoredbg_path .. "\\netcoredbg.exe"
+                    else
+                        -- The liblldb extension is .so for linux and .dylib for macOS
+                        netcoredbg_path = netcoredbg_path .. "\\netcoredbg" .. (this_os == "Linux" and ".so" or ".dylib")
+                    end
+
                     config.adapters = {
                         type = "executable",
-                        command = "C:\\Users\\kaspe\\AppData\\Local\\nvim-data\\mason\\packages\\netcoredbg\\netcoredbg/netcoredbg.exe",
-                        args = {"--interpreter=vscode"}
+                        command = netcoredbg_path,
+                        args = { "--interpreter=vscode" }
                     }
                     require('mason-nvim-dap').default_setup(config)
-               end
+                end
             }
         },
         config = function(_, opts)
             require("mason-nvim-dap").setup(opts)
         end
-    }, {'williamboman/mason-lspconfig.nvim'}, {'simrat39/rust-tools.nvim'}, {
+    }, { 'williamboman/mason-lspconfig.nvim' }, { 'simrat39/rust-tools.nvim' }, {
         "folke/neodev.nvim",
         opts = {
             library = {
-                plugins = {"nvim-dap-ui"},
+                plugins = { "nvim-dap-ui" },
                 types = true
             }
         },
         config = function(_, opts)
-            vim.notify("neodev setup")
             require("neodev").setup(opts)
         end
-    }},
+    } },
     opts = {
         servers = {
             lua_ls = {
                 settings = {
                     Lua = {
+                        -- https://github.com/CppCXY/EmmyLuaCodeStyle/blob/master/docs/format_config_EN.md
+                        format = {
+                            enable = true,
+                            defaultConfig = {
+                                max_line_length = "160",
+                            }
+                        },
                         workspace = {
                             checkThirdParty = false
                         },
@@ -63,6 +81,9 @@ return {{
             },
             tsserver = {},
             omnisharp = {
+                enable_roslyn_analyzers = true,
+                organize_imports_on_format = true,
+                enable_import_completion = true,
                 on_attach = function(client, bufnr)
                     -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
                     local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
@@ -75,7 +96,6 @@ return {{
                         local tmp = string.gsub(v, ' ', '_')
                         tokenTypes[i] = string.gsub(tmp, '-_', '')
                     end
-                    vim.notify("omnisharp custom on attach")
                     LspCommon.on_attach(client, bufnr)
                 end
             },
@@ -111,9 +131,6 @@ return {{
 
             }
         },
-        -- you can do any additional lsp server setup here
-        -- return true if you don't want this server to be setup with lspconfig
-        ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
         setup = {
             rust_analyzer = function(_, opts)
                 local rusttools = require("rust-tools")
@@ -143,7 +160,6 @@ return {{
                     on_attach = function(client, bufnr)
                         LspCommon.on_attach(client, bufnr)
 
-                        vim.notify("rust.on_attach")
                         vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
                             buffer = bufnr,
                             desc = "Rusttools hover actions"
@@ -156,14 +172,12 @@ return {{
                 }
 
                 rusttools.setup(opts)
-                vim.notify("rust-tools extra setup done")
                 return true
-            end
+            end,
         }
 
     },
     config = function(_, opts)
-        vim.notify("nvim-lspconfig setup")
         vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
 
         vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
@@ -183,7 +197,6 @@ return {{
 
             if opts.setup[server] then
                 if opts.setup[server](server, server_opts) then
-                    vim.notify("skipping " .. server)
                     return
                 end
             end
@@ -215,7 +228,7 @@ return {{
             mlsp.setup({
                 ensure_installed = ensure_installed
             })
-            mlsp.setup_handlers({setup})
+            mlsp.setup_handlers({ setup })
         end
     end
-}}
+} }
