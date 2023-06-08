@@ -7,7 +7,7 @@ int i = 0;
 var reason = RejectionReason.MeteringPointNotIdentifiable;
 i++;
 
-Foo a = null; 
+Foo a = null;
 var b = 0;
 var c = 1;
 
@@ -62,7 +62,7 @@ public record AnswerReason() : IEnumerationType<AnswerReason>
     {
         return new AnswerReason(value);
     }
-    
+
     public string Value { get; }
 
 

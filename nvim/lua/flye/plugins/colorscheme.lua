@@ -7,7 +7,7 @@ return {
         opts = {},
         config = function(_, opts)
             -- vim.cmd [[colorscheme tokyonight]]
-            vim.cmd[[colorscheme tokyonight-night]]
+            -- vim.cmd[[colorscheme tokyonight-night]] -- used before
             --vim.cmd[[colorscheme tokyonight-storm]]
             --vim.cmd[[colorscheme tokyonight-day]]
             --vim.cmd[[colorscheme tokyonight-moon]]
@@ -19,14 +19,16 @@ return {
         lazy = false,
         priority = 1000,
         config = function(_, opts)
-            -- local colorsheme = "gruvbox"
-            --
-            -- local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorsheme)
-            --
-            -- if not status_ok then
-            --     vim.notify("colorsheme " .. colorsheme .. " not found!")
-            --     return
-            -- end
+            -- vim.cmd [[colorscheme gruvbox]]
+        end
+    }
+    ,
+    {
+        "sainnhe/gruvbox-material",
+        lazy = false,
+        priority = 1000,
+        config = function(_, opts)
+            vim.cmd [[colorscheme gruvbox-material]]
         end
     }
 }
