@@ -2,6 +2,7 @@ return {
     -- TODO: Harpoon integration https://github.com/nvim-neo-tree/neo-tree.nvim/wiki/Recipes#harpoon-indexequire("neo-tree")
     {
         'nvim-neo-tree/neo-tree.nvim',
+        lazy = false,
         branch = 'v2.x',
         dependencies = {"nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim"},
         opts = {
@@ -47,7 +48,8 @@ return {
                         -- 'thumbs.db',
                     },
                     never_show = {}
-                }
+                },
+                -- hijack_netrw_behavior = "open_default"
             }
         },
         keys = {{"<leader>we", ":Neotree toggle<CR>"}, {"<leader>wf", ":Neotree focus<CR>"},
