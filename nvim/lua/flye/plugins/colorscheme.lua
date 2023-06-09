@@ -28,7 +28,24 @@ return {
         lazy = false,
         priority = 1000,
         config = function(_, opts)
-            vim.cmd [[colorscheme gruvbox-material]]
+            -- vim.cmd [[colorscheme gruvbox-material]]
+        end
+    },
+    {
+        "ellisonleao/gruvbox.nvim",
+        priority = 1000,
+        opts = {},
+        config = function(_, opts)
+            require("gruvbox").setup(opts)
+            vim.cmd [[colorscheme gruvbox]]
+        end
+    },
+    {
+        'luisiacc/gruvbox-baby',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            -- vim.cmd [[colorscheme gruvbox-baby]]
         end
     }
 }
