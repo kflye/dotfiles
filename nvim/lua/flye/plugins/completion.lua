@@ -6,6 +6,7 @@ return {
     { 'hrsh7th/cmp-nvim-lua' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     { 'saadparwaiz1/cmp_luasnip' }, -- Snippets
     {
         'L3MON4D3/LuaSnip',
@@ -103,25 +104,23 @@ return {
                     -- }),
                     ["<Tab>"] = cmp.config.disable,
                 }),
-                sources = cmp.config.sources({ {
-                    name = "nvim_lsp"
+                sources = cmp.config.sources({
+                    { name = "nvim_lsp" },
+                    { name = 'nvim_lsp_signature_help' },
+                    { name = "nvim_lua" },
+                    { name = "luasnip" },
+                    { name = "buffer" },
+                    { name = "path" }
                 }, {
-                    name = "nvim_lua"
-                }, {
-                    name = "luasnip"
-                }, {
-                    name = "buffer"
-                }, {
-                    name = "path"
-                } }, { {
-                    name = 'buffer'
-                } }),
+                    { name = 'buffer' }
+                }),
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
                     format = require("lspkind").cmp_format({
                         mode = "symbol_text",
                         menu = ({
                             nvim_lsp = "[LSP]",
+                            nvim_lsp_signature_help = "[LSP_SIGN]",
                             nvim_lua = "[Lua]",
                             luasnip = "[LuaSnip]",
                             buffer = "[Buffer]",
