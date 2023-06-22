@@ -1,11 +1,13 @@
 starship init fish | source
 zoxide init fish | source
 
-fish_add_path -a /home/flye/.cargo/bin
+fish_add_path -a $HOME/.cargo/bin
+fish_add_path -a $HOME/.local/bin
 
 # Enable fzf key bindings
 fzf_key_bindings
 
 # fish_config theme save "tokyonight_storm"
 #theme_gruvbox dark medium
-
+set cmd keychain --eval --agents ssh ~/.ssh/id_ed25519
+eval $cmd

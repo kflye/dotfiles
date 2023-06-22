@@ -16,7 +16,7 @@ return {
         end,
         keys = {
             {
-                "<c-j>",
+                "<c-f>",
                 function()
                     if require("luasnip").expand_or_jumpable() then
                         require("luasnip").expand_or_jump()
@@ -26,7 +26,7 @@ return {
                 desc = "Expand the current item or jump to the next item within the snippet"
             },
             {
-                "<c-k>",
+                "<c-b>",
                 function()
                     if require("luasnip").jumpable(-1) then
                         require("luasnip").jump(-1)

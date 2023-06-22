@@ -42,7 +42,7 @@ Plug 'dbakker/vim-paragraph-motion'
 
 " --- REMAPS --- " remaps not used while coding starts with \
 nmap \e :e ~/.ideavimrc<CR>
-nmap \r :action IdeaVim.ReloadVimRc.reload<CR>
+nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
 
 " --- Vim remaps ---
 " Map 0 to go to the first charactor of the line
@@ -66,6 +66,8 @@ nmap <leader>re :action RenameElement<CR>
 nmap <leader>riv <Action>(IntroduceVariable) 
 nmap <leader>rif <Action>(IntroduceField) 
 nmap <leader>rip <Action>(IntroduceParameter) 
+
+" TODO: Find mapping in treesitter - Move element left/right -> MoveElementLeft
 
 " Search and replace
 nnoremap <Leader><Leader>r :%s//g<Left><Left>
@@ -116,6 +118,7 @@ nmap <leader>ww <Action>(HideAllWindows)
 nmap <leader>wz <Action>(ToggleZenMode)
 nmap <leader>wd <Action>(ToggleDistractionFreeMode)
 nmap <leader>wh <Action>(HideSideWindows)
+nmap <leader>tt <Action>(ActivateTerminalToolWindow)
 
 " Split
 " nmap <c-w>o <Action>(UnsplitAll)<Action>(CloseAllEditorsButActive)<CR>
@@ -123,6 +126,15 @@ nmap <leader>bd <Action>(CloseContent)
 nmap <leader>qa <Action>(CloseAllEditorsButActive)
 nmap <c-w>v <Action>(MoveTabRight)
 nmap <c-w>s <Action>(MoveTabDown)
+nmap <c-w>j <Action>(NextSplitter)
+nmap <c-w>k <Action>(PrevSplitter)
+nmap <c-a-j> <Action>(NextSplitter)
+nmap <c-a-k> <Action>(PrevSplitter)
+nmap <c-a-Right> <Action>(NextSplitter)
+nmap <c-a-Left> <Action>(PrevSplitter)
+nmap <c-Right> <Action>(StretchSplitToRight)
+nmap <c-Left> <Action>(StretchSplitToLeft)
+nmap <c-w>= <Action>(MaximizeEditorInSplit)
 
 nmap <leader>gd <Action>(GotoDeclaration)
 "  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
@@ -133,12 +145,13 @@ nmap <leader>= :action ReformatCode<CR>
 
 nmap K <Action>(QuickJavaDoc)
 nmap <c-k> <Action>(ParameterInfo)
+imap <c-k> <Action>(ParameterInfo)
 
 " Snippets (templates)
 imap <c-y> <Action>(EditorChooseLookupItem)
 nmap <c-y> <Action>(EditorChooseLookupItem)
-imap <c-j> <Action>(NextTemplateVariable)
-imap <c-k> <Action>(PreviousTemplateVariable)
+imap <c-f> <Action>(NextTemplateVariable)
+imap <c-b> <Action>(PreviousTemplateVariable)
 
 " Utilities
 map <leader>oi :action OptimizeImports<CR>

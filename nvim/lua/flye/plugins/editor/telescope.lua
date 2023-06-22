@@ -28,21 +28,13 @@ return {
                     }
                 }
             },
-            vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column",
-                "--smart-case", "--trim",
-                "-uu" }
-
         },
         config = function(_, opts)
             local telescope = require("telescope")
 
             local aaa = vim.tbl_deep_extend("force", {
                 extensions = {
-                    ["ui-select"] = { require("telescope.themes").get_dropdown {
-                        -- even more opts
-                    }
-                    },
-
+                    ["ui-select"] = { require("telescope.themes").get_dropdown {} },
                     fzf = {
                         fuzzy = true,
                         override_generic_sorter = true,
@@ -60,6 +52,7 @@ return {
             { '<leader>sf',  function() require('telescope.builtin').find_files {} end,   { desc = '[S]earch [F]iles' } },
             { '<leader>sb',  function() require('telescope.builtin').buffers {} end,      { desc = '[S]earch [B]uffers' } },
             { '<leader>sh',  function() require('telescope.builtin').help_tags {} end,    { desc = '[S]earch [H]elp' } },
+            { '<leader>sk',  function() require('telescope.builtin').keymaps {} end,    { desc = '[S]earch [K]eymaps' } },
             { '<leader>stw', function() require('telescope.builtin').grep_string {} end,  { desc = '[S]earch [T]ext by current [W]ord' } },
             { '<leader>stg', function() require('telescope.builtin').live_grep {} end,    { desc = '[S]earch [T]ext by [G]rep' } },
             { '<leader>sts', function() require('telescope.builtin').treesitter {} end,   { desc = '[S]earch [T]reesitter [S]ymbols' } },
