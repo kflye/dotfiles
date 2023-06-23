@@ -4,6 +4,8 @@ zoxide init fish | source
 fish_add_path -a $HOME/.cargo/bin
 fish_add_path -a $HOME/.local/bin
 
+fish_ssh_agent
+
 # Enable fzf key bindings
 fzf_key_bindings
 
