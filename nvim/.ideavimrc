@@ -124,6 +124,7 @@ nmap <leader>tt <Action>(ActivateTerminalToolWindow)
 " nmap <c-w>o <Action>(UnsplitAll)<Action>(CloseAllEditorsButActive)<CR>
 nmap <leader>bd <Action>(CloseContent)
 nmap <leader>qa <Action>(CloseAllEditorsButActive)
+nmap <c-w>q <Action>(CloseAllEditors)
 nmap <c-w>v <Action>(MoveTabRight)
 nmap <c-w>s <Action>(MoveTabDown)
 nmap <c-w>j <Action>(NextSplitter)
