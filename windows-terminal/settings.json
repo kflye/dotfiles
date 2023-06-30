@@ -19,20 +19,24 @@
             "keys": "alt+shift+h"
         },
         {
-            "command": "find",
-            "keys": "ctrl+shift+f"
-        },
-        {
-            "command": "paste",
-            "keys": "ctrl+v"
+            "command": 
+            {
+                "action": "moveFocus",
+                "direction": "right"
+            },
+            "keys": "ctrl+alt+shift+right"
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "down"
+                "direction": "left"
             },
-            "keys": "ctrl+alt+shift+down"
+            "keys": "ctrl+alt+shift+left"
+        },
+        {
+            "command": "find",
+            "keys": "ctrl+shift+f"
         },
         {
             "command": 
@@ -45,19 +49,22 @@
         {
             "command": 
             {
-                "action": "copy",
-                "singleLine": false
+                "action": "moveFocus",
+                "direction": "down"
             },
-            "keys": "ctrl+c"
+            "keys": "ctrl+alt+shift+down"
         },
         {
             "command": 
             {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
+                "action": "moveFocus",
+                "direction": "up"
             },
-            "keys": "alt+shift+d"
+            "keys": "ctrl+alt+shift+up"
+        },
+        {
+            "command": "paste",
+            "keys": "ctrl+v"
         },
         {
             "command": "unbound",
@@ -104,28 +111,33 @@
             "keys": "alt+down"
         },
         {
-            "command": 
-            {
-                "action": "moveFocus",
-                "direction": "left"
-            },
-            "keys": "ctrl+alt+shift+left"
+            "command": "unbound",
+            "keys": "ctrl+shift+h"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+shift+w"
         },
         {
             "command": 
             {
-                "action": "moveFocus",
-                "direction": "right"
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
             },
-            "keys": "ctrl+alt+shift+right"
+            "keys": "alt+shift+d"
         },
         {
             "command": 
             {
-                "action": "moveFocus",
-                "direction": "up"
+                "action": "copy",
+                "singleLine": false
             },
-            "keys": "ctrl+alt+shift+up"
+            "keys": "ctrl+c"
+        },
+        {
+            "command": "closePane",
+            "keys": "alt+shift+w"
         }
     ],
     "copyFormatting": "none",
@@ -144,7 +156,7 @@
             "colorScheme": "Gruvbox Dark",
             "font": 
             {
-                "face": "JetBrainsMono NF",
+                "face": "JetBrainsMonoNL Nerd Font",
                 "size": 10.0,
                 "weight": "extra-light"
             }
@@ -186,6 +198,18 @@
                 "hidden": true,
                 "name": "Ubuntu",
                 "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "guid": "{87d619ea-79cf-556b-a1bb-38603bd8995a}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{a2edc5c8-5ced-5968-ba81-c13d8aef967a}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
             }
         ]
     },
