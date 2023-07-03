@@ -63,8 +63,7 @@ return { {
                 require("neodev").setup(opts)
             end
         },
-        { 'jose-elias-alvarez/typescript.nvim',
-        }
+        { 'jose-elias-alvarez/typescript.nvim' }
     },
     opts = {
         servers = {
@@ -184,14 +183,13 @@ return { {
             end,
 
             tsserver = function(_, opts)
-                vim.notify("tsserver - custom setup")
-                opts = vim.tbl_deep_extend("force", {server = opts}, {})
-                P(opts)
-                local ok, ts = pcall(require("typescript"))
-                if not ok then
-                    vim.notify("typescrip not found!")
+                opts = vim.tbl_deep_extend("force", { server = opts }, {})
+                opts.server.on_attach = function(client, bufnr)
+                    LspCommon.on_attach(client, bufnr)
+                    vim.keymap.set("n", "<leader>oi", require("typescript").actions.organizeImports, { buffer = bufnr, desc = "[O]rganize [I]mports" })
                 end
-                vim.notify("typscrip was found!!!")
+
+
                 require("typescript").setup(opts)
                 return true
             end
