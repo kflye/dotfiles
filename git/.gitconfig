@@ -2,7 +2,6 @@
     editor = nvim
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
-	autocrlf = true
 	# whitespace = cr-at-eol # Something with
 	# fsmonitor = true  https://github.blog/2022-06-27-highlights-from-git-2-37/
 

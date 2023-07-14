@@ -1,0 +1,139 @@
+let mapleader=" "
+
+" --- SET ---
+set number relativenumber   " add line numbers (relative)
+
+set ignorecase
+set smartcase
+
+set nohlsearch              " do not highlight search result
+set incsearch               " incremental search, go to match before pressing enter
+
+set scrolloff=8             " Minimal number of screen lines to keep above and below the cursor 
+
+set visualbell
+
+" -- vsvim specific --
+set vsvimcaret=60           " opacity of the caret block from 0 to 100 (higher is more opaque)
+set clipboard=unnamed       " 
+
+" --- Vim remaps ---
+" Map 0 to go to the first charactor of the line
+nnoremap 0 g^
+nnoremap x "_x
+
+" Move line up/down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+
+" Refactorings
+nnoremap <leader>ca :vsc View.QuickActions<CR>
+vnoremap <leader>ca :vsc View.QuickActions<CR>
+" nnoremap <leader>rr :action Refactorings.QuickListPopupAction<CR>
+nnoremap <leader>re :vsc Refactor.Rename<CR>
+" ri(v/f/p) refactor introduce variable / field / parameter 
+" nnoremap <leader>riv <Action>(IntroduceVariable) 
+" nnoremap <leader>rif <Action>(IntroduceField) 
+" nnoremap <leader>rip <Action>(IntroduceParameter) 
+
+" TODO: Find mapping in treesitter - Move element left/right -> MoveElementLeft
+
+" Search and replace
+nnoremap <Leader><Leader>r :%s//g<Left><Left>
+
+"""""" Jump
+nnoremap <leader>se :vsc Window.QuickLaunch<CR>
+" nnoremap <leader>stg <Action>(FindInPath) 
+" map <leader>stw <Action>(EditorSelectWord) 
+
+" nnoremap <leader>xx <Action>(ActivateProblemsViewToolWindow)
+" nnoremap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
+" nnoremap <leader>sds <Action>(FileStructurePopup)
+
+nnoremap <leader>sf :vsc Edit.GoToFile<CR>
+nnoremap <leader>sb :vsc Edit.GoToRecentFiles<CR>
+" nnoremap <leader>rl :action RecentLocations<CR>
+nnoremap <C-O> :vsc View.NavigateBackward<CR>
+nnoremap <C-I> :vsc View.NavigateForward<CR>
+
+" Navigation
+nnoremap [[ :vsc Edit.PreviousMethod<CR>
+nnoremap ]] :vsc Edit.NextMethod<CR>
+
+" Build
+nnoremap <leader>bs :vsc Build.BuildSolution<CR>
+nnoremap <leader>ba :vsc Build.RebuildSolution<CR>
+
+" Running and Debugging
+nnoremap <leader>tb :vsc Debug.ToggleBreakpoint<CR>
+" nnoremap <leader>ur :action RiderUnitTestRunContextAction<CR>
+" nnoremap <leader>ud :action RiderUnitTestDebugContextAction<CR>
+" nnoremap <leader>ua :action RiderUnitTestRunSolutionAction<CR>
+" nnoremap <leader>rc :action ChooseRunConfiguration <CR>
+" nnoremap <leader>ru :action Run<CR>
+" nnoremap <leader>ra :action Rerun<CR>
+nnoremap <leader>rd :vsc Debug.Start<CR>
+nnoremap <leader>rs :vsc Debug.StopDebugging<CR>
+
+" Window management
+" nnoremap <leader>wu <Action>(ActivateUnitTestsToolWindow)
+" nnoremap <leader>wr <Action>(ActivateRunToolWindow)
+" nnoremap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+" nnoremap <leader>ws <Action>(LocateInSolutionView)
+" nnoremap <leader>we <Action>(ActivateProjectToolWindow)
+nnoremap <leader>ww :vsc Window.HideShowAllToolWindows<CR>
+" nnoremap <leader>wz <Action>(ToggleZenMode)
+" nnoremap <leader>wd <Action>(ToggleDistractionFreeMode)
+" nnoremap <leader>wh <Action>(HideSideWindows)
+" nnoremap <leader>tt <Action>(ActivateTerminalToolWindow)
+
+" Split
+" nnoremap <c-w>o <Action>(UnsplitAll)<Action>(CloseAllEditorsButActive)<CR>
+" nnoremap <leader>bd <Action>(CloseContent)
+" nnoremap <leader>qa <Action>(CloseAllEditorsButActive)
+" nnoremap <c-w>q <Action>(CloseAllEditors)
+" nnoremap <c-w>v <Action>(MoveTabRight)
+" nnoremap <c-w>s <Action>(MoveTabDown)
+" nnoremap <c-w>j <Action>(NextSplitter)
+" nnoremap <c-w>k <Action>(PrevSplitter)
+" nnoremap <c-a-j> <Action>(NextSplitter)
+" nnoremap <c-a-k> <Action>(PrevSplitter)
+" nnoremap <c-a-Right> <Action>(NextSplitter)
+" nnoremap <c-a-Left> <Action>(PrevSplitter)
+" nnoremap <c-Right> <Action>(StretchSplitToRight)
+" nnoremap <c-Left> <Action>(StretchSplitToLeft)
+" nnoremap <c-w>= <Action>(MaximizeEditorInSplit)
+
+nnoremap <leader>gd :vsc Edit.GoToDefinition<CR>
+nnoremap <leader>gi :vsc Edit.GoToImplementation<CR>
+nnoremap <leader>go :vsc Edit.GoToType<CR>
+nnoremap <leader>gO :vsc Edit.GoToTypeDefinition<CR>
+nnoremap <leader>gr :vsc Edit.FindAllReferences<CR>
+nnoremap <leader>= :vsc Edit.FormatDocument<CR>
+
+nnoremap K :vsc Edit.QuickInfo<CR>
+nnoremap <c-k> :vsc Edit.ParameterInfo<CR>
+inoremap <c-k> :vsc Edit.ParameterInfo<CR>
+
+" Snippets (templates)
+" inoremap <c-y> <Action>(EditorChooseLookupItem)
+" nnoremap <c-y> <Action>(EditorChooseLookupItem)
+" inoremap <c-f> <Action>(NextTemplateVariable)
+" inoremap <c-b> <Action>(PreviousTemplateVariable)
+
+" Utilities
+" map <leader>oi :action OptimizeImports<CR>
+
+" --- Diagnostics ---
+" nnoremap <leader>e <Action>(ShowErrorDescription)
+" nnoremap [d <Action>(GotoPreviousError)
+" nnoremap ]d <Action>(GotoNextError)
+" - rider specific -
+nnoremap <leader>xx :vsc View.ErrorList<CR>
+nnoremap <leader>ge :vsc View.NextError<CR>
+nnoremap <leader>gE :vsc View.PreviousError<CR>

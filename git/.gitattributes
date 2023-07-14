@@ -15,7 +15,7 @@
 # core.autocrlf=input	* text=auto	            LF	    original (LF or CRLF)
 
 # Set the default behavior, in case people don't have core.autocrlf set.
-* text=auto
+# * text=auto
 
 # Explicitly declare text files you want to always be normalized and converted
 # to native line endings on checkout.

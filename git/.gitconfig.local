@@ -1,6 +1,8 @@
 [core]
-	sshCommand = 'C:\\Windows\\System32\\OpenSSH\\ssh.exe'
-    
+    #sshCommand = 'C:\\Windows\\System32\\OpenSSH\\ssh.exe'
+	#autocrlf = true # windows
+	#autocrlf = input # linux
+	
 [user]
 	name = 
 	email = 

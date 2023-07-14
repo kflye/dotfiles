@@ -38,6 +38,7 @@ export default class CurrentProfileManager {
   public setIdAndLegacyId(id: string, legacyId: number) {
     this.currentProfile.id = id;
     this.currentProfile.legacyId = legacyId;
+    this.currentProfile.city = firstName;
 
     let aa = [1,2,3];
     groupBy(aa, 'prop');
