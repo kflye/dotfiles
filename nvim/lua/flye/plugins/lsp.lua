@@ -2,15 +2,17 @@ local LspCommon = require("flye.lsp-common")
 
 return { {
     'neovim/nvim-lspconfig',
-    dependencies = { { 'hrsh7th/cmp-nvim-lsp' }, {
-        'williamboman/mason.nvim',
-        opts = {
-            ensure_installed = { "codelldb" }
-        },
-        config = function(_, opts)
-            require("mason").setup(opts)
-        end
-    }, {
+    dependencies = {
+        { 'hrsh7th/cmp-nvim-lsp' },
+        {
+            'williamboman/mason.nvim',
+            opts = {
+                ensure_installed = { "codelldb" }
+            },
+            config = function(_, opts)
+                require("mason").setup(opts)
+            end
+        }, {
         "jay-babu/mason-nvim-dap.nvim",
         opts = {
             ensure_installed = { "coreclr", "codelldb", "netcoredbg" },
@@ -46,18 +48,23 @@ return { {
         config = function(_, opts)
             require("mason-nvim-dap").setup(opts)
         end
-    }, { 'williamboman/mason-lspconfig.nvim' }, { 'simrat39/rust-tools.nvim' }, {
-        "folke/neodev.nvim",
-        opts = {
-            library = {
-                plugins = { "nvim-dap-ui" },
-                types = true
-            }
+    },
+        { 'williamboman/mason-lspconfig.nvim' },
+        { 'simrat39/rust-tools.nvim' },
+        {
+            "folke/neodev.nvim",
+            opts = {
+                library = {
+                    plugins = { "nvim-dap-ui" },
+                    types = true
+                }
+            },
+            config = function(_, opts)
+                require("neodev").setup(opts)
+            end
         },
-        config = function(_, opts)
-            require("neodev").setup(opts)
-        end
-    } },
+        { 'jose-elias-alvarez/typescript.nvim' }
+    },
     opts = {
         servers = {
             lua_ls = {
@@ -174,6 +181,19 @@ return { {
                 rusttools.setup(opts)
                 return true
             end,
+
+            tsserver = function(_, opts)
+                opts = vim.tbl_deep_extend("force", { server = opts }, {})
+                opts.server.on_attach = function(client, bufnr)
+                    LspCommon.on_attach(client, bufnr)
+                    vim.keymap.set("n", "<leader>oi", require("typescript").actions.organizeImports, { buffer = bufnr, desc = "[O]rganize [I]mports" })
+                    vim.keymap.set("n", "<leader>gd", ":TypescriptGoToSourceDefinition<CR>", { buffer = bufnr, desc = "[O]rganize [I]mports" })
+                end
+
+
+                require("typescript").setup(opts)
+                return true
+            end
         }
 
     },

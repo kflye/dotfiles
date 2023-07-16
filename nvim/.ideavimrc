@@ -84,41 +84,44 @@ nmap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
 nmap <leader>sds <Action>(FileStructurePopup)
 
 nmap <leader>sf <Action>(GotoFile)
-nmap <leader>sb :action RecentFiles<CR>
-nmap <leader>rl :action RecentLocations<CR>
-nmap <C-o> :action Back<CR>
-nmap <C-i> :action Forward<CR>
+nmap <leader>sb <Action>(RecentFiles)
+nmap <leader>rl <Action>(RecentLocations)
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
 
 " Navigation
-nmap [[ :action MethodUp<CR>
-nmap ]] :action MethodDown<CR>
+nmap ]] <Action>(MethodUp)
+nmap [[ <Action>(MethodDown)
 
 " BuildWholeSolutionAction
 nmap <leader>bs <Action>(BuildWholeSolutionAction)
 nmap <leader>ba <Action>(RebuildSolutionAction)
 
 " Running and Debugging
-nmap <leader>tb :action ToggleLineBreakpoint<CR>
-nmap <leader>ur :action RiderUnitTestRunContextAction<CR>
-nmap <leader>ud :action RiderUnitTestDebugContextAction<CR>
-nmap <leader>ua :action RiderUnitTestRunSolutionAction<CR>
-nmap <leader>rc :action ChooseRunConfiguration <CR>
-nmap <leader>ru :action Run<CR>
-nmap <leader>ra :action Rerun<CR>
-nmap <leader>rd :action Debug<CR>
-nmap <leader>rs :action Stop<CR>
+nmap <leader>tb <Action>(ToggleLineBreakpoint)
+nmap <leader>ur <Action>(RiderUnitTestRunContextAction)
+nmap <leader>ud <Action>(RiderUnitTestDebugContextAction)
+nmap <leader>ua <Action>(RiderUnitTestRunSolutionAction)
+nmap <leader>rc <Action>(ChooseRunConfiguration )
+nmap <leader>ru <Action>(Run)
+nmap <leader>ra <Action>(Rerun)
+nmap <leader>rd <Action>(Debug)
+nmap <leader>rs <Action>(Stop)
 
 " Window management
 nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
 nmap <leader>wr <Action>(ActivateRunToolWindow)
-nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
 nmap <leader>ws <Action>(LocateInSolutionView)
 nmap <leader>we <Action>(ActivateProjectToolWindow)
+nmap <leader>wn <Action>(ActivateNuGetToolWindow)
+nmap <leader>wd <Action>(ToggleDistractionFreeMode)
+nmap <leader>tt <Action>(ActivateTerminalToolWindow)
+
+nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+
+nmap <leader>wh <Action>(HideSideWindows)
 nmap <leader>ww <Action>(HideAllWindows)
 nmap <leader>wz <Action>(ToggleZenMode)
-nmap <leader>wd <Action>(ToggleDistractionFreeMode)
-nmap <leader>wh <Action>(HideSideWindows)
-nmap <leader>tt <Action>(ActivateTerminalToolWindow)
 
 " Split
 " nmap <c-w>o <Action>(UnsplitAll)<Action>(CloseAllEditorsButActive)<CR>
@@ -142,7 +145,7 @@ nmap <leader>gd <Action>(GotoDeclaration)
 nmap <leader>gi <Action>(GotoImplementation)
 nmap <leader>go <Action>(GotoTypeDeclaration)
 nmap <leader>gr <Action>(ShowUsages)
-nmap <leader>= :action ReformatCode<CR>
+nmap <leader>= <Action>(ReformatCode)
 
 nmap K <Action>(QuickJavaDoc)
 nmap <c-k> <Action>(ParameterInfo)
@@ -155,15 +158,15 @@ imap <c-f> <Action>(NextTemplateVariable)
 imap <c-b> <Action>(PreviousTemplateVariable)
 
 " Utilities
-map <leader>oi :action OptimizeImports<CR>
+map <leader>oi <Action>(OptimizeImports)
 
 " --- Diagnostics ---
 nmap <leader>e <Action>(ShowErrorDescription)
-nmap [d <Action>(GotoPreviousError)
-nmap ]d <Action>(GotoNextError)
+nmap ]d <Action>(GotoPreviousError)
+nmap [d <Action>(GotoNextError)
 " - rider specific -
-nmap <leader>ge :action ReSharperGotoNextErrorInSolution<CR>
-nmap <leader>gE :action ReSharperGotoPrevErrorInSolution<CR>
+nmap <leader>ge <Action>(ReSharperGotoNextErrorInSolution)
+nmap <leader>gE <Action>(ReSharperGotoPrevErrorInSolution)
 
 sethandler <C-2> a:vim
 sethandler <C-6> a:vim
