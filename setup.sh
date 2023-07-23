@@ -7,3 +7,5 @@ if [[ -z "$XDG_CONFIG_HOME" ]]; then
 fi
 
 echo $XDG_CONFIG_HOME
+
+sudo apt install fish ripgrep fd-find fzf zoxide python3-pip

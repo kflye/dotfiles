@@ -3,7 +3,7 @@ return {
     {
         'nvim-neo-tree/neo-tree.nvim',
         lazy = false,
-        branch = 'v2.x',
+        branch = 'v3.x',
         dependencies = {"nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim"},
         opts = {
             close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab

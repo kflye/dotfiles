@@ -52,7 +52,7 @@ vim.opt.clipboard = "unnamedplus"
 -- delays and poor user experience.
 vim.opt.updatetime = 50
 
-vim.opt.hidden = false
+vim.opt.hidden = true
 
 vim.g.mapleader = " "
 

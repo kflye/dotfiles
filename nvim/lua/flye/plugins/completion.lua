@@ -130,39 +130,5 @@ return {
                 }
             }
         end,
-    },
-    {
-        "jay-babu/mason-null-ls.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "williamboman/mason.nvim", {
-            "jose-elias-alvarez/null-ls.nvim",
-            opts = {},
-            config = function(_, opts)
-                require("null-ls").setup({
-                    sources = {
-                        -- Anything not supported by mason.
-                        require("typescript.extensions.null-ls.code-actions")
-                    }
-                })
-            end
-        }, 'jose-elias-alvarez/typescript.nvim' },
-        opts = {
-            automatic_installation = false,
-            ensure_installed = { -- Opt to list sources here, when available in mason.
-                editorconfig_checker,
-                yamllint,
-                eslint_d,
-                prettierd, -- (md, javascript, react, html, json)
-                -- gitsigns / Injects code actions for Git operations at the current cursor position (stage / preview / reset hunks, blame, etc.).
-                -- cspell
-                -- misspell
-                -- markdownlint
-                -- todo_comments
-                -- csharpier
-            },
-            handlers = {
-
-            },
-        },
     }
 }

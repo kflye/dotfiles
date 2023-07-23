@@ -63,7 +63,6 @@ return { {
                 require("neodev").setup(opts)
             end
         },
-        { 'jose-elias-alvarez/typescript.nvim' }
     },
     opts = {
         servers = {
@@ -181,19 +180,6 @@ return { {
                 rusttools.setup(opts)
                 return true
             end,
-
-            tsserver = function(_, opts)
-                opts = vim.tbl_deep_extend("force", { server = opts }, {})
-                opts.server.on_attach = function(client, bufnr)
-                    LspCommon.on_attach(client, bufnr)
-                    vim.keymap.set("n", "<leader>oi", require("typescript").actions.organizeImports, { buffer = bufnr, desc = "[O]rganize [I]mports" })
-                    vim.keymap.set("n", "<leader>gd", ":TypescriptGoToSourceDefinition<CR>", { buffer = bufnr, desc = "[O]rganize [I]mports" })
-                end
-
-
-                require("typescript").setup(opts)
-                return true
-            end
         }
 
     },
