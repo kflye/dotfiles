@@ -10,6 +10,6 @@ fish_ssh_agent
 fzf_key_bindings
 
 # fish_config theme save "tokyonight_storm"
-#theme_gruvbox dark medium
-set cmd keychain --eval --agents ssh ~/.ssh/id_ed25519
+theme_gruvbox dark medium
+set cmd keychain --eval --agents ssh ~/.ssh/id_ed25519 ~/.ssh/id_rsa
 eval $cmd

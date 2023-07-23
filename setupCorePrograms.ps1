@@ -1,4 +1,4 @@
-choco install firacodenf JetBrainsMonoNF `
+choco install firacodenf nerd-fonts-jetbrainsmono `
   zig `
   mingw `
   -y
