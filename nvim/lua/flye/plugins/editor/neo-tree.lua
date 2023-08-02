@@ -4,7 +4,7 @@ return {
         'nvim-neo-tree/neo-tree.nvim',
         lazy = false,
         branch = 'v3.x',
-        dependencies = {"nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim"},
+        dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
         opts = {
             close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
             enable_git_status = true,
@@ -29,13 +29,7 @@ return {
                     }
                 }
             },
-            event_handlers = {{
-                event = "file_opened",
-                handler = function(file_path)
-                    -- auto close
-                    require("neo-tree").close_all()
-                end
-            }},
+            event_handlers = {},
             filesystem = {
                 filtered_items = {
                     visible = true,
@@ -52,7 +46,7 @@ return {
                 -- hijack_netrw_behavior = "open_default"
             }
         },
-        keys = {{"<leader>we", ":Neotree toggle<CR>"}, {"<leader>wf", ":Neotree focus<CR>"},
-                {"<leader>ws", ":Neotree reveal<CR>"}}
+        keys = { { "<leader>we", ":Neotree toggle<CR>" }, { "<leader>wf", ":Neotree focus<CR>" },
+            { "<leader>ws", ":Neotree reveal<CR>" } }
     }
 }

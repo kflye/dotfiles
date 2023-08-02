@@ -110,7 +110,8 @@ return {
                     { name = "nvim_lua" },
                     { name = "luasnip" },
                     { name = "buffer" },
-                    { name = "path" }
+                    { name = "path" },
+                    { name = "crates" }
                 }, {
                     { name = 'buffer' }
                 }),
@@ -124,7 +125,8 @@ return {
                             nvim_lua = "[Lua]",
                             luasnip = "[LuaSnip]",
                             buffer = "[Buffer]",
-                            path = "[Path]"
+                            path = "[Path]",
+                            crates = "[Crates]"
                         })
                     })
                 }
