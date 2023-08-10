@@ -6,6 +6,13 @@
         {
             "command": 
             {
+                "action": "newTab"
+            },
+            "keys": "alt+shift+t"
+        },
+        {
+            "command": 
+            {
                 "action": "globalSummon"
             },
             "keys": "win+ctrl+alt+t"
@@ -22,17 +29,17 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             },
-            "keys": "ctrl+alt+shift+right"
+            "keys": "ctrl+alt+shift+left"
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             },
-            "keys": "ctrl+alt+shift+left"
+            "keys": "ctrl+alt+shift+right"
         },
         {
             "command": "find",
@@ -41,18 +48,18 @@
         {
             "command": 
             {
-                "action": "splitPane",
-                "split": "right"
-            },
-            "keys": "alt+shift+v"
-        },
-        {
-            "command": 
-            {
                 "action": "moveFocus",
                 "direction": "down"
             },
             "keys": "ctrl+alt+shift+down"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "right"
+            },
+            "keys": "alt+shift+v"
         },
         {
             "command": 
@@ -117,6 +124,10 @@
         {
             "command": "unbound",
             "keys": "ctrl+shift+w"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+shift+t"
         },
         {
             "command": 
