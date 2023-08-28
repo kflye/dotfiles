@@ -2,6 +2,7 @@ return {
     -- TODO: Harpoon integration https://github.com/nvim-neo-tree/neo-tree.nvim/wiki/Recipes#harpoon-indexequire("neo-tree")
     {
         'nvim-neo-tree/neo-tree.nvim',
+        enabled = false,
         lazy = false,
         branch = 'v3.x',
         dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
