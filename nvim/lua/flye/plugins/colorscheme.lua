@@ -17,7 +17,10 @@ return { --    use 'folke/tokyonight.nvim'
         lazy = false,
         priority = 1000,
         config = function(_, opts)
-            -- vim.cmd [[ colorscheme gruvbox-material ]]
+            vim.cmd [[ colorscheme gruvbox-material ]]
+            -- TODO: Try to implement a version for rider
+            -- Use https://github.com/catppuccin/jetbrains as a starting point
+            -- or https://github.com/xiaopihai7256/MyGruvbox
         end
     },
     {
@@ -25,8 +28,8 @@ return { --    use 'folke/tokyonight.nvim'
         name = "catppuccin",
         priority = 1000,
         config = function(_, opts)
-            require("catppuccin").setup(opts)
-            vim.cmd [[colorscheme catppuccin-macchiato]]
+            -- require("catppuccin").setup(opts)
+            -- vim.cmd [[colorscheme catppuccin-macchiato]]
         end
     },
     {

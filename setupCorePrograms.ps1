@@ -24,3 +24,7 @@ winget install --id=Obsidian.Obsidian -e  ;
 winget install --id=Docker.DockerDesktop -e  ; 
 winget install --id=sharkdp.bat -e  ; 
 winget install --id=gsass1.NTop -e ;
+
+# https://github.com/ryanoasis/nerd-fonts/releases/latest/
+# https://github.com/ryanoasis/nerd-fonts/discussions/1103
+# Have installed all 'JetBrainsMonoNLNerdFontMono-' variants

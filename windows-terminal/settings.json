@@ -164,10 +164,10 @@
     {
         "defaults": 
         {
-            "colorScheme": "Catppuccin Macchiato",
+            "colorScheme": "GruvboxMaterialMediumDark",
             "font": 
             {
-                "face": "JetBrainsMonoNL Nerd Font",
+                "face": "JetBrainsMonoNL NFM",
                 "size": 10.0,
                 "weight": "extra-light"
             }
@@ -744,7 +744,7 @@
             "yellow": "#808000"
         }
     ],
-    "theme": "Catppuccin Macchiato",
+    "theme": "system",
     "themes": 
     [
         {
