@@ -21,6 +21,7 @@ return { --    use 'folke/tokyonight.nvim'
             -- TODO: Try to implement a version for rider
             -- Use https://github.com/catppuccin/jetbrains as a starting point
             -- or https://github.com/xiaopihai7256/MyGruvbox
+            -- https://github.com/sainnhe/gruvbox-material/wiki/Related-Projects
         end
     },
     {
