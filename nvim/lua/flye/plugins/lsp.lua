@@ -228,8 +228,6 @@ return { {
             end
         end
 
-        P(ensure_installed)
-
         if have_mason then
             mlsp.setup({
                 ensure_installed = ensure_installed
