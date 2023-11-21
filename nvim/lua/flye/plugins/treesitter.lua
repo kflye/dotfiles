@@ -53,10 +53,6 @@ return {
         autopairs = { -- windwp/nvim-autopairs
             enable = true
         },
-        context_commentstring = {
-            enable = true,
-            enable_autocmd = false
-        },
         rainbow = { -- p00f/nvim-ts-rainbow
             enable = true,
             -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
