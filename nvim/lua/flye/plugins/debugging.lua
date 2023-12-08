@@ -55,6 +55,13 @@ return {
                         desc = "dap step out"
                     },
                     {
+                        '<Leader>rs',
+                        function()
+                            require('dap').terminate()
+                        end,
+                        desc = "dap [R]un [S]top"
+                    },
+                    {
                         '<Leader>tb',
                         function()
                             require('dap').toggle_breakpoint()
