@@ -40,9 +40,9 @@ Invoke-Expression (& {
 # fzf
 Import-Module PSReadLine
 # press the directory separator (\) character to complete the current selection and start tab completion for the next part of the container path
-Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+Set-PSReadLineKeyHandler -Chord Tab -ScriptBlock { Invoke-FzfTabCompletion }
+Set-PSReadLineKeyHandler -Chord UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Chord DownArrow -Function HistorySearchForward
 
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd:$true
 

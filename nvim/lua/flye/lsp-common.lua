@@ -42,6 +42,13 @@ function M.on_attach(client, bufnr)
         }
     end, 'Format current buffer with LSP')
 
+    if client.server_capabilities.inlayHintProvider then
+        print(client.name .. " supports inlayhints (" .. bufnr .. ")")
+        vim.lsp.inlay_hint.enable(bufnr, true)
+    else
+        print(client.name .. "does not support inlayhints")
+    end
+
     -- typescript specific keymaps (e.g. rename file and update imports)
     if client.name == "tsserver" then
         client.server_capabilities.documentFormattingProvider = false

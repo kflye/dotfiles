@@ -10,8 +10,9 @@ format = "[$symbol$branch(:$remote_branch)]($style) "
 
 [git_status]
 ahead = " ↑${count}"
+behind = " ↓${count}"
 conflicted = " ${count}"
-deleted = " 﫧${count}"
+deleted = " ✘${count}"
 diverged = " ↕ ↑${ahead_count} ↓${behind_count}"
 modified = "  ${count}"
 stashed = "  ${count}"
