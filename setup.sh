@@ -10,7 +10,8 @@ fi
 
 echo $XDG_CONFIG_HOME
 
-sudo apt install ripgrep fd-find fzf zoxide python3-pip fish git keychain
+sudo apt install ripgrep fd-find fzf zoxide python3-pip fish git keychain \
+	ninja-build gettext cmake unzip curl # neovim build dependencies
 
 if ! command -v starship &> /dev/null
 then

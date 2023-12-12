@@ -94,6 +94,7 @@ return {
                         select = false
                     }),
                     ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-i>"] = cmp.mapping.complete(),
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
                     -- TODO: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#intellij-like-mapping for replace on tab, add on enter insert ? like rider -- this should work
@@ -111,7 +112,7 @@ return {
                     { name = "luasnip" },
                     { name = "buffer" },
                     { name = "path" },
-                    { name = "crates" }
+                    { name = "crates" },
                 }, {
                     { name = 'buffer' }
                 }),

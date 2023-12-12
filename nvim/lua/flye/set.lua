@@ -48,6 +48,10 @@ vim.opt.cmdheight = 1
 -- clipboard -- vim.opt.clipboard:append("unnamedplus") yank to system clipboard from vim
 vim.opt.clipboard = "unnamedplus"
 
+-- enable spell checking
+vim.opt.spell = true
+vim.opt.spelllang = { 'en_us' }
+
 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 -- delays and poor user experience.
 vim.opt.updatetime = 50
