@@ -1,3 +1,5 @@
+local LspCommon = require("flye.lsp-common")
+
 return {
     {
         "mfussenegger/nvim-dap",
@@ -31,7 +33,7 @@ return {
                         function()
                             require('dap').continue()
                         end,
-                        desc = "dap continue"
+                        desc = "dap start/continue"
                     },
                     {
                         '<F10>',
@@ -60,6 +62,13 @@ return {
                             require('dap').terminate()
                         end,
                         desc = "dap [R]un [S]top"
+                    },
+                    {
+                        '<F7>',
+                        function()
+                            require('dapui').toggle()
+                        end,
+                        desc = "dapui toggle (see last session)"
                     },
                     {
                         '<Leader>tb',
@@ -127,6 +136,31 @@ return {
                         desc = "dap [D]ebug [S]copes"
                     }
                 }
-            }
-        }
+            },
+            'williamboman/mason.nvim',
+            {'jay-babu/mason-nvim-dap.nvim',
+            opts = {
+                ensure_installed = { "coreclr", "codelldb", "netcoredbg" },
+                handlers = {
+                    function(config)
+                        -- all sources with no handler get passed here
+                        -- Keep original functionality
+                        require('mason-nvim-dap').default_setup(config)
+                    end,
+                    coreclr = function(config)
+                        config.adapters = {
+                            type = "executable",
+                            command = LspCommon.get_netcoredbg_path(),
+                            args = { "--interpreter=vscode" }
+                        }
+                        require('mason-nvim-dap').default_setup(config)
+                    end
+                }
+            },
+            config = function(_, opts)
+                require("mason-nvim-dap").setup(opts)
+            end
+        },
+        },
+
     } }

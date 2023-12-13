@@ -1,99 +1,106 @@
 local LspCommon = require("flye.lsp-common")
+local nmap = function(keys, func, desc, bufnr)
+    if desc then
+        desc = 'LSP: ' .. desc
+    end
 
-return {
+    vim.keymap.set('n', keys, func, {
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
+        desc = desc
+    })
+end
 
-    {
-        'jmederosalvarado/roslyn.nvim',
-        opts = {
-            dotnet_cmd = "dotnet",              -- this is the default
-            roslyn_version = "4.8.0-3.23475.7", -- this is the default
-        },
-        config = function(_, opts)
-            opts.on_attach = function(client, bufnr)
-                print("on attatch _ roslyn")
-                LspCommon.on_attach(client, bufnr)
-            end
-            opts.capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),
-                require("cmp_nvim_lsp").default_capabilities(), {})
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        local bufnr = args.buf
 
-            require("roslyn").setup(opts)
-        end,
-        dependencies = { { 'neovim/nvim-lspconfig' } }
+        local opts = {
+            buffer = args.buf
+        }
+
+        print(client.name .. " on_attach")
+
+        -- LSP actions
+        nmap('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
+        nmap('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
+        nmap('<leader>go', require('telescope.builtin').lsp_type_definitions, 'Type Definition', bufnr)
+        nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences', bufnr)
+
+        nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
+        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation', bufnr)
+
+        nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
+        nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols', bufnr)
+
+        -- Lesser used LSP functionality
+        nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
+        -- add/remove/list workspace_folders
+
+        nmap('<leader>re', vim.lsp.buf.rename, '[R]ename [E]lement', bufnr)
+        nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
+        -- TODO: Code actions for current document? or use diagnostics to find, and then code_actions?
+
+        nmap('<leader>=', function()
+            vim.lsp.buf.format {
+                async = true
+            }
+        end, 'Format current buffer with LSP', bufnr)
+
+        if client.server_capabilities.inlayHintProvider then
+            print(client.name .. " supports inlayhints (" .. args.buf .. ")")
+            vim.lsp.inlay_hint.enable(args.buf, true)
+        else
+            print(client.name .. " does not support inlayhints")
+        end
+
+        if client.server_capabilities.codeLensProvider then
+            vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "InsertLeave"}, {
+                buffer = args.buf,
+                callback = vim.lsp.codelens.refresh
+            })
+        end
+    end
+})
+
+local default_setup = function(server)
+    print("default setup of " .. server)
+
+    require('lspconfig')[server].setup({
+        capabilities = LspCommon.lsp_capabilities(),
+        flags = LspCommon.lsp_flags
+    })
+end
+
+return {{
+    'williamboman/mason.nvim',
+    opts = {
+        ensure_installed = {"codelldb"}
     },
-    {
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            { 'hrsh7th/cmp-nvim-lsp' },
-            {
-                'williamboman/mason.nvim',
-                opts = {
-                    ensure_installed = { "codelldb" }
-                },
-                config = function(_, opts)
-                    require("mason").setup(opts)
-                end
-            }, {
-            "jay-babu/mason-nvim-dap.nvim",
-            opts = {
-                ensure_installed = { "coreclr", "codelldb", "netcoredbg" },
-                handlers = {
-                    function(config)
-                        -- all sources with no handler get passed here
-                        -- Keep original functionality
-                        require('mason-nvim-dap').default_setup(config)
-                    end,
-                    coreclr = function(config)
-                        local mason_registry = require("mason-registry")
-
-                        local netcoredbg_path = mason_registry.get_package("netcoredbg"):get_install_path()
-                        netcoredbg_path = netcoredbg_path .. "/netcoredbg"
-                        local this_os = vim.loop.os_uname().sysname
-
-                        if this_os:find "Windows" then
-                            netcoredbg_path = netcoredbg_path .. "\\netcoredbg.exe"
-                        else
-                            -- The liblldb extension is .so for linux and .dylib for macOS
-                            netcoredbg_path = netcoredbg_path .. "\\netcoredbg" .. (this_os == "Linux" and ".so" or ".dylib")
-                        end
-
-                        config.adapters = {
-                            type = "executable",
-                            command = netcoredbg_path,
-                            args = { "--interpreter=vscode" }
-                        }
-                        require('mason-nvim-dap').default_setup(config)
-                    end
-                }
-            },
-            config = function(_, opts)
-                require("mason-nvim-dap").setup(opts)
-            end
-        },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'simrat39/rust-tools.nvim' },
-            {
-                "folke/neodev.nvim",
-                opts = {
-                    library = {
-                        plugins = { "nvim-dap-ui" },
-                        types = true
-                    }
-                },
-                config = function(_, opts)
-                    require("neodev").setup(opts)
-                end
-            },
-        },
-        opts = {
-            servers = {
-                lua_ls = {
+    config = function(_, opts)
+        require("mason").setup(opts)
+    end
+}, {
+    'williamboman/mason-lspconfig.nvim',
+    dependencies = {{'hrsh7th/cmp-nvim-lsp'}, {'neovim/nvim-lspconfig'}},
+    opts = {
+        ensure_installed = {},
+        handlers = {
+            default_setup,
+            lua_ls = function()
+                require('lspconfig').lua_ls.setup({
+                    capabilities = LspCommon.lsp_capabilities(),
+                    flags = LspCommon.lsp_flags,
                     settings = {
                         Lua = {
                             -- https://github.com/CppCXY/EmmyLuaCodeStyle/blob/master/docs/format_config_EN.md
                             format = {
                                 enable = true,
                                 defaultConfig = {
-                                    max_line_length = "160",
+                                    max_line_length = "160"
                                 }
                             },
                             workspace = {
@@ -104,8 +111,67 @@ return {
                             }
                         }
                     }
-                },
-                tsserver = {
+                })
+            end,
+            powershell_es = function()
+                require('lspconfig').powershell_es.setup({
+                    capabilities = LspCommon.lsp_capabilities(),
+                    flags = LspCommon.lsp_flags,
+                    bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
+                })
+            end,
+            rust_analyzer = function()
+                local rusttools = require("rust-tools")
+                local codelldb_path = LspCommon.get_codelldb_path()
+                local liblldb_path = LspCommon.get_liblldb_path()
+                local opts = {
+                    tools = {
+                        -- callback to execute once rust-analyzer is done initializing the workspace
+                        -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
+                        on_initialized = nil,
+
+                        -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
+                        reload_workspace_from_cargo_toml = true,
+
+                        -- These apply to the default RustSetInlayHints command
+                        inlay_hints = {
+                            auto = false
+                        }
+                    },
+                    server = {
+                        on_attach = function(client, bufnr)
+
+                            vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
+                                buffer = bufnr,
+                                desc = "Rusttools hover actions"
+                            })
+
+                            vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
+                            vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
+                            -- add hover options back if rust-tool specific hovers are used
+                        end
+                    },
+
+                    -- rust-analyzer options
+                    dap = {
+                        adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+                    }
+                    -- executor = require("rust-tools.executors").termopen -- options right now: termopen / quickfix
+                }
+
+                rusttools.setup(opts)
+            end,
+            tsserver = function()
+                require('lspconfig').tsserver.setup({
+                    capabilities = LspCommon.lsp_capabilities(),
+                    flags = LspCommon.lsp_flags,
+                    on_attach = function(client, bufnr)
+                        client.server_capabilities.documentFormattingProvider = false
+                        client.server_capabilities.documentRangeFormattingProvider = false
+                        nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
+                        nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports', bufnr) -- organize imports (not in youtube nvim video)
+                        -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
+                    end,
                     settings = {
                         typescript = {
                             inlayHints = {
@@ -116,7 +182,7 @@ return {
                                 includeInlayVariableTypeHintsWhenTypeMatchesName = false,
                                 includeInlayPropertyDeclarationTypeHints = true,
                                 includeInlayFunctionLikeReturnTypeHints = true,
-                                includeInlayEnumMemberValueHints = true,
+                                includeInlayEnumMemberValueHints = true
                             }
                         },
                         javascript = {
@@ -128,12 +194,13 @@ return {
                                 includeInlayVariableTypeHintsWhenTypeMatchesName = false,
                                 includeInlayPropertyDeclarationTypeHints = true,
                                 includeInlayFunctionLikeReturnTypeHints = true,
-                                includeInlayEnumMemberValueHints = true,
+                                includeInlayEnumMemberValueHints = true
                             }
                         }
                     }
-                },
-                -- omnisharp = {
+                })
+            end,
+               -- omnisharp = {
                 --     enable_roslyn_analyzers = true,
                 --     organize_imports_on_format = true,
                 --     enable_import_completion = true,
@@ -152,134 +219,43 @@ return {
                 --         LspCommon.on_attach(client, bufnr)
                 --     end
                 -- },
-                jsonls = {},
-                powershell_es = {
-                    bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
-                },
-                rust_analyzer = {
-                    tools = {
-                        -- callback to execute once rust-analyzer is done initializing the workspace
-                        -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
-                        on_initialized = nil,
+        }
+    },
+    config = function(_, opts)
+        vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
+        vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, LspCommon.float_opts)
 
-                        -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
-                        reload_workspace_from_cargo_toml = true,
+        require("mason-lspconfig").setup(opts)
+    end
 
-                        -- These apply to the default RustSetInlayHints command
-                        inlay_hints = {
-                            auto = false,
-                            only_current_line = false,
-                            show_parameter_hints = true,
-                            parameter_hints_prefix = "<- ",
-                            other_hints_prefix = "=> ",
-                            max_len_align = false,
-                            max_len_align_padding = 1,
-                            right_align = false,
-                            right_align_padding = 7,
-                            highlight = "Comment"
-                        }
-                    }
+}, {'simrat39/rust-tools.nvim'}, {
+    "folke/neodev.nvim",
+    opts = {
+        library = {
+            plugins = {"nvim-dap-ui"},
+            types = true
+        }
+    },
+    config = function(_, opts)
+        require("neodev").setup(opts)
+    end
+}}
 
-                    -- rust-analyzer options
+--{
+--    'jmederosalvarado/roslyn.nvim',
+--    opts = {
+--        dotnet_cmd = "dotnet",              -- this is the default
+--        roslyn_version = "4.8.0-3.23475.7", -- this is the default
+--    },
+--    config = function(_, opts)
+--        opts.on_attach = function(client, bufnr)
+--            print("on attatch _ roslyn")
+--            LspCommon.on_attach(client, bufnr)
+--        end
+--        opts.capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),
+--            require("cmp_nvim_lsp").default_capabilities(), {})
 
-                }
-            },
-            setup = {
-                rust_analyzer = function(_, opts)
-                    local rusttools = require("rust-tools")
-
-                    local mason_registry = require("mason-registry")
-
-                    local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
-                    local codelldb_path = codelldb_root .. "/codelldb"
-                    local liblldb_path = codelldb_root .. "/extension/" .. "lldb/lib/liblldb"
-                    local this_os = vim.loop.os_uname().sysname
-
-                    if this_os:find "Windows" then
-                        codelldb_path = codelldb_root .. "/extension/" .. "adapter\\codelldb.exe"
-                        liblldb_path = codelldb_root .. "/extension/" .. "lldb\\bin\\liblldb.dll"
-                    else
-                        -- The liblldb extension is .so for linux and .dylib for macOS
-                        liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
-                    end
-
-                    -- debugging stuff
-                    opts.dap = {
-                        adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-                    }
-
-                    opts.executor = require("rust-tools.executors").termopen -- options right now: termopen / quickfix
-                    opts.server = {
-                        on_attach = function(client, bufnr)
-                            LspCommon.on_attach(client, bufnr)
-
-                            vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
-                                buffer = bufnr,
-                                desc = "Rusttools hover actions"
-                            })
-
-                            vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
-                            vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
-                            -- add hover options back if rust-tool specific hovers are used
-                        end
-                    }
-
-                    rusttools.setup(opts)
-                    return true
-                end,
-            }
-
-        },
-        config = function(_, opts)
-            vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
-
-            vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-                LspCommon.float_opts)
-
-            local servers = opts.servers
-
-            local capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),
-                require("cmp_nvim_lsp").default_capabilities(), opts.capabilities or {})
-
-            local function setup(server)
-                local server_opts = vim.tbl_deep_extend("force", {
-                    capabilities = vim.deepcopy(capabilities),
-                    on_attach = LspCommon.on_attach,
-                    flags = LspCommon.lsp_flags
-                }, servers[server] or {})
-
-                if opts.setup[server] then
-                    if opts.setup[server](server, server_opts) then
-                        return
-                    end
-                end
-                require("lspconfig")[server].setup(server_opts)
-            end
-
-            local have_mason, mlsp = pcall(require, "mason-lspconfig")
-            local all_mslp_servers = {}
-            if have_mason then
-                all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
-            end
-
-            local ensure_installed = {} ---@type string[]
-            for server, server_opts in pairs(servers) do
-                if server_opts then
-                    server_opts = server_opts == true and {} or server_opts
-                    -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-                    if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-                        setup(server)
-                    else
-                        ensure_installed[#ensure_installed + 1] = server
-                    end
-                end
-            end
-
-            if have_mason then
-                mlsp.setup({
-                    ensure_installed = ensure_installed
-                })
-                mlsp.setup_handlers({ setup })
-            end
-        end
-    } }
+    --require("roslyn").setup(opts)
+    --end,
+    --dependencies = { { 'neovim/nvim-lspconfig' } }
+--},

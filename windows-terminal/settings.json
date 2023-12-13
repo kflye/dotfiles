@@ -6,10 +6,9 @@
         {
             "command": 
             {
-                "action": "moveFocus",
-                "direction": "down"
+                "action": "newTab"
             },
-            "keys": "ctrl+alt+shift+down"
+            "keys": "alt+shift+t"
         },
         {
             "command": 
@@ -22,9 +21,10 @@
         {
             "command": 
             {
-                "action": "newTab"
+                "action": "moveFocus",
+                "direction": "down"
             },
-            "keys": "alt+shift+t"
+            "keys": "ctrl+alt+shift+down"
         },
         {
             "command": 
@@ -101,17 +101,17 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             },
-            "keys": "ctrl+alt+shift+left"
+            "keys": "ctrl+alt+shift+right"
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             },
-            "keys": "ctrl+alt+shift+right"
+            "keys": "ctrl+alt+shift+left"
         },
         {
             "command": "find",
@@ -199,10 +199,16 @@
                 "name": "Windows PowerShell"
             },
             {
-                "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
-                "hidden": false,
-                "name": "Debian",
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "hidden": true,
+                "name": "Ubuntu",
                 "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
             }
         ]
     },

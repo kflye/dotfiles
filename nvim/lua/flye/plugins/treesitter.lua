@@ -38,7 +38,7 @@ return {
     },
     opts = {
         ensure_installed = {"bash", "c_sharp", "cpp", "dockerfile", "git_config", "git_rebase", "gitattributes",
-                            "gitcommit", "gitignore", "go", "javascript", "jsdoc", "json", "kotlin", "lua", "luadoc",
+                            "gitcommit", "gitignore", "go", "javascript", "jsdoc", "json", "lua", "luadoc",
                             "markdown", "regex", "rust", "sql", "toml", "typescript", "yaml"},
         auto_install = true,
         highlight = {

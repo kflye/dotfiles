@@ -1,5 +1,62 @@
 local M = {}
 
+function M.get_codelldb_path() 
+    local mason_registry = require("mason-registry")
+
+    local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
+    local codelldb_path = codelldb_root .. "/codelldb"
+    local this_os = vim.loop.os_uname().sysname
+
+    if this_os:find "Windows" then
+        codelldb_path = codelldb_root .. "/extension/" .. "adapter\\codelldb.exe"
+    else
+    end
+
+    return codelldb_path
+
+end
+
+function M.get_liblldb_path() 
+    local mason_registry = require("mason-registry")
+
+    local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
+    local codelldb_path = codelldb_root .. "/codelldb"
+    local liblldb_path = codelldb_root .. "/extension/" .. "lldb/lib/liblldb"
+    local this_os = vim.loop.os_uname().sysname
+
+    if this_os:find "Windows" then
+        codelldb_path = codelldb_root .. "/extension/" .. "adapter\\codelldb.exe"
+        liblldb_path = codelldb_root .. "/extension/" .. "lldb\\bin\\liblldb.dll"
+    else
+        -- The liblldb extension is .so for linux and .dylib for macOS
+        liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+    end
+
+    return liblldb_path
+end
+
+function M.get_netcoredbg_path()
+    local mason_registry = require("mason-registry")
+
+    local netcoredbg_path = mason_registry.get_package("netcoredbg"):get_install_path()
+    netcoredbg_path = netcoredbg_path .. "/netcoredbg"
+    local this_os = vim.loop.os_uname().sysname
+
+    if this_os:find "Windows" then
+        netcoredbg_path = netcoredbg_path .. "\\netcoredbg.exe"
+    else
+        -- The liblldb extension is .so for linux and .dylib for macOS
+        netcoredbg_path = netcoredbg_path .. "\\netcoredbg" .. (this_os == "Linux" and ".so" or ".dylib")
+    end
+
+    return netcoredbg_path
+end
+
+function M.lsp_capabilities()
+    local lsp_capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), require("cmp_nvim_lsp").default_capabilities(), {})
+    return lsp_capabilities
+end
+
 function M.on_attach(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 

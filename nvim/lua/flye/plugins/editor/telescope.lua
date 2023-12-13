@@ -7,7 +7,7 @@ return {
         dependencies = {
             {
                 'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'make ' -- MinGW32-make
+                build = 'MinGW32-make' -- 'make ' -- MinGW32-make
             },
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-telescope/telescope-ui-select.nvim' }
@@ -57,7 +57,8 @@ return {
             { '<leader>stg', function() require('telescope.builtin').live_grep {} end,    { desc = '[S]earch [T]ext by [G]rep' } },
             { '<leader>sts', function() require('telescope.builtin').treesitter {} end,   { desc = '[S]earch [T]reesitter [S]ymbols' } },
             { "<leader>sgb", function() require('telescope.builtin').git_branches {} end },
-            { "<leader>sgs", function() require('telescope.builtin').git_status {} end }
+            { "<leader>sgs", function() require('telescope.builtin').git_status {} end },
+            { '<leader>sgf',  function() require('telescope.builtin').git_files {} end,   { desc = '[S]earch [G]it [F]iles' } },
         }
     }
 }
