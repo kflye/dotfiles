@@ -1,74 +1,6 @@
 local LspCommon = require("flye.lsp-common")
-local nmap = function(keys, func, desc, bufnr)
-    if desc then
-        desc = 'LSP: ' .. desc
-    end
-
-    vim.keymap.set('n', keys, func, {
-        buffer = bufnr,
-        noremap = true,
-        silent = true,
-        desc = desc
-    })
-end
-
-vim.api.nvim_create_autocmd('LspAttach', {
-    desc = 'LSP actions',
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        local bufnr = args.buf
-
-        local opts = {
-            buffer = args.buf
-        }
-
-        print(client.name .. " on_attach")
-
-        -- LSP actions
-        nmap('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
-        nmap('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
-        nmap('<leader>go', require('telescope.builtin').lsp_type_definitions, 'Type Definition', bufnr)
-        nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences', bufnr)
-
-        nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
-        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation', bufnr)
-
-        nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
-        nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols', bufnr)
-
-        -- Lesser used LSP functionality
-        nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
-        -- add/remove/list workspace_folders
-
-        nmap('<leader>re', vim.lsp.buf.rename, '[R]ename [E]lement', bufnr)
-        nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
-        -- TODO: Code actions for current document? or use diagnostics to find, and then code_actions?
-
-        nmap('<leader>=', function()
-            vim.lsp.buf.format {
-                async = true
-            }
-        end, 'Format current buffer with LSP', bufnr)
-
-        if client.server_capabilities.inlayHintProvider then
-            print(client.name .. " supports inlayhints (" .. args.buf .. ")")
-            vim.lsp.inlay_hint.enable(args.buf, true)
-        else
-            print(client.name .. " does not support inlayhints")
-        end
-
-        if client.server_capabilities.codeLensProvider then
-            vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "InsertLeave"}, {
-                buffer = args.buf,
-                callback = vim.lsp.codelens.refresh
-            })
-        end
-    end
-})
 
 local default_setup = function(server)
-    print("default setup of " .. server)
-
     require('lspconfig')[server].setup({
         capabilities = LspCommon.lsp_capabilities(),
         flags = LspCommon.lsp_flags
@@ -140,7 +72,6 @@ return {{
                     },
                     server = {
                         on_attach = function(client, bufnr)
-
                             vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
                                 buffer = bufnr,
                                 desc = "Rusttools hover actions"
@@ -165,60 +96,21 @@ return {{
                 require('lspconfig').tsserver.setup({
                     capabilities = LspCommon.lsp_capabilities(),
                     flags = LspCommon.lsp_flags,
+
                     on_attach = function(client, bufnr)
                         client.server_capabilities.documentFormattingProvider = false
                         client.server_capabilities.documentRangeFormattingProvider = false
-                        nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
-                        nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports', bufnr) -- organize imports (not in youtube nvim video)
+                        LspCommon.nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
+                        LspCommon.nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports', bufnr) -- organize imports (not in youtube nvim video)
                         -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
                     end,
+
                     settings = {
-                        typescript = {
-                            inlayHints = {
-                                includeInlayParameterNameHints = 'all',
-                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                                includeInlayFunctionParameterTypeHints = true,
-                                includeInlayVariableTypeHints = true,
-                                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                                includeInlayPropertyDeclarationTypeHints = true,
-                                includeInlayFunctionLikeReturnTypeHints = true,
-                                includeInlayEnumMemberValueHints = true
-                            }
-                        },
-                        javascript = {
-                            inlayHints = {
-                                includeInlayParameterNameHints = 'all',
-                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                                includeInlayFunctionParameterTypeHints = true,
-                                includeInlayVariableTypeHints = true,
-                                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                                includeInlayPropertyDeclarationTypeHints = true,
-                                includeInlayFunctionLikeReturnTypeHints = true,
-                                includeInlayEnumMemberValueHints = true
-                            }
-                        }
+                        typescript = LspCommon.tsserver_lang_settings,
+                        javascript = LspCommon.tsserver_lang_settings,
                     }
                 })
             end,
-               -- omnisharp = {
-                --     enable_roslyn_analyzers = true,
-                --     organize_imports_on_format = true,
-                --     enable_import_completion = true,
-                --     on_attach = function(client, bufnr)
-                --         -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
-                --         local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
-                --         for i, v in ipairs(tokenModifiers) do
-                --             local tmp = string.gsub(v, ' ', '_')
-                --             tokenModifiers[i] = string.gsub(tmp, '-_', '')
-                --         end
-                --         local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
-                --         for i, v in ipairs(tokenTypes) do
-                --             local tmp = string.gsub(v, ' ', '_')
-                --             tokenTypes[i] = string.gsub(tmp, '-_', '')
-                --         end
-                --         LspCommon.on_attach(client, bufnr)
-                --     end
-                -- },
         }
     },
     config = function(_, opts)
@@ -241,7 +133,7 @@ return {{
     end
 }}
 
---{
+-- {
 --    'jmederosalvarado/roslyn.nvim',
 --    opts = {
 --        dotnet_cmd = "dotnet",              -- this is the default
@@ -255,7 +147,7 @@ return {{
 --        opts.capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),
 --            require("cmp_nvim_lsp").default_capabilities(), {})
 
-    --require("roslyn").setup(opts)
-    --end,
-    --dependencies = { { 'neovim/nvim-lspconfig' } }
---},
+-- require("roslyn").setup(opts)
+-- end,
+-- dependencies = { { 'neovim/nvim-lspconfig' } }
+-- },

@@ -1,6 +1,19 @@
-local M = {}
+local M = {
+    tsserver_lang_settings = {
+        inlayHints = {
+            includeInlayParameterNameHints = 'all',
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true
+        }
+    }
+}
 
-function M.get_codelldb_path() 
+function M.get_codelldb_path()
     local mason_registry = require("mason-registry")
 
     local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
@@ -16,7 +29,7 @@ function M.get_codelldb_path()
 
 end
 
-function M.get_liblldb_path() 
+function M.get_liblldb_path()
     local mason_registry = require("mason-registry")
 
     local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
@@ -53,73 +66,9 @@ function M.get_netcoredbg_path()
 end
 
 function M.lsp_capabilities()
-    local lsp_capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), require("cmp_nvim_lsp").default_capabilities(), {})
+    local lsp_capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),
+        require("cmp_nvim_lsp").default_capabilities(), {})
     return lsp_capabilities
-end
-
-function M.on_attach(client, bufnr)
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    local nmap = function(keys, func, desc)
-        if desc then
-            desc = 'LSP: ' .. desc
-        end
-
-        vim.keymap.set('n', keys, func, {
-            buffer = bufnr,
-            noremap = true,
-            silent = true,
-            desc = desc
-        })
-    end
-
-    -- LSP actions
-    nmap('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-    nmap('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-    nmap('<leader>go', require('telescope.builtin').lsp_type_definitions, 'Type Definition')
-    nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
-    nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-    nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-    nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols')
-    nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols')
-
-    -- Lesser used LSP functionality
-    nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-    -- add/remove/list workspace_folders
-
-    nmap('<leader>re', vim.lsp.buf.rename, '[R]ename [E]lement')
-    nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions')
-    -- TODO: Code actions for current document? or use diagnostics to find, and then code_actions?
-
-    nmap('<leader>=', function()
-        vim.lsp.buf.format {
-            async = true
-        }
-    end, 'Format current buffer with LSP')
-
-    if client.server_capabilities.inlayHintProvider then
-        print(client.name .. " supports inlayhints (" .. bufnr .. ")")
-        vim.lsp.inlay_hint.enable(bufnr, true)
-    else
-        print(client.name .. "does not support inlayhints")
-    end
-
-    -- typescript specific keymaps (e.g. rename file and update imports)
-    if client.name == "tsserver" then
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentRangeFormattingProvider = false
-        nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile')           -- rename file and update imports
-        nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports') -- organize imports (not in youtube nvim video)
-        -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
-    end
-    if client.server_capabilities.codeLensProvider then
-        vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            buffer = bufnr,
-            callback = vim.lsp.codelens.refresh,
-        })
-    end
 end
 
 M.lsp_flags = {
@@ -151,7 +100,76 @@ M.float_opts = {
     source = true,
     header = '',
     prefix = '',
-    winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
+    winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None'
 }
+
+local nmap = function(keys, func, desc, bufnr)
+    if desc then
+        desc = 'LSP: ' .. desc
+    end
+
+    vim.keymap.set('n', keys, func, {
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
+        desc = desc
+    })
+end
+
+M.nmap = nmap
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        local bufnr = args.buf
+
+        local opts = {
+            buffer = args.buf
+        }
+
+        print(client.name .. " on_attach")
+
+        -- LSP actions
+        nmap('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
+        nmap('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
+        nmap('<leader>go', require('telescope.builtin').lsp_type_definitions, 'Type Definition', bufnr)
+        nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences', bufnr)
+
+        nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
+        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation', bufnr)
+
+        nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
+        nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols', bufnr)
+
+        -- Lesser used LSP functionality
+        nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
+        -- add/remove/list workspace_folders
+
+        nmap('<leader>re', vim.lsp.buf.rename, '[R]ename [E]lement', bufnr)
+        nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
+        -- TODO: Code actions for current document? or use diagnostics to find, and then code_actions?
+
+        nmap('<leader>=', function()
+            vim.lsp.buf.format {
+                async = true
+            }
+        end, 'Format current buffer with LSP', bufnr)
+
+        if client.server_capabilities.inlayHintProvider then
+            print(client.name .. " supports inlayhints (" .. args.buf .. ")")
+            vim.lsp.inlay_hint.enable(args.buf, true)
+        else
+            print(client.name .. " does not support inlayhints")
+        end
+
+        if client.server_capabilities.codeLensProvider then
+            vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "InsertLeave"}, {
+                buffer = args.buf,
+                callback = vim.lsp.codelens.refresh
+            })
+        end
+    end
+})
 
 return M;
