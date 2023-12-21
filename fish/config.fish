@@ -3,6 +3,7 @@ zoxide init fish | source
 
 fish_add_path -a $HOME/.cargo/bin
 fish_add_path -a $HOME/.local/bin
+fish_add_path -a $HOME/local/llvm17-release/bin
 
 fish_ssh_agent
 
@@ -19,5 +20,6 @@ for FILE in $SSH_KEYS
     end
 end 
 
+set -u XDG_CONFIG_HOME "$HOME/.config"
 
 eval $cmd

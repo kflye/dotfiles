@@ -10,4 +10,3 @@ fisher install jomik/fish-gruvbox
 
 # 
 fisher install jethrokuan/fzf
-
