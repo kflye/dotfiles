@@ -1,13 +1,12 @@
 return {
     {
         "nvim-telescope/telescope.nvim",
-        -- TODO: What does this do???
-        -- cmd = "Telescope",
+        cmd = "Telescope",
         version = '0.1.x',
         dependencies = {
             {
                 'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'MinGW32-make' -- 'make ' -- MinGW32-make
+                build = 'make' --'MinGW32-make' -- 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
             },
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-telescope/telescope-ui-select.nvim' }
@@ -18,21 +17,21 @@ return {
                 file_ignore_patterns = { "node_modules" }
             },
             pickers = {
-                find_files = {
-                    find_command = {
-                        "fd",
-                        '--type',
-                        'f'
+                --find_files = {
+                   -- find_command = {
+                     --   "fd",
+                       -- '--type',
+                       --  'f'
                         -- '-H'
                         -- no-ignore-vcs',
-                    }
-                }
+                    --}
+                --}
             },
         },
         config = function(_, opts)
             local telescope = require("telescope")
 
-            local aaa = vim.tbl_deep_extend("force", {
+            opts = vim.tbl_deep_extend("force", {
                 extensions = {
                     ["ui-select"] = { require("telescope.themes").get_dropdown {} },
                     fzf = {
@@ -43,7 +42,7 @@ return {
                 }
             }, opts)
 
-            telescope.setup(aaa)
+            telescope.setup(opts)
 
             telescope.load_extension("fzf")
             telescope.load_extension("ui-select")

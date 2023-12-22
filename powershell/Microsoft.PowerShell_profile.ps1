@@ -12,6 +12,10 @@ if ($IsMacOS)
     Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(#{HOMEBREW_PREFIX}/bin/brew shellenv) | Invoke-Expression'
 }
 
+# Install-Module VSSetup -Scope CurrentUser
+# Install-Module Pscx -Scope CurrentUser (-AllowClobber)
+# Import-VisualStudioVars -- Make visual studi variables available in session (cmake etc)
+
 Import-Module Terminal-Icons
 Import-Module PSfzf
 Import-Module posh-git

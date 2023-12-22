@@ -3,9 +3,9 @@ return {
     build = ":TSUpdate",
     dependencies = {
         {"nvim-treesitter/nvim-treesitter-textobjects"}, 
+        {"nvim-treesitter/nvim-treesitter-context"},
         {"p00f/nvim-ts-rainbow"},
         {"JoosepAlviste/nvim-ts-context-commentstring"}, 
-        {"nvim-treesitter/nvim-treesitter-context"},
         {"windwp/nvim-ts-autotag"},
         {
             "windwp/nvim-autopairs",
@@ -19,27 +19,16 @@ return {
             config = function(_, opts)
                 require("nvim-autopairs").setup(opts)
         
-                local cmp_autopairs_status, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
-                if not cmp_autopairs_status then
-                    vim.notify("nvim-autopairs.completion.cmp not found!")
-                    return
-                end
-        
-                local cmp_status, cmp = pcall(require, "cmp")
-                if not cmp_status then
-                    vim.notify("cmp not found!")
-                    return
-                end
-        
+                local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+                local cmp = require("cmp")
+    
                 -- make autopairs and completion work together
                 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
             end
         }
     },
     opts = {
-        ensure_installed = {"bash", "c_sharp", "cpp", "dockerfile", "git_config", "git_rebase", "gitattributes",
-                            "gitcommit", "gitignore", "go", "javascript", "jsdoc", "json", "lua", "luadoc",
-                            "markdown", "regex", "rust", "sql", "toml", "typescript", "yaml"},
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "tsx", "rust", "toml", "yaml", "c_sharp" },
         auto_install = true,
         highlight = {
             enable = true
@@ -55,19 +44,16 @@ return {
         },
         rainbow = { -- p00f/nvim-ts-rainbow
             enable = true,
-            -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
             extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
             max_file_lines = nil -- Do not enable for files with more than n lines, int
-            -- colors = {}, -- table of hex strings
-            -- termcolors = {} -- table of colour name strings
         },
         incremental_selection = {
             enable = true,
             keymaps = {
-                init_selection = '<c-space>',
-                node_incremental = '<c-space>',
-                scope_incremental = '<c-s>',
-                node_decremental = '<c-backspace>'
+                init_selection = '<leader>ss',
+                node_incremental = '<leader>si',
+                scope_incremental = '<leader>sc',
+                node_decremental = '<leader>sd'
             }
         },
         textobjects = {

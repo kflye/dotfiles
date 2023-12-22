@@ -7,17 +7,21 @@ local default_setup = function(server)
     })
 end
 
-return {{
+return {
+{
     'williamboman/mason.nvim',
     opts = {
         ensure_installed = {"codelldb"}
     },
-    config = function(_, opts)
-        require("mason").setup(opts)
-    end
-}, {
+}, 
+{
     'williamboman/mason-lspconfig.nvim',
-    dependencies = {{'hrsh7th/cmp-nvim-lsp'}, {'neovim/nvim-lspconfig'}},
+    dependencies = {
+        {'simrat39/rust-tools.nvim'},
+        {"folke/neodev.nvim"},
+        {'hrsh7th/cmp-nvim-lsp'}, 
+        {'neovim/nvim-lspconfig'}
+    },
     opts = {
         ensure_installed = {},
         handlers = {
@@ -114,13 +118,16 @@ return {{
         }
     },
     config = function(_, opts)
+        print("mason-lsp-config")
         vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
         vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, LspCommon.float_opts)
 
         require("mason-lspconfig").setup(opts)
     end
 
-}, {'simrat39/rust-tools.nvim'}, {
+}, 
+{'simrat39/rust-tools.nvim'}, 
+{
     "folke/neodev.nvim",
     opts = {
         library = {
@@ -129,9 +136,12 @@ return {{
         }
     },
     config = function(_, opts)
+        print("neodev-config")
+
         require("neodev").setup(opts)
     end
-}}
+}
+}
 
 -- {
 --    'jmederosalvarado/roslyn.nvim',

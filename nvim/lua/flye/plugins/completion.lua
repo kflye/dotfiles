@@ -94,16 +94,14 @@ return {
                         select = false
                     }),
                     ["<C-Space>"] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.abort(),
                     ["<C-i>"] = cmp.mapping.complete(),
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                    -- TODO: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#intellij-like-mapping for replace on tab, add on enter insert ? like rider -- this should work
-                    -- https://github.com/hrsh7th/nvim-cmp/issues/664
-                    -- ['<CR>'] = cmp.mapping.confirm({
-                    --     behavior = cmp.ConfirmBehavior.Insert,
-                    --     select = true
-                    -- }),
-                    ["<Tab>"] = cmp.config.disable,
+                    ['<CR>'] = cmp.mapping.confirm({
+                        behavior = cmp.ConfirmBehavior.Insert,
+                        select = true
+                    }),
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },

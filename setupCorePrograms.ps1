@@ -1,6 +1,7 @@
 choco install firacodenf nerd-fonts-jetbrainsmono `
   zig `
   mingw `
+  make `
   -y
 
 # zig -> c++ compiler for nvim-treesitter parsers
@@ -28,7 +29,7 @@ winget install --id=gsass1.NTop -e ;
 
 winget install --id=Starship.Starship -e  ; # needs admin
 winget install --id=7zip.7zip -e  ; # needs admin
-winget install --id=CoreyButler.NVMforWindows -e  ; # (fails during install) nvm for nodejs, 'nvm install 18.14.2 -> nvm use 18.14.2
+winget install --id=CoreyButler.NVMforWindows -e  ; # nvm for nodejs, 'nvm install 18.14.2 -> nvm use 18.14.2
 
 # https://github.com/ryanoasis/nerd-fonts/releases/latest/
 # https://github.com/ryanoasis/nerd-fonts/discussions/1103
