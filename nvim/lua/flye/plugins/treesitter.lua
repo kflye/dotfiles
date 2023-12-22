@@ -102,10 +102,9 @@ return {
         }
     },
     init = function()
-        local treesitter_install = require 'nvim-treesitter.install'
-
-        treesitter_install.prefer_git = false
-        treesitter_install.compilers = {"zig"}
+      --  local treesitter_install = require 'nvim-treesitter.install'
+        --treesitter_install.prefer_git = false
+        --treesitter_install.compilers = {"zig"}
     end,
     config = function(_, opts)
         local treesitter = require 'nvim-treesitter.configs'

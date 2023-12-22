@@ -148,7 +148,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         nmap('<leader>re', vim.lsp.buf.rename, '[R]ename [E]lement', bufnr)
         nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
-        -- TODO: Code actions for current document? or use diagnostics to find, and then code_actions?
 
         nmap('<leader>=', function()
             vim.lsp.buf.format {
@@ -157,10 +156,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end, 'Format current buffer with LSP', bufnr)
 
         if client.server_capabilities.inlayHintProvider then
-            print(client.name .. " supports inlayhints (" .. args.buf .. ")")
             vim.lsp.inlay_hint.enable(args.buf, true)
-        else
-            print(client.name .. " does not support inlayhints")
         end
 
         if client.server_capabilities.codeLensProvider then

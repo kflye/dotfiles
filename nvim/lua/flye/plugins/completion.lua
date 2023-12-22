@@ -1,7 +1,6 @@
 local LspCommon = require("flye.lsp-common")
 
 return {
-    -- TODO: why does it not load if it is a dependendy, no sources is loading, look at another config
     { "onsails/lspkind.nvim" }, -- vscode like icons to lsp
     { 'hrsh7th/cmp-nvim-lua' },
     { 'hrsh7th/cmp-buffer' },
@@ -10,7 +9,10 @@ return {
     { 'saadparwaiz1/cmp_luasnip' }, -- Snippets
     {
         'L3MON4D3/LuaSnip',
-        dependencies = { { 'rafamadriz/friendly-snippets' } },
+        dependencies = { 
+            { 'rafamadriz/friendly-snippets' }, 
+            { 'saadparwaiz1/cmp_luasnip' }, 
+        },
         init = function()
             require("luasnip.loaders.from_vscode").lazy_load()
         end,
@@ -50,7 +52,14 @@ return {
     {
         -- Completion framework:
         'hrsh7th/nvim-cmp',
-        dependendies = { -- LSP completion source:
+        dependendies = {
+            { "onsails/lspkind.nvim" },
+            { 'hrsh7th/cmp-nvim-lua' },
+            { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-path' },
+            { 'L3MON4D3/LuaSnip' },
+            { "saecki/crates.nvim" },
         },
         version = false, -- last release is way too old
 
@@ -73,8 +82,6 @@ return {
                     end
                 },
                 window = {
-                    -- completion = LspCommon.float_opts,
-                    -- documentation = LspCommon.float_opts,
                     completion = cmp.config.window.bordered(),
                     documentation = cmp.config.window.bordered(),
                 },
@@ -95,7 +102,6 @@ return {
                     }),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ['<C-e>'] = cmp.mapping.abort(),
-                    ["<C-i>"] = cmp.mapping.complete(),
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
                     ['<CR>'] = cmp.mapping.confirm({

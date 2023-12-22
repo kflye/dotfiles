@@ -7,6 +7,35 @@ local default_setup = function(server)
     })
 end
 
+-- Diagnostic keymaps
+-- LSP Diagnostics Options Setup
+local sign = function(opts)
+    vim.fn.sign_define(opts.name, {
+        texthl = opts.name,
+        text = opts.text,
+        numhl = ''
+    })
+end
+
+sign({ name = 'DiagnosticSignError', text = '󰅚' })
+sign({ name = 'DiagnosticSignWarn', text = '󰀪' })
+sign({ name = 'DiagnosticSignHint', text = '󰌶' })
+sign({ name = 'DiagnosticSignInfo', text = '󰋽' })
+
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,             -- default
+    update_in_insert = false, -- default
+    underline = true,         -- default
+    severity_sort = true,
+    float = LspCommon.float_opts,
+})
+
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
 return {
 {
     'williamboman/mason.nvim',
@@ -109,16 +138,19 @@ return {
                         -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
                     end,
 
+                    root_dir = require('lspconfig.util').root_pattern(".git"),
+
                     settings = {
                         typescript = LspCommon.tsserver_lang_settings,
+                        typescriptreact = LspCommon.tsserver_lang_settings,
                         javascript = LspCommon.tsserver_lang_settings,
+                        javascriptreact = LspCommon.tsserver_lang_settings,
                     }
                 })
             end,
         }
     },
     config = function(_, opts)
-        print("mason-lsp-config")
         vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
         vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, LspCommon.float_opts)
 
@@ -136,8 +168,6 @@ return {
         }
     },
     config = function(_, opts)
-        print("neodev-config")
-
         require("neodev").setup(opts)
     end
 }

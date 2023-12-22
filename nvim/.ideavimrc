@@ -88,8 +88,8 @@ nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
 
 " Navigation
-nmap ]] <Action>(MethodUp)
 nmap [[ <Action>(MethodDown)
+nmap ]] <Action>(MethodUp)
 
 " BuildWholeSolutionAction
 nmap <leader>bs <Action>(BuildWholeSolutionAction)
@@ -129,15 +129,21 @@ nmap <leader>qa <Action>(CloseAllEditorsButActive)
 nmap <c-w>q <Action>(CloseAllEditors)
 nmap <c-w>v <Action>(MoveTabRight)
 nmap <c-w>s <Action>(MoveTabDown)
-nmap <c-w>j <Action>(NextSplitter)
-nmap <c-w>k <Action>(PrevSplitter)
+nmap <c-a-l> <Action>(NextSplitter)
+nmap <c-a-h> <Action>(PrevSplitter)
 nmap <c-a-j> <Action>(NextSplitter)
 nmap <c-a-k> <Action>(PrevSplitter)
 nmap <c-a-Right> <Action>(NextSplitter)
 nmap <c-a-Left> <Action>(PrevSplitter)
+nmap <c-a-Down> <Action>(NextSplitter)
+nmap <c-a-Up> <Action>(PrevSplitter)
 nmap <c-Right> <Action>(StretchSplitToRight)
 nmap <c-Left> <Action>(StretchSplitToLeft)
 nmap <c-w>= <Action>(MaximizeEditorInSplit)
+
+nmap zo <Action>(ExpandRegion)
+nmap zc <Action>(CollapseRegion)
+nmap za <Action>(ExpandCollapseToggleAction)
 
 nmap <leader>gd <Action>(GotoDeclaration)
 "  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
@@ -161,8 +167,8 @@ map <leader>oi <Action>(OptimizeImports)
 
 " --- Diagnostics ---
 nmap <leader>e <Action>(ShowErrorDescription)
-nmap ]d <Action>(GotoPreviousError)
 nmap [d <Action>(GotoNextError)
+nmap ]d <Action>(GotoPreviousError)
 " - rider specific -
 nmap <leader>ge <Action>(ReSharperGotoNextErrorInSolution)
 nmap <leader>gE <Action>(ReSharperGotoPrevErrorInSolution)

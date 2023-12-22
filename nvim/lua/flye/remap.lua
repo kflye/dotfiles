@@ -1,6 +1,5 @@
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
--- https://www.youtube.com/watch?v=vdn_pKJUda8 - keymaps for slip s(v|h|e|x) tabs t(o|x|n|p)
 vim.keymap.set("n", "x", "\"_x")
 
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
@@ -31,11 +30,6 @@ vim.keymap.set("n", "<leader>2", ":diffget BASE<CR>",   { desc = "Merge - Pick B
 vim.keymap.set("n", "<leader>3", ":diffget REMOTE<CR>", { desc = "Merge - Pick REMOTE" })
 
 -- Window navigation
-vim.keymap.set("n", "<C-j>", "<C-w>j")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-
 vim.keymap.set("n", "<C-M-j>", "<C-w>j")
 vim.keymap.set("n", "<C-M-k>", "<C-w>k")
 vim.keymap.set("n", "<C-M-l>", "<C-w>l")
@@ -47,7 +41,6 @@ vim.keymap.set("n", "<C-M-Right>", "<C-w>l")
 vim.keymap.set("n", "<C-M-Left>", "<C-w>h")
 
 -- Buffer movement
--- TODO: Does not work, as windows terminal uses this to move between splits
 vim.keymap.set("n", "<M-Left>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 vim.keymap.set("n", "<M-Right>", ":bnext<CR>", { desc = "Next buffer", silent = true })
 

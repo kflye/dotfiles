@@ -12,14 +12,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-   
     -- TODO: Look into these plugins
     -- {'tpope/vim-fugitive' }
     -- {'tpope/vim-rhubarb' }
-
-
-    -- TODO: toggleterm for a terminal
-
 }
 
 local opts = {}

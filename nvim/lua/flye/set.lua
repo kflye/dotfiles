@@ -68,13 +68,6 @@ vim.opt.hidden = true
 
 vim.g.mapleader = " "
 
--- disable netrw at the very start of your init.lua (strongly advised) nvim-tree
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_netrwSettings = 1
-vim.g.loaded_netrwFileHandlers = 1
-vim.g.loaded_netrw_gitignore = 1
-
 
 local this_os = vim.loop.os_uname().sysname
 

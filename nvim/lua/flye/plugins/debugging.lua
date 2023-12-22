@@ -7,10 +7,6 @@ return {{
         local dap = require("dap")
         local dapui = require("dapui")
 
-        --  -- TODO: check with rust how these should behave
-        --    dap.defaults.fallback.terminal_win_cmd = 'tabnew'
-        --    dap.defaults.fallback.focus_terminal = false
-
         dap.listeners.after.event_initialized["dapui_config"] = function()
             dapui.open()
         end
