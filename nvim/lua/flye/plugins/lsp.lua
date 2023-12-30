@@ -39,9 +39,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 return {
     {
         'williamboman/mason.nvim',
-        opts = {
-            ensure_installed = { "codelldb" }
-        },
+        config = true,
     },
     {
         'williamboman/mason-lspconfig.nvim',
