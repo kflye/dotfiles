@@ -26,7 +26,6 @@ function M.get_codelldb_path()
     end
 
     return codelldb_path
-
 end
 
 function M.get_liblldb_path()
@@ -124,12 +123,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         local bufnr = args.buf
 
-        local opts = {
-            buffer = args.buf
-        }
-
-        print(client.name .. " on_attach")
-
         -- LSP actions
         nmap('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
         nmap('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
@@ -160,7 +153,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end
 
         if client.server_capabilities.codeLensProvider then
-            vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "InsertLeave"}, {
+            vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
                 buffer = args.buf,
                 callback = vim.lsp.codelens.refresh
             })
