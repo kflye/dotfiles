@@ -15,6 +15,7 @@ return { --    use 'folke/tokyonight.nvim'
     {
         "sainnhe/gruvbox-material",
         lazy = false,
+        cond = not vim.g.vscode,
         priority = 1000,
         config = function(_, opts)
             vim.cmd [[ colorscheme gruvbox-material ]]

@@ -13,6 +13,7 @@ return {
             { 'rafamadriz/friendly-snippets' }, 
             { 'saadparwaiz1/cmp_luasnip' }, 
         },
+        cond = vim.g.vscode,
         init = function()
             require("luasnip.loaders.from_vscode").lazy_load()
         end,
@@ -41,7 +42,7 @@ return {
                 "<c-l>",
                 function()
                     if require("luasnip").choice_active() then
-                        require("luasnip").change_choici(1)
+                        require("luasnip").change_choice(1)
                     end
                 end,
                 mode = "i",
@@ -63,6 +64,7 @@ return {
         },
         version = false, -- last release is way too old
 
+        cond = vim.g.vscode,
         opts = function()
             local cmp = require("cmp")
 

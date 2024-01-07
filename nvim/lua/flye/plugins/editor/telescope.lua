@@ -2,6 +2,7 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
+        cond = not vim.g.vscode,
         version = '0.1.x',
         dependencies = {
             {
