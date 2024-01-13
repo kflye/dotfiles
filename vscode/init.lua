@@ -69,7 +69,6 @@ vim.keymap.set("n", "<leader>sdS", function() vscode.action("workbench.action.sh
 
 vim.keymap.set("n", "<leader>re", function() vscode.action("editor.action.rename") end, { desc = "" })
 vim.keymap.set("n", "<leader>ca", function() vscode.action("editor.action.quickFix") end, { desc = "" })
-vim.keymap.set("n", "<C-y>", function() vscode.action("acceptSelectedCodeAction") end, { desc = "Accept selected code action" })
 
 vim.keymap.set("n", "<leader>=", function() vscode.action("editor.action.formatDocument") end, { desc = "format document" })
 
@@ -78,5 +77,42 @@ vim.keymap.set('n', '[d', function() vscode.action("editor.action.marker.prev") 
 vim.keymap.set('n', ']d', function() vscode.action("editor.action.marker.next") end, { desc = "Go to next problem" })
 vim.keymap.set('n', '<leader>e', function() vscode.action("editor.action.showHover") end, { desc = "Open problem float" })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+-- Auto completion + snippets
+-- <C-p/n> mapped by default
+vim.keymap.set("n", "<C-y>", function() vscode.action("acceptSelectedCodeAction") end, { desc = "Accept selected code action" })
+vim.keymap.set({ 'i', 's' }, '<C-f>', function() vscode.action('jumpToNextSnippetPlaceholder') end, { desc = "Jump to next snippet" })
+vim.keymap.set({ 'i', 's' }, '<C-b>', function() vscode.action('jumpToPrevSnippetPlaceholder') end, { desc = "Jump to previous snippet" })
+
+
+-- Find / Telescope
+vim.keymap.set('n', '<leader>sf', function() vscode.action("workbench.action.quickOpen") end, { desc = "[S]earch [F]iles" })
+vim.keymap.set('n', '<leader>sb', function() vscode.action("workbench.action.quickOpenLeastRecentlyUsedEditor") end, { desc = "[S]earch [B]uffers" })
+vim.keymap.set('n', '<leader>sB', function() vscode.action("workbench.action.quickOpenPreviousRecentlyUsedEditor") end, { desc = "[S]earch [B]uffers" })
+vim.keymap.set('n', '<leader>stw', function()
+    vscode.action("editor.action.addSelectionToNextFindMatch")
+    vscode.action("workbench.action.findInFiles")
+end, { desc = "[S]earch [T]ext by current [W]ord" })
+vim.keymap.set('n', '<leader>stg', function() vscode.action("workbench.action.experimental.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
+vim.keymap.set('n', '<leader>sgf', function() vscode.action("") end, { desc = "[S]earch [G]it [F]iles" })
+
+
+-- terminal -- <C-`> default vscode keybinding
+vim.keymap.set('n', '<leader>tt', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "[T]oggle [T]erminal" })
+
+
+-- file explorer
+vim.keymap.set('n', '<leader>we', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "Window/Explorer toggle" })
+vim.keymap.set('n', '<leader>ws', function() vscode.action("workbench.files.action.showActiveFileInExplorer") end, { desc = "Window/Explorer toggle" })
+
+
+-- diagnostic / problems
+vim.keymap.set('n', '<leader>xx', function() vscode.action("workbench.actions.view.problems") end, { desc = "Toggle show all diagnostics" })
+
+
+-- debugging
+vim.keymap.set('n', '<leader>tb', function() vscode.action("editor.debug.action.toggleBreakpoint") end, { desc = "Toggle breakpoint"})
+vim.keymap.set('n', '<leader>tB', function() vscode.action("editor.debug.action.toggleInlineBreakpoint") end, { desc = "Toggle breakpoint"})
+
 
 vim.notify("end, init.lua")
