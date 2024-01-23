@@ -9,11 +9,10 @@ return {
     { 'saadparwaiz1/cmp_luasnip' }, -- Snippets
     {
         'L3MON4D3/LuaSnip',
-        dependencies = { 
-            { 'rafamadriz/friendly-snippets' }, 
-            { 'saadparwaiz1/cmp_luasnip' }, 
+        dependencies = {
+            { 'rafamadriz/friendly-snippets' },
+            { 'saadparwaiz1/cmp_luasnip' },
         },
-        cond = vim.g.vscode,
         init = function()
             require("luasnip.loaders.from_vscode").lazy_load()
         end,
@@ -64,7 +63,6 @@ return {
         },
         version = false, -- last release is way too old
 
-        cond = vim.g.vscode,
         opts = function()
             local cmp = require("cmp")
 

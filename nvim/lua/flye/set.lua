@@ -41,10 +41,8 @@ vim.opt.cmdheight = 1
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-if not vim.g.vscode then
-    vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-    vim.opt.undofile = true
-end
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
 
 -- :help completeopt
 -- menuone: popup even when there's only one match
@@ -70,6 +68,8 @@ vim.opt.hidden = true
 
 vim.g.mapleader = " "
 
+vim.g.netrw_bufsettings = "noma nomod nu nobl nowrap ro rnu"
+
 local this_os = vim.loop.os_uname().sysname
 
 if this_os:find "Windows" then
@@ -82,4 +82,3 @@ if this_os:find "Windows" then
     vim.o.shellxquote = ''
 end
 
-print("end set")

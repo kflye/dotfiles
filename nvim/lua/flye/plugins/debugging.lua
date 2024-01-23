@@ -3,7 +3,6 @@ local LspCommon = require("flye.lsp-common")
 return {{
     "mfussenegger/nvim-dap",
     dependencies = {{"rcarriga/nvim-dap-ui"}, {'williamboman/mason.nvim'}, {'jay-babu/mason-nvim-dap.nvim'}},
-    cond = not vim.g.vscode,
     init = function()
         local dap = require("dap")
         local dapui = require("dapui")
@@ -22,8 +21,6 @@ return {{
 }, {
     "rcarriga/nvim-dap-ui",
     opts = {},
-    cond = not vim.g.vscode,
-
     keys = {{
         '<F5>',
         function()
@@ -124,7 +121,6 @@ return {{
     dependencies = {
         {'williamboman/mason.nvim'}
     },
-    cond = not vim.g.vscode,
     opts = {
         ensure_installed = {"coreclr", "codelldb", "netcoredbg"},
         handlers = {
@@ -148,6 +144,5 @@ return {{
     end
 }, {
     "theHamsta/nvim-dap-virtual-text",
-    cond = not vim.g.vscode,
     opts = {}
 }}

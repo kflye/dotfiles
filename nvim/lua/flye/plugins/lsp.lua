@@ -48,15 +48,11 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
-print("hello world lsp")
-
 return {{
     'williamboman/mason.nvim',
-    cond = not vim.g.vscode,
     config = true
 }, {
     'williamboman/mason-lspconfig.nvim',
-    cond = not vim.g.vscode,
     dependencies = {{'simrat39/rust-tools.nvim'}, {"folke/neodev.nvim"}, {'hrsh7th/cmp-nvim-lsp'},
                     {'neovim/nvim-lspconfig'}},
     opts = {
@@ -170,7 +166,6 @@ return {{
 
 }, {'simrat39/rust-tools.nvim'}, {
     "folke/neodev.nvim",
-    cond = not vim.g.vscode,
     opts = {
         library = {
             plugins = {"nvim-dap-ui"},
