@@ -9,9 +9,9 @@ return {
     { 'saadparwaiz1/cmp_luasnip' }, -- Snippets
     {
         'L3MON4D3/LuaSnip',
-        dependencies = { 
-            { 'rafamadriz/friendly-snippets' }, 
-            { 'saadparwaiz1/cmp_luasnip' }, 
+        dependencies = {
+            { 'rafamadriz/friendly-snippets' },
+            { 'saadparwaiz1/cmp_luasnip' },
         },
         init = function()
             require("luasnip.loaders.from_vscode").lazy_load()
@@ -41,7 +41,7 @@ return {
                 "<c-l>",
                 function()
                     if require("luasnip").choice_active() then
-                        require("luasnip").change_choici(1)
+                        require("luasnip").change_choice(1)
                     end
                 end,
                 mode = "i",

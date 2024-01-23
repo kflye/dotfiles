@@ -21,7 +21,6 @@ return {{
 }, {
     "rcarriga/nvim-dap-ui",
     opts = {},
-
     keys = {{
         '<F5>',
         function()

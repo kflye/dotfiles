@@ -44,7 +44,6 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
-
 -- :help completeopt
 -- menuone: popup even when there's only one match
 -- noinsert: Do not insert text until a selection is made
@@ -54,7 +53,6 @@ vim.opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
 -- don't give |ins-completion-menu| messages; for		*shm-c*
 -- example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
-
 
 -- enable spell checking
 vim.opt.spell = true
@@ -68,6 +66,7 @@ vim.opt.hidden = true
 
 vim.g.mapleader = " "
 
+vim.g.netrw_bufsettings = "noma nomod nu nobl nowrap ro rnu"
 
 local this_os = vim.loop.os_uname().sysname
 

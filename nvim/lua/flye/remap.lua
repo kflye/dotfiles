@@ -15,18 +15,18 @@ vim.keymap.set("n", "0", "g^")
 
 
 if (vim.fn.has("win32")) then
-    vim.keymap.set({"n", "i", "v", "s", "x", "c", "o"}, "<C-z>", "<nop>")
+    vim.keymap.set({ "n", "i", "v", "s", "x", "c", "o" }, "<C-z>", "<nop>")
 end
 
-vim.keymap.set({"n", "i"}, "<up>", "<nop>")
-vim.keymap.set({"n", "i"}, "<down>", "<nop>")
-vim.keymap.set({"n", "i"}, "<left>", "<nop>")
-vim.keymap.set({"n", "i"}, "<right>", "<nop>")
+vim.keymap.set({ "n", "i" }, "<up>", "<nop>")
+vim.keymap.set({ "n", "i" }, "<down>", "<nop>")
+vim.keymap.set({ "n", "i" }, "<left>", "<nop>")
+vim.keymap.set({ "n", "i" }, "<right>", "<nop>")
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
-vim.keymap.set("n", "<leader>1", ":diffget LOCAL<CR>",  { desc = "Merge - Pick LOCAL" })
-vim.keymap.set("n", "<leader>2", ":diffget BASE<CR>",   { desc = "Merge - Pick BASE" })
+vim.keymap.set("n", "<leader>1", ":diffget LOCAL<CR>", { desc = "Merge - Pick LOCAL" })
+vim.keymap.set("n", "<leader>2", ":diffget BASE<CR>", { desc = "Merge - Pick BASE" })
 vim.keymap.set("n", "<leader>3", ":diffget REMOTE<CR>", { desc = "Merge - Pick REMOTE" })
 
 -- Window navigation
