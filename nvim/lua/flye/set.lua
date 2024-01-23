@@ -48,17 +48,15 @@ vim.opt.undofile = true
 -- menuone: popup even when there's only one match
 -- noinsert: Do not insert text until a selection is made
 -- noselect: Do not select, force to select one from the menu
-vim.opt.completeopt = {'menuone', 'noselect', 'noinsert'}
+vim.opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
 -- shortness: avoid showing extra messages when using completion
 -- don't give |ins-completion-menu| messages; for		*shm-c*
 -- example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
-vim.opt.shortmess = vim.opt.shortmess + {
-    c = true
-}
+vim.opt.shortmess = vim.opt.shortmess + { c = true }
 
 -- enable spell checking
 vim.opt.spell = true
-vim.opt.spelllang = {'en_us'}
+vim.opt.spelllang = { 'en_us' }
 
 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 -- delays and poor user experience.
@@ -75,10 +73,9 @@ local this_os = vim.loop.os_uname().sysname
 if this_os:find "Windows" then
     vim.o.shell = 'pwsh'
     vim.o.shellcmdflag =
-        '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+    '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
     vim.o.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
     vim.o.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
     vim.o.shellquote = ''
     vim.o.shellxquote = ''
 end
-

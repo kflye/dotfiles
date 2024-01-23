@@ -17,28 +17,16 @@ local sign = function(opts)
     })
 end
 
-sign({
-    name = 'DiagnosticSignError',
-    text = '󰅚'
-})
-sign({
-    name = 'DiagnosticSignWarn',
-    text = '󰀪'
-})
-sign({
-    name = 'DiagnosticSignHint',
-    text = '󰌶'
-})
-sign({
-    name = 'DiagnosticSignInfo',
-    text = '󰋽'
-})
+sign({ name = 'DiagnosticSignError', text = '󰅚' })
+sign({ name = 'DiagnosticSignWarn', text = '󰀪' })
+sign({ name = 'DiagnosticSignHint', text = '󰌶' })
+sign({ name = 'DiagnosticSignInfo', text = '󰋽' })
 
 vim.diagnostic.config({
     virtual_text = true,
-    signs = true, -- default
+    signs = true,             -- default
     update_in_insert = false, -- default
-    underline = true, -- default
+    underline = true,         -- default
     severity_sort = true,
     float = LspCommon.float_opts
 })
@@ -48,13 +36,13 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
-return {{
+return { {
     'williamboman/mason.nvim',
     config = true
 }, {
     'williamboman/mason-lspconfig.nvim',
-    dependencies = {{'simrat39/rust-tools.nvim'}, {"folke/neodev.nvim"}, {'hrsh7th/cmp-nvim-lsp'},
-                    {'neovim/nvim-lspconfig'}},
+    dependencies = { { 'simrat39/rust-tools.nvim' }, { "folke/neodev.nvim" }, { 'hrsh7th/cmp-nvim-lsp' },
+        { 'neovim/nvim-lspconfig' } },
     opts = {
         ensure_installed = {},
         handlers = {
@@ -140,7 +128,7 @@ return {{
                         client.server_capabilities.documentRangeFormattingProvider = false
                         LspCommon.nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
                         LspCommon.nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports',
-                            bufnr) -- organize imports (not in youtube nvim video)
+                            bufnr)                                                                               -- organize imports (not in youtube nvim video)
                         -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
                     end,
 
@@ -164,18 +152,18 @@ return {{
         require("mason-lspconfig").setup(opts)
     end
 
-}, {'simrat39/rust-tools.nvim'}, {
+}, { 'simrat39/rust-tools.nvim' }, {
     "folke/neodev.nvim",
     opts = {
         library = {
-            plugins = {"nvim-dap-ui"},
+            plugins = { "nvim-dap-ui" },
             types = true
         }
     },
     config = function(_, opts)
         require("neodev").setup(opts)
     end
-}}
+} }
 
 -- {
 --    'jmederosalvarado/roslyn.nvim',
