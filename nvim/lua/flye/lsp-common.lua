@@ -32,12 +32,10 @@ function M.get_liblldb_path()
     local mason_registry = require("mason-registry")
 
     local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
-    local codelldb_path = codelldb_root .. "/codelldb"
     local liblldb_path = codelldb_root .. "/extension/" .. "lldb/lib/liblldb"
     local this_os = vim.loop.os_uname().sysname
 
     if this_os:find "Windows" then
-        codelldb_path = codelldb_root .. "/extension/" .. "adapter\\codelldb.exe"
         liblldb_path = codelldb_root .. "/extension/" .. "lldb\\bin\\liblldb.dll"
     else
         -- The liblldb extension is .so for linux and .dylib for macOS
@@ -96,6 +94,7 @@ M.float_opts = {
     -- whether the hover action window gets automatically focused
     -- default: false
     auto_focus = false,
+    focusable = true,
     source = true,
     header = '',
     prefix = '',

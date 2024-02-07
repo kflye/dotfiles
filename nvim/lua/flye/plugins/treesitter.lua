@@ -2,30 +2,9 @@ return {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
     dependencies = {
-        {"nvim-treesitter/nvim-treesitter-textobjects"}, 
-        {"nvim-treesitter/nvim-treesitter-context"},
-        {"p00f/nvim-ts-rainbow"},
-        {"JoosepAlviste/nvim-ts-context-commentstring"}, 
-        {"windwp/nvim-ts-autotag"},
-        {
-            "windwp/nvim-autopairs",
-            opts = {
-                check_ts = true, -- enable treesitter
-                ts_config = {
-                    lua = {"string"},
-                    javascript = {"template_string"}
-                }
-            },
-            config = function(_, opts)
-                require("nvim-autopairs").setup(opts)
-        
-                local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-                local cmp = require("cmp")
-    
-                -- make autopairs and completion work together
-                cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-            end
-        }
+        {"nvim-treesitter/nvim-treesitter-textobjects"},
+        {"nvim-treesitter/nvim-treesitter-context"}, -- alternative could be SmiteshP/nvim-navic
+        {"JoosepAlviste/nvim-ts-context-commentstring"},
     },
     opts = {
         ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "tsx", "rust", "toml", "yaml", "c_sharp" },
@@ -35,26 +14,6 @@ return {
         },
         indent = {
             enable = true
-        },
-        autotag = { -- windwp/nvim-ts-autotag
-            enable = true
-        },
-        autopairs = { -- windwp/nvim-autopairs
-            enable = true
-        },
-        rainbow = { -- p00f/nvim-ts-rainbow
-            enable = true,
-            extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-            max_file_lines = nil -- Do not enable for files with more than n lines, int
-        },
-        incremental_selection = {
-            enable = true,
-            keymaps = {
-                init_selection = '<leader>ss',
-                node_incremental = '<leader>si',
-                scope_incremental = '<leader>sc',
-                node_decremental = '<leader>sd'
-            }
         },
         textobjects = {
             select = {

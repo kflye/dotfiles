@@ -163,23 +163,6 @@ return { {
     config = function(_, opts)
         require("neodev").setup(opts)
     end
-} }
+}
+}
 
--- {
---    'jmederosalvarado/roslyn.nvim',
---    opts = {
---        dotnet_cmd = "dotnet",              -- this is the default
---        roslyn_version = "4.8.0-3.23475.7", -- this is the default
---    },
---    config = function(_, opts)
---        opts.on_attach = function(client, bufnr)
---            print("on attatch _ roslyn")
---            LspCommon.on_attach(client, bufnr)
---        end
---        opts.capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),
---            require("cmp_nvim_lsp").default_capabilities(), {})
-
--- require("roslyn").setup(opts)
--- end,
--- dependencies = { { 'neovim/nvim-lspconfig' } }
--- },

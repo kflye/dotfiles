@@ -55,9 +55,11 @@ return {
         dependendies = {
             { "onsails/lspkind.nvim" },
             { 'hrsh7th/cmp-nvim-lua' },
+            { 'hrsh7th/cmp-nvim-lsp' },
             { 'hrsh7th/cmp-nvim-lsp-signature-help' },
             { 'hrsh7th/cmp-buffer' },
             { 'hrsh7th/cmp-path' },
+            { 'saadparwaiz1/cmp_luasnip' },
             { 'L3MON4D3/LuaSnip' },
             { "saecki/crates.nvim" },
         },
@@ -65,15 +67,6 @@ return {
 
         opts = function()
             local cmp = require("cmp")
-
-            local function check_backspace()
-                local col = vim.fn.col(".") - 1
-                if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-                    return true
-                else
-                    return false
-                end
-            end
 
             return {
                 snippet = {
@@ -117,7 +110,6 @@ return {
                     { name = "buffer" },
                     { name = "path" },
                     { name = "crates" },
-                }, {
                     { name = 'buffer' }
                 }),
                 formatting = {
