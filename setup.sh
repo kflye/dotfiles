@@ -12,6 +12,18 @@ echo $XDG_CONFIG_HOME
 
 sudo apt install ripgrep fd-find fzf zoxide python3-pip fish git keychain \
 	ninja-build gettext cmake unzip curl # neovim build dependencies
+	
+if ! command -v fd &> /dev/null
+then
+	echo "fd could not be found"
+	ln -fs $(which fdfind) ~/.local/bin/fd
+fi
+
+if ! command -v bat &> /dev/null
+then
+	echo "bat could not be found"
+	ln -fs $(which batcat) ~/.local/bin/bat
+fi
 
 if ! command -v starship &> /dev/null
 then

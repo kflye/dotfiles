@@ -17,7 +17,7 @@ return { --    use 'folke/tokyonight.nvim'
         lazy = false,
         priority = 1000,
         config = function(_, opts)
-            vim.cmd [[ colorscheme gruvbox-material ]]
+            -- vim.cmd [[ colorscheme gruvbox-material ]]
             -- TODO: Try to implement a version for rider
             -- Use https://github.com/catppuccin/jetbrains as a starting point
             -- or https://github.com/xiaopihai7256/MyGruvbox
@@ -27,6 +27,7 @@ return { --    use 'folke/tokyonight.nvim'
     {
         "catppuccin/nvim",
         name = "catppuccin",
+        lazy = false,
         priority = 1000,
         config = function(_, opts)
             -- require("catppuccin").setup(opts)
@@ -36,10 +37,11 @@ return { --    use 'folke/tokyonight.nvim'
     {
         "rebelot/kanagawa.nvim",
         name = "kanagawa",
+        lazy = false,
         priority = 1000,
         config = function(_, opts)
-            --require("kanagawa").setup(opts)
-            --vim.cmd [[colorscheme kanagawa]]
+            require("kanagawa").setup(opts)
+            vim.cmd [[colorscheme kanagawa]]
         end
     }
 }

@@ -2,12 +2,11 @@
     editor = nvim
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
+	pager = delta
 	# whitespace = cr-at-eol # Something with
 	# fsmonitor = true  https://github.blog/2022-06-27-highlights-from-git-2-37/
 
 [include]
-    # A local gitconfig, outside of version control.
-    # If the file doesn't exist it is silently ignored
     path = ~/.gitconfig.local
 
 [alias]
@@ -19,6 +18,7 @@
 
 [merge]
 	tool = nvimdiff
+    conflictstyle = zdiff3
 
 [mergetool]
 	keepBackup = false
@@ -35,6 +35,8 @@
 
 [diff]
 	tool = nvimdiff
+    algirithm = histogram
+	colorMoved = default
 
 [difftool]
     prompt = false
@@ -45,5 +47,25 @@
 [push]
 	autoSetupRemote = true
 
+[pull]
+    ff = only
+
 [safe]
 	directory = *
+
+[init]
+	defaultBranch = main
+
+[branch]
+	sort = -committerdate
+
+[commit]
+	verbose = true
+
+[rerere]
+	enabled = true
+
+[delta] # https://github.com/dandavison/delta
+	true-color = always
+	side-by-side = true
+	syntax-theme = TwoDark

@@ -22,6 +22,7 @@ Import-Module posh-git
 
 $env:POSH_GIT_ENABLED = $true
 #$GitPromptSettings.EnableFileStatus = $false # when oh-my-posh uses posh-git
+$env:BAT_THEME = "TwoDark"
 
 function Invoke-Starship-PreCommand
 {
