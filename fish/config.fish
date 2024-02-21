@@ -8,10 +8,15 @@ fish_add_path -a $HOME/local/llvm17-release/bin
 fish_ssh_agent
 
 # Enable fzf key bindings
+set -u FZF_DEFAULT_COMMAND "fd --type f --color=never --hidden"
+set -U FZF_CTRL_T_COMMAND "fd --type f --color=never --hidden"
+set -U FZF_CTRL_T_OPTS "--preview 'bat --color=always --line-range :50 {}'"
+set -U FZF_ALT_C_COMMAND "fd --type d --color=never --hidden"
 fzf_key_bindings
 
-# fish_config theme save "tokyonight_storm"
-theme_gruvbox dark medium
+fish_config theme choose "kanagawa"
+# fish_config theme choose "tokyonight_storm"
+# theme_gruvbox dark medium
 
 set -l SSH_KEYS ~/.ssh/id_rsa ~/.ssh/id_ed25519
 for FILE in $SSH_KEYS
@@ -23,3 +28,4 @@ end
 set -u XDG_CONFIG_HOME "$HOME/.config"
 
 eval $cmd
+

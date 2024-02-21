@@ -8,5 +8,5 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 # Theme
 fisher install jomik/fish-gruvbox
 
-# 
-fisher install jethrokuan/fzf
+# using build in function for setting up fzf keybindings (missing tab completion?)
+# fisher install jethrokuan/fzf
