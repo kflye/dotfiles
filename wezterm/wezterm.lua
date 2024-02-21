@@ -11,6 +11,7 @@ end
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = 'Light'})
 config.color_scheme = 'tokyonight_storm'
 --config.color_scheme = "Gruvbox dark, medium (base16)"
+--config.color_scheme = 'Kanagawa (Gogh)'
 
 --config.default_prog = { '/usr/bin/pwsh', '-l' }
 
