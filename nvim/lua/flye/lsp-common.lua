@@ -4,9 +4,9 @@ local M = {
             includeInlayParameterNameHints = 'all',
             includeInlayParameterNameHintsWhenArgumentMatchesName = false,
             includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
+            includeInlayVariableTypeHints = false,
             includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = false,
             includeInlayFunctionLikeReturnTypeHints = true,
             includeInlayEnumMemberValueHints = true
         }
@@ -63,9 +63,9 @@ function M.get_netcoredbg_path()
 end
 
 function M.lsp_capabilities()
-    local lsp_capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),
-        require("cmp_nvim_lsp").default_capabilities(), {})
-    return lsp_capabilities
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    return capabilities
 end
 
 M.lsp_flags = {
@@ -147,14 +147,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
             }
         end, 'Format current buffer with LSP', bufnr)
 
-        if client.server_capabilities.inlayHintProvider then
+        if client and client.server_capabilities.inlayHintProvider then
             vim.lsp.inlay_hint.enable(args.buf, true)
         end
 
-        if client.server_capabilities.codeLensProvider then
+        if client and client.server_capabilities.codeLensProvider then
             vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
                 buffer = args.buf,
                 callback = vim.lsp.codelens.refresh
+            })
+        end
+
+        if client and client.server_capabilities.documentHighlightProvider then
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                buffer = args.buf,
+                callback = vim.lsp.buf.document_highlight,
+            })
+
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                buffer = args.buf,
+                callback = vim.lsp.buf.clear_references,
             })
         end
     end

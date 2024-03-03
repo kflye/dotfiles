@@ -3,7 +3,8 @@ return {
         'nvim-lualine/lualine.nvim', -- Fancier statusline
         opts = {
             options = {
-                theme = 'gruvbox-material',
+                -- theme = 'gruvbox-material',
+                theme = 'auto',
                 section_separators = "",
             }
         },

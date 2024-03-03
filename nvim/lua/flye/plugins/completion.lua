@@ -16,38 +16,6 @@ return {
         init = function()
             require("luasnip.loaders.from_vscode").lazy_load()
         end,
-        keys = {
-            {
-                "<c-f>",
-                function()
-                    if require("luasnip").expand_or_jumpable() then
-                        require("luasnip").expand_or_jump()
-                    end
-                end,
-                mode = { "i", "s" },
-                desc = "Expand the current item or jump to the next item within the snippet"
-            },
-            {
-                "<c-b>",
-                function()
-                    if require("luasnip").jumpable(-1) then
-                        require("luasnip").jump(-1)
-                    end
-                end,
-                mode = { "i", "s" },
-                desc = "Move to the previous item within a snippet"
-            },
-            {
-                "<c-l>",
-                function()
-                    if require("luasnip").choice_active() then
-                        require("luasnip").change_choice(1)
-                    end
-                end,
-                mode = "i",
-                desc = "Selecting within a list of choices"
-            }
-        }
     },
     {
         -- Completion framework:
@@ -67,6 +35,8 @@ return {
 
         opts = function()
             local cmp = require("cmp")
+            local luasnip = require 'luasnip'
+            luasnip.config.setup {}
 
             return {
                 snippet = {
@@ -79,28 +49,35 @@ return {
                     documentation = cmp.config.window.bordered(),
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ['<C-p>'] = cmp.mapping.select_prev_item({
-                        behavior = cmp.SelectBehavior.Select
-                    }),
-                    ['<C-n>'] = cmp.mapping.select_next_item({
-                        behavior = cmp.SelectBehavior.Select
-                    }),
+                    ['<C-p>'] = cmp.mapping.select_prev_item(),
+                    ['<C-n>'] = cmp.mapping.select_next_item(),
                     ['<C-y>'] = cmp.mapping.confirm({
                         behavior = cmp.SelectBehavior.Insert,
                         select = true
-                    }),
-                    ['<M-y>'] = cmp.mapping.confirm({
-                        behavior = cmp.SelectBehavior.Replace,
-                        select = false
                     }),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ['<C-e>'] = cmp.mapping.abort(),
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                    ['<CR>'] = cmp.mapping.confirm({
-                        behavior = cmp.ConfirmBehavior.Insert,
-                        select = true
-                    }),
+                    -- Think of <c-l> as moving to the right of your snippet expansion.
+                    --  So if you have a snippet that's like:
+                    --  function $name($args)
+                    --    $body
+                    --  end
+                    --
+                    -- <c-l> will move you to the right of each of the expansion locations.
+                    -- <c-h> is similar, except moving you backwards.
+                    ['<C-l>'] = cmp.mapping(function()
+                        if luasnip.expand_or_locally_jumpable() then
+                            luasnip.expand_or_jump()
+                        end
+                    end, { 'i', 's' }),
+                    ['<C-h>'] = cmp.mapping(function()
+                        if luasnip.locally_jumpable(-1) then
+                            luasnip.jump(-1)
+                        end
+                    end, { 'i', 's' }),
+
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },

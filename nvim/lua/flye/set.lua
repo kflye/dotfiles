@@ -1,6 +1,7 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- Configure how new splits should be opened
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
@@ -14,12 +15,14 @@ vim.opt.softtabstop = 4
 -- clipboard -- vim.opt.clipboard:append("unnamedplus") yank to system clipboard from vim
 vim.opt.clipboard = "unnamedplus"
 
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 10
 vim.opt.cursorline = true
 -- enable virtual edit in block mode (<C-v>)
 vim.opt.virtualedit = "block"
 
-vim.opt.hlsearch = false
+-- Set highlight on search, but clear on pressing <Esc> in normal mode
+vim.opt.hlsearch = true
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.opt.incsearch = true
 -- view a preview of search and replace in a split
 vim.opt.inccommand = "split"
@@ -58,10 +61,6 @@ vim.opt.shortmess = vim.opt.shortmess + { c = true }
 vim.opt.spell = true
 vim.opt.spelllang = { 'en_us' }
 
--- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
--- delays and poor user experience.
-vim.opt.updatetime = 50
-
 vim.opt.hidden = true
 
 vim.g.mapleader = " "
@@ -79,3 +78,20 @@ if this_os:find "Windows" then
     vim.o.shellquote = ''
     vim.o.shellxquote = ''
 end
+
+-- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+-- delays and poor user experience.
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+
+-- Enable mouse mode, can be useful for resizing splits for example!
+vim.opt.mouse = 'a'
+
+-- Don't show the mode, since it's already in status line
+vim.opt.showmode = false
+
+-- Sets how neovim will display certain whitespace in the editor.
+--  See `:help 'list'`
+--  and `:help 'listchars'`
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }

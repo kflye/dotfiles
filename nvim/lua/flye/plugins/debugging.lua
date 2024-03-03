@@ -1,128 +1,59 @@
 local LspCommon = require("flye.lsp-common")
 
-return {{
+return { {
     "mfussenegger/nvim-dap",
-    dependencies = {{"rcarriga/nvim-dap-ui"}, {'williamboman/mason.nvim'}, {'jay-babu/mason-nvim-dap.nvim'}},
+    dependencies = { { "rcarriga/nvim-dap-ui" }, { 'williamboman/mason.nvim' }, { 'jay-babu/mason-nvim-dap.nvim' } },
     init = function()
         local dap = require("dap")
+        local widgets = require('dap.ui.widgets')
         local dapui = require("dapui")
 
-        dap.listeners.after.event_initialized["dapui_config"] = function()
-            dapui.open()
-        end
-        dap.listeners.before.event_terminated["dapui_config"] = function()
-            dapui.close()
-        end
-        dap.listeners.before.event_exited["dapui_config"] = function()
-            dapui.close()
-        end
+
+        -- Basic debugging keymaps, feel free to change to your liking!
+        vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+        vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: Step Into' })
+        vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Debug: Step Over' })
+        vim.keymap.set('n', '<S-F11>', dap.step_out, { desc = 'Debug: Step Out' })
+        vim.keymap.set('n', '<leader>rs', dap.terminate, { desc = 'Debug: Run Stop' })
+        vim.keymap.set('n', '<leader>tb', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+        vim.keymap.set('n', '<leader>tB', function()
+            dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+        end, { desc = 'Debug: Set Breakpoint' })
+
+        vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: Repl open' })
+        vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = 'Debug: Run last' })
+        vim.keymap.set('n', '<leader>dh', widgets.hover, { desc = 'Debug: Hover' })
+        vim.keymap.set({ 'n', 'v' }, '<leader>dp', widgets.preview, { desc = 'Debug: Preview' })
+        vim.keymap.set('n', '<leader>df', function()
+            widgets.centered_float(widgets.frames)
+        end, { desc = 'Debug: Frames' })
+        vim.keymap.set('n', '<leader>df', function()
+            widgets.centered_float(widgets.scopes)
+        end, { desc = 'Debug: Scopes' })
+
+        dap.listeners.after.event_initialized["dapui_config"] = dapui.open
+        dap.listeners.before.event_terminated["dapui_config"] = dapui.close
+        dap.listeners.before.event_exited["dapui_config"] = dapui.close
     end,
 
 }, {
     "rcarriga/nvim-dap-ui",
     opts = {},
-    keys = {{
-        '<F5>',
-        function()
-            require('dap').continue()
-        end,
-        desc = "dap start/continue"
-    }, {
-        '<F10>',
-        function()
-            require('dap').step_over()
-        end,
-        desc = "dap step over"
-    }, {
-        '<F11>',
-        function()
-            require('dap').step_into()
-        end,
-        desc = "dap step into"
-    }, {
-        '<S-F11>',
-        function()
-            require('dap').step_out()
-        end,
-        desc = "dap step out"
-    }, {
-        '<Leader>rs',
-        function()
-            require('dap').terminate()
-        end,
-        desc = "dap [R]un [S]top"
-    }, {
-        '<F7>',
-        function()
-            require('dapui').toggle()
-        end,
-        desc = "dapui toggle (see last session)"
-    }, {
-        '<Leader>tb',
-        function()
-            require('dap').toggle_breakpoint()
-        end,
-        desc = "dap [T]oggle [B]reakpoint"
-    }, {
-        '<Leader>tB',
-        function()
-            require('dap').set_breakpoint()
-        end,
-        desc = "dap set breakpoint"
-    }, {
-        '<Leader>tlp',
-        function()
-            require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-        end,
-        desc = "dap set breakpoint print"
-    }, {
-        '<Leader>dr',
-        function()
-            require('dap').repl.open()
-        end,
-        desc = "dap [D]ebug [R]epl open"
-    }, {
-        '<Leader>dl',
-        function()
-            require('dap').run_last()
-        end,
-        desc = "dap [D]ebug run [L]ast"
-    }, {
-        '<Leader>dh',
-        function()
-            require('dap.ui.widgets').hover()
-        end,
-        desc = "dap [D]ebug [H]over"
-    }, -- todo: also visual mode !
-    {
-        '<Leader>dp',
-        function()
-            require('dap.ui.widgets').preview()
-        end,
-        desc = "dap [D]ebug [P]review"
-    }, -- todo: also visual mode !
-    {
-        '<Leader>df',
-        function()
-            local widgets = require('dap.ui.widgets')
-            widgets.centered_float(widgets.frames)
-        end,
-        desc = "dap [D]ebug [F]rames"
-    }, {
-        '<Leader>ds',
-        function()
-            local widgets = require('dap.ui.widgets')
-            widgets.centered_float(widgets.scopes)
-        end,
-        desc = "dap [D]ebug [S]copes"
-    }}
+    config = function(opts)
+        local dapui = require('dapui')
+
+        dapui.setup(opts)
+
+        -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+        vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
+    end,
 }, {
     'jay-babu/mason-nvim-dap.nvim',
     dependencies = {
-        {'williamboman/mason.nvim'}
+        { 'williamboman/mason.nvim' }
     },
     opts = {
-        ensure_installed = {"coreclr", "codelldb", "netcoredbg"},
+        ensure_installed = { "coreclr", "codelldb", "netcoredbg" },
         handlers = {
             function(config)
                 -- all sources with no handler get passed here
@@ -133,7 +64,7 @@ return {{
                 config.adapters = {
                     type = "executable",
                     command = LspCommon.get_netcoredbg_path(),
-                    args = {"--interpreter=vscode"}
+                    args = { "--interpreter=vscode" }
                 }
                 require('mason-nvim-dap').default_setup(config)
             end
@@ -145,4 +76,4 @@ return {{
 }, {
     "theHamsta/nvim-dap-virtual-text",
     opts = {}
-}}
+} }

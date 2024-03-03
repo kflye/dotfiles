@@ -24,5 +24,12 @@ require("lazy").setup({
         {import = "flye.plugins"},
         {import = "flye.plugins.editor"},
         {import = "flye.plugins.ui"}
+    },
+    ui = {
+        border = "rounded"
+    },
+    change_detection = {
+        enabled = true,
+        notify = false,
     }
 }, opts)

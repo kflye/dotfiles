@@ -40,6 +40,15 @@ vim.keymap.set("n", "<C-M-Up>", "<C-w>k")
 vim.keymap.set("n", "<C-M-Right>", "<C-w>l")
 vim.keymap.set("n", "<C-M-Left>", "<C-w>h")
 
+-- Keybinds to make split navigation easier.
+--  Use CTRL+<hjkl> to switch between windows
+--
+--  See `:help wincmd` for a list of all window commands
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
 -- Buffer movement
 vim.keymap.set("n", "<M-Left>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 vim.keymap.set("n", "<M-Right>", ":bnext<CR>", { desc = "Next buffer", silent = true })

@@ -53,6 +53,7 @@ return { {
                     flags = LspCommon.lsp_flags,
                     settings = {
                         Lua = {
+                            runtime = { version = 'LuaJIT' },
                             -- https://github.com/CppCXY/EmmyLuaCodeStyle/blob/master/docs/format_config_EN.md
                             format = {
                                 enable = true,
@@ -61,7 +62,13 @@ return { {
                                 }
                             },
                             workspace = {
-                                checkThirdParty = false
+                                checkThirdParty = false,
+                                -- Tells lua_ls where to find all the Lua files that you have loaded
+                                -- for your neovim configuration.
+                                library = {
+                                    '${3rd}/luv/library',
+                                    unpack(vim.api.nvim_get_runtime_file('', true)),
+                                },
                             },
                             completion = {
                                 callSnippet = "Replace"
@@ -124,6 +131,7 @@ return { {
                     flags = LspCommon.lsp_flags,
 
                     on_attach = function(client, bufnr)
+                        -- uncomment if using prettier...
                         client.server_capabilities.documentFormattingProvider = false
                         client.server_capabilities.documentRangeFormattingProvider = false
                         LspCommon.nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
@@ -165,4 +173,3 @@ return { {
     end
 }
 }
-
