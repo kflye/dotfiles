@@ -10,9 +10,13 @@ fi
 
 echo $XDG_CONFIG_HOME
 
-sudo apt install ripgrep fd-find fzf zoxide python3-pip fish git keychain \
+sudo apt install ripgrep fd-find bat fzf zoxide python3-pip fish git keychain \
 	ninja-build gettext cmake unzip curl # neovim build dependencies
-	
+
+if [ ! -d "${HOME}/.local/bin" ]; then
+	mkdir "${HOME}/.local/bin"
+fi
+
 if ! command -v fd &> /dev/null
 then
 	echo "fd could not be found"
