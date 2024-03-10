@@ -8,10 +8,10 @@ if wezterm.config_builder then
     config = wezterm.config_builder()
 end
 
-config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = 'Light'})
-config.color_scheme = 'tokyonight_storm'
+config.font = wezterm.font("JuliaMono Nerd Font", { weight = 'Light'})
+-- config.color_scheme = 'tokyonight_storm'
 --config.color_scheme = "Gruvbox dark, medium (base16)"
---config.color_scheme = 'Kanagawa (Gogh)'
+config.color_scheme = 'Kanagawa (Gogh)'
 
 --config.default_prog = { '/usr/bin/pwsh', '-l' }
 
