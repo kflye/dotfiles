@@ -70,6 +70,16 @@ nmap <leader>rip <Action>(IntroduceParameter)
 " Search and replace
 nnoremap <Leader><Leader>r :%s//g<Left><Left>
 
+
+" Window management
+nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+nmap <leader>we <Action>(ActivateProjectToolWindow)
+nmap <leader>wr <Action>(ActivateRunToolWindow)
+nmap <leader>ww <Action>(HideAllWindows)
+nmap <leader>wz <Action>(ToggleZenMode)
+nmap <leader>wd <Action>(ToggleDistractionFreeMode)
+nmap <leader>tt <Action>(ActivateTerminalToolWindow)
+
 """""" Jump
 nmap <leader>se :action SearchEverywhere<CR>
 " [S]earch [T]ext by [G]rep
@@ -78,7 +88,6 @@ nmap <leader>stg <Action>(FindInPath)
 map <leader>stw <Action>(EditorSelectWord) 
 
 nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
-nmap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
 nmap <leader>sds <Action>(FileStructurePopup)
 
 nmap <leader>sf <Action>(GotoFile)
@@ -91,9 +100,6 @@ nmap <C-i> <Action>(Forward)
 nmap [[ <Action>(MethodDown)
 nmap ]] <Action>(MethodUp)
 
-" BuildWholeSolutionAction
-nmap <leader>bs <Action>(BuildWholeSolutionAction)
-nmap <leader>ba <Action>(RebuildSolutionAction)
 
 " Running and Debugging
 nmap <leader>tb <Action>(ToggleLineBreakpoint)
@@ -107,20 +113,6 @@ nmap <leader>ra <Action>(Rerun)
 nmap <leader>rd <Action>(Debug)
 nmap <leader>rs <Action>(Stop)
 
-" Window management
-nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
-nmap <leader>wr <Action>(ActivateRunToolWindow)
-nmap <leader>ws <Action>(LocateInSolutionView)
-nmap <leader>we <Action>(ActivateProjectToolWindow)
-nmap <leader>wn <Action>(ActivateNuGetToolWindow)
-nmap <leader>wd <Action>(ToggleDistractionFreeMode)
-nmap <leader>tt <Action>(ActivateTerminalToolWindow)
-
-nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
-
-nmap <leader>wh <Action>(HideSideWindows)
-nmap <leader>ww <Action>(HideAllWindows)
-nmap <leader>wz <Action>(ToggleZenMode)
 
 " Split
 " nmap <c-w>o <Action>(UnsplitAll)<Action>(CloseAllEditorsButActive)<CR>
@@ -159,8 +151,8 @@ imap <c-k> <Action>(ParameterInfo)
 " Snippets (templates)
 imap <c-y> <Action>(EditorChooseLookupItem)
 " nmap <c-y> <Action>(EditorChooseLookupItem)
-imap <c-f> <Action>(NextTemplateVariable)
-imap <c-b> <Action>(PreviousTemplateVariable)
+imap <c-l> <Action>(NextTemplateVariable)
+imap <c-h> <Action>(PreviousTemplateVariable)
 
 " Utilities
 map <leader>oi <Action>(OptimizeImports)
@@ -169,6 +161,43 @@ map <leader>oi <Action>(OptimizeImports)
 nmap <leader>e <Action>(ShowErrorDescription)
 nmap [d <Action>(GotoNextError)
 nmap ]d <Action>(GotoPreviousError)
-" - rider specific -
+
+
+
+
+"""" intellij specific mappings
+if &ide =~? 'intellij idea'
+
+" Window management
+nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
+nmap <leader>ws <Action>(SelectInProjectView)
+nmap <leader>wn <Action>(ActivateNuGetToolWindow) " TODO: gradle package search?
+
+nmap <leader>wh <Action>(HideSideWindows) " TODO: find alternative
+
+
+nmap <leader>bs <Action>(CompileDirty)
+nmap <leader>ba <Action>(CompileProject)
+
+
+"""" rider specific mappings
+elseif &ide =~? 'rider'
+
+" Window management
+nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
+nmap <leader>ws <Action>(LocateInSolutionView)
+nmap <leader>wn <Action>(ActivateNuGetToolWindow)
+nmap <leader>wh <Action>(HideSideWindows)
+
+
+" BuildWholeSolutionAction
+nmap <leader>bs <Action>(BuildWholeSolutionAction)
+nmap <leader>ba <Action>(RebuildSolutionAction)
+
+nmap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
+
+
 nmap <leader>ge <Action>(ReSharperGotoNextErrorInSolution)
 nmap <leader>gE <Action>(ReSharperGotoPrevErrorInSolution)
+
+endif

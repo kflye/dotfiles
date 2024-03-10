@@ -63,3 +63,6 @@ scoop install main/gcc
 scoop install main/bat
 scoop install main/ntop
 scoop install main/nodejs
+scoop install main/delta
+scoop install main/less
+scoop install extras/lazygit
