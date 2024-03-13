@@ -73,7 +73,7 @@ nnoremap <Leader><Leader>r :%s//g<Left><Left>
 
 " Window management
 nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
-nmap <leader>we <Action>(ActivateProjectToolWindow)
+nmap <leader>wf <Action>(ActivateProjectToolWindow)
 nmap <leader>wr <Action>(ActivateRunToolWindow)
 nmap <leader>ww <Action>(HideAllWindows)
 nmap <leader>wz <Action>(ToggleZenMode)

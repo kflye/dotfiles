@@ -54,6 +54,7 @@ return {
         config = function(_, opts)
             require('neo-tree').setup(opts)
 
+            vim.keymap.set('n', '<M-1>', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
             vim.keymap.set('n', '<leader>wt', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
             vim.keymap.set('n', '<leader>wf', ':Neotree focus<CR>', { desc = 'Neotree: focus' })
             vim.keymap.set('n', '<leader>ws', ':Neotree reveal<CR>', { desc = 'Neotree: reveal' })
