@@ -46,6 +46,9 @@ return {
                     never_show = {}
                 },
                 -- hijack_netrw_behavior = "open_default"
+            },
+            window = {
+                width = 60,
             }
         },
         config = function(_, opts)

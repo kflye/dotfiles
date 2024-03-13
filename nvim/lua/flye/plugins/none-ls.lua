@@ -13,11 +13,11 @@ return {
             null_ls.setup {
                 debug = false,
                 sources = {
-                    -- formatting.prettier,
-                    formatting.prettier.with {
+                    formatting.prettier,
+                    -- formatting.prettier.with {
                       -- extra_filetypes = { "toml" },
-                      extra_args = { "--tab-width=2", "--no-semi", "--single-quote", "--jsx-single-quote" },
-                    },
+                      -- extra_args = { "--tab-width=2", "--no-semi", "--single-quote", "--jsx-single-quote" },
+                    -- },
                     -- formatting.eslint,
                     null_ls.builtins.completion.spell,
                 },

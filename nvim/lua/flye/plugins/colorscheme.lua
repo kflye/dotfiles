@@ -30,8 +30,8 @@ return { --    use 'folke/tokyonight.nvim'
         lazy = false,
         priority = 1000,
         config = function(_, opts)
-            -- require("catppuccin").setup(opts)
-            -- vim.cmd [[colorscheme catppuccin-macchiato]]
+            require("catppuccin").setup(opts)
+            vim.cmd [[colorscheme catppuccin-mocha]]
         end
     },
     {
@@ -39,6 +39,7 @@ return { --    use 'folke/tokyonight.nvim'
         name = "kanagawa",
         lazy = false,
         priority = 1000,
+        enabled = false,
         config = function(_, opts)
             require("kanagawa").setup(opts)
             vim.cmd [[colorscheme kanagawa]]
