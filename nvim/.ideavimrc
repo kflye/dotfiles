@@ -144,6 +144,8 @@ nmap <leader>go <Action>(GotoTypeDeclaration)
 nmap <leader>gr <Action>(ShowUsages)
 nmap <leader>= <Action>(ReformatCode)
 
+nmap <leader>gl <Action>(GotoRelated)
+
 nmap K <Action>(QuickJavaDoc)
 nmap <c-k> <Action>(ParameterInfo)
 imap <c-k> <Action>(ParameterInfo)

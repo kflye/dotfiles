@@ -41,12 +41,13 @@ return { {
     config = true
 }, {
     'williamboman/mason-lspconfig.nvim',
-    dependencies = { { 'simrat39/rust-tools.nvim' }, { "folke/neodev.nvim" }, { 'hrsh7th/cmp-nvim-lsp' },
+    dependencies = { { 'simrat39/rust-tools.nvim' }, { "folke/neodev.nvim" }, { 'hrsh7th/cmp-nvim-lsp' }, { 'mfussenegger/nvim-jdtls' },
         { 'neovim/nvim-lspconfig' } },
     opts = {
         ensure_installed = {},
         handlers = {
             default_setup,
+            jdtls = function() vim.notify("jdtls mason-lspconfig") end,
             lua_ls = function()
                 require('lspconfig').lua_ls.setup({
                     capabilities = LspCommon.lsp_capabilities(),

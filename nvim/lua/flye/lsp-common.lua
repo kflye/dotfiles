@@ -13,6 +13,32 @@ local M = {
     }
 }
 
+function M.get_eclipse_launcher()
+    local mason_registry = require("mason-registry")
+
+    local codelldb_root = mason_registry.get_package("jdtls"):get_install_path()
+    local codelldb_path = codelldb_root .. "/plugins/org.eclipse.equinox.launcher_1.6.700.v20231214-2017"
+
+    return codelldb_path
+end
+
+function M.get_jdtls_config_dir()
+    local mason_registry = require("mason-registry")
+
+    local codelldb_root = mason_registry.get_package("jdtls"):get_install_path()
+    local codelldb_path = codelldb_root .. "/config_"
+
+    local this_os = vim.loop.os_uname().sysname
+
+    if this_os:find "Windows" then
+        codelldb_path = codelldb_path .. "win"
+    else
+        codelldb_path = codelldb_path .. "linux"
+    end
+
+    return codelldb_path
+end
+
 function M.get_codelldb_path()
     local mason_registry = require("mason-registry")
 
