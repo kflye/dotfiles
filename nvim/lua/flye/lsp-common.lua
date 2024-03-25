@@ -166,6 +166,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         nmap('<leader>re', vim.lsp.buf.rename, '[R]ename [E]lement', bufnr)
         nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
+        nmap('<leader>cr', vim.lsp.codelens.run, '[C]odelens [R]un', bufnr)
 
         nmap('<leader>=', function()
             vim.lsp.buf.format {
