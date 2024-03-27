@@ -1,0 +1,4 @@
+XKBLAYOUT=us
+BACKSPACE=guess
+XKBVARIANT=colemak_dh_iso
+XKBOPTIONS="caps:swapescape"

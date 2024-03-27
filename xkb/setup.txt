@@ -1,0 +1,6 @@
+https://github.com/damko/xkb_kinesis_advantage_dvorak_layout/compare/master...hack
+https://medium.com/@damko/a-simple-humble-but-comprehensive-guide-to-xkb-for-linux-6f1ad5e13450
+
+add to /usr/share/X11/xkb/rules/{base,evdev}.{xml,lst}
+
+

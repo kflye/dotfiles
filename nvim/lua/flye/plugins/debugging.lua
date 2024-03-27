@@ -2,7 +2,7 @@ local LspCommon = require("flye.lsp-common")
 
 return { {
     "mfussenegger/nvim-dap",
-    dependencies = { { "rcarriga/nvim-dap-ui" }, { 'williamboman/mason.nvim' }, { 'jay-babu/mason-nvim-dap.nvim' } },
+    dependencies = { { "rcarriga/nvim-dap-ui" }, { 'williamboman/mason.nvim' }, { 'jay-babu/mason-nvim-dap.nvim' }, { "nvim-neotest/nvim-nio"}  },
     init = function()
         local dap = require("dap")
         local widgets = require('dap.ui.widgets')
