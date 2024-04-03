@@ -74,6 +74,7 @@ nnoremap <Leader><Leader>r :%s//g<Left><Left>
 " Window management
 nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
 nmap <leader>wf <Action>(ActivateProjectToolWindow)
+nmap <leader>wt <Action>(ActivateProjectToolWindow)
 nmap <leader>wr <Action>(ActivateRunToolWindow)
 nmap <leader>ww <Action>(HideAllWindows)
 nmap <leader>wz <Action>(ToggleZenMode)
@@ -83,9 +84,10 @@ nmap <leader>tt <Action>(ActivateTerminalToolWindow)
 """""" Jump
 nmap <leader>se :action SearchEverywhere<CR>
 " [S]earch [T]ext by [G]rep
-nmap <leader>stg <Action>(FindInPath) 
+nmap <leader>sg <Action>(FindInPath)
+vmap <leader>sg <Action>(FindInPath)
 " [S]earch [T]ext by current [W]ord
-map <leader>stw <Action>(EditorSelectWord) 
+map <leader>sw <Action>(EditorSelectWord)
 
 nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
 nmap <leader>sds <Action>(FileStructurePopup)

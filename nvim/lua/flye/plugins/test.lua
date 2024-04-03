@@ -1,5 +1,6 @@
 return {
     "vim-test/vim-test",
+    cond = vim.fn.executable('tmux') == 1,
     dependencies = {
         "preservim/vimux"
     },

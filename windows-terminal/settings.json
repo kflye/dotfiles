@@ -148,11 +148,11 @@
     {
         "defaults": 
         {
-            "colorScheme": "KanagawaWave",
+            "colorScheme": "Catppuccin Mocha",
             "font": 
             {
-                "face": "JuliaMono Nerd Font",
-                "size": 10.0,
+                "face": "RedHatMono Nerd Font",
+                "size": 11.0,
                 "weight": "normal"
             }
         },
@@ -792,7 +792,7 @@
             "yellow": "#808000"
         }
     ],
-    "theme": "system",
+    "theme": "Catppuccin Mocha",
     "themes": 
     [
         {
@@ -800,6 +800,7 @@
             "tab": 
             {
                 "background": "#24273AFF",
+                "iconStyle": "default",
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
@@ -811,6 +812,9 @@
             "window": 
             {
                 "applicationTheme": "dark",
+                "experimental.rainbowFrame": false,
+                "frame": null,
+                "unfocusedFrame": null,
                 "useMica": false
             }
         },
@@ -819,6 +823,7 @@
             "tab": 
             {
                 "background": "#1E1E2EFF",
+                "iconStyle": "default",
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
@@ -830,6 +835,9 @@
             "window": 
             {
                 "applicationTheme": "dark",
+                "experimental.rainbowFrame": false,
+                "frame": null,
+                "unfocusedFrame": null,
                 "useMica": false
             }
         }
