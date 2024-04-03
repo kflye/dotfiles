@@ -1,14 +1,14 @@
 local M = {
     tsserver_lang_settings = {
         inlayHints = {
-            includeInlayParameterNameHints = 'all',
+            includeInlayParameterNameHints = 'literals', -- "all" | "none" | "literals"
             includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-            includeInlayFunctionParameterTypeHints = true,
+            includeInlayFunctionParameterTypeHints = false,
             includeInlayVariableTypeHints = false,
             includeInlayVariableTypeHintsWhenTypeMatchesName = false,
             includeInlayPropertyDeclarationTypeHints = false,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayEnumMemberValueHints = true
+            includeInlayFunctionLikeReturnTypeHints = false,
+            includeInlayEnumMemberValueHints = false
         }
     }
 }
