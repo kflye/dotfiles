@@ -13,6 +13,8 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("n", "0", "g^")
 
+-- close buffer
+vim.keymap.set("n", "<leader>bd", ":bd<CR>")
 
 if (vim.fn.has("win32")) then
     vim.keymap.set({ "n", "i", "v", "s", "x", "c", "o" }, "<C-z>", "<nop>")
