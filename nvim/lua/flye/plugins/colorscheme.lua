@@ -29,7 +29,7 @@ return { --    use 'folke/tokyonight.nvim'
         name = "catppuccin",
         lazy = false,
         priority = 1000,
-        enabled = true,
+        enabled = false,
         config = function(_, opts)
             require("catppuccin").setup(opts)
             -- vim.cmd [[colorscheme catppuccin-mocha]]
@@ -40,10 +40,21 @@ return { --    use 'folke/tokyonight.nvim'
         name = "kanagawa",
         lazy = false,
         priority = 1000,
-        enabled = true,
+        enabled = false,
         config = function(_, opts)
             require("kanagawa").setup(opts)
             vim.cmd [[colorscheme kanagawa]]
+        end
+    },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        lazy = false,
+        priority = 1000,
+        enabled = true,
+        config = function(_, opts)
+            require("rose-pine").setup(opts)
+            vim.cmd("colorscheme rose-pine")
         end
     }
 }

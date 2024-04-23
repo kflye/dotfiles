@@ -175,7 +175,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end, 'Format current buffer with LSP', bufnr)
 
         if client and client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(args.buf, true)
+            vim.lsp.inlay_hint.enable(true)
         end
 
         if client and client.server_capabilities.codeLensProvider then
