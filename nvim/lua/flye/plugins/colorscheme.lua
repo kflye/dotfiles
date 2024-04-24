@@ -16,8 +16,9 @@ return { --    use 'folke/tokyonight.nvim'
         "sainnhe/gruvbox-material",
         lazy = false,
         priority = 1000,
+        enabled = true,
         config = function(_, opts)
-            -- vim.cmd [[ colorscheme gruvbox-material ]]
+            vim.cmd [[ colorscheme gruvbox-material ]]
             -- TODO: Try to implement a version for rider
             -- Use https://github.com/catppuccin/jetbrains as a starting point
             -- or https://github.com/xiaopihai7256/MyGruvbox
@@ -51,7 +52,7 @@ return { --    use 'folke/tokyonight.nvim'
         name = "rose-pine",
         lazy = false,
         priority = 1000,
-        enabled = true,
+        enabled = false,
         config = function(_, opts)
             require("rose-pine").setup(opts)
             vim.cmd("colorscheme rose-pine")

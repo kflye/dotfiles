@@ -152,7 +152,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         nmap('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
         nmap('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
         nmap('<leader>go', require('telescope.builtin').lsp_type_definitions, 'Type Definition', bufnr)
-        nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences', bufnr)
+        -- nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences', bufnr)
+        nmap('<leader>gr', function()
+            require('telescope.builtin').lsp_references({ include_declaration = false })
+        end, '[G]oto [R]eferences', bufnr)
 
         nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
         nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation', bufnr)

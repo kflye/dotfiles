@@ -47,6 +47,7 @@ fi
 
 if [ ! -d "${HOME}/.config" ]; then
 	mkdir "${HOME}/.config/fish"
+	mkdir "${HOME}/.config/fish/functions"
 fi
 
 clone_path="${clone_path:-"${PWD}"}"
@@ -59,6 +60,7 @@ ln -fs "${clone_path}/nvim" "${HOME}/.config/nvim"
 ln -fs "${clone_path}/starship/starship.toml" "${HOME}/.config/starship.toml"
 ln -fs "${clone_path}/fish/config.fish" "${HOME}/.config/fish/config.fish"
 ln -fs "${clone_path}/fish/themes" "${HOME}/.config/fish"
+ln -fs "${clone_path}/fish/functions/" "${HOME}/.config/fish/" # TODO: Not testet
 
 # git
 ln -fs "${clone_path}/git/.gitconfig" "${HOME}/.gitconfig"

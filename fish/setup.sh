@@ -8,5 +8,8 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 # Theme
 fisher install jomik/fish-gruvbox
 
+# Use bash utilities in a fish shell
+fisher install edc/bass
+
 # using build in function for setting up fzf keybindings (missing tab completion?)
 # fisher install jethrokuan/fzf

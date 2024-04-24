@@ -1,10 +1,11 @@
 return {
     "vim-test/vim-test",
     cond = vim.fn.executable('tmux') == 1,
+    enabled = false,
     dependencies = {
         "preservim/vimux"
     },
-    config = function() 
+    config = function()
         -- TODO: better keymaps
         vim.keymap.set("n", "leader>t", ":TestNearest<CR>")
         vim.keymap.set("n", "leader>t", ":TestFile<CR>")
