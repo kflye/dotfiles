@@ -36,141 +36,171 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
-return { {
-    'williamboman/mason.nvim',
-    config = true
-}, {
-    'williamboman/mason-lspconfig.nvim',
-    dependencies = { { 'simrat39/rust-tools.nvim' }, { "folke/neodev.nvim" }, { 'hrsh7th/cmp-nvim-lsp' }, { 'mfussenegger/nvim-jdtls' },
-        { 'neovim/nvim-lspconfig' } },
-    opts = {
-        ensure_installed = {},
-        handlers = {
-            default_setup,
-            jdtls = function() vim.notify("jdtls mason-lspconfig") end,
-            lua_ls = function()
-                require('lspconfig').lua_ls.setup({
-                    capabilities = LspCommon.lsp_capabilities(),
-                    flags = LspCommon.lsp_flags,
-                    settings = {
-                        Lua = {
-                            runtime = { version = 'LuaJIT' },
-                            -- https://github.com/CppCXY/EmmyLuaCodeStyle/blob/master/docs/format_config_EN.md
-                            format = {
-                                enable = true,
-                                defaultConfig = {
-                                    max_line_length = "160"
-                                }
-                            },
-                            workspace = {
-                                checkThirdParty = false,
-                                -- Tells lua_ls where to find all the Lua files that you have loaded
-                                -- for your neovim configuration.
-                                library = {
-                                    '${3rd}/luv/library',
-                                    unpack(vim.api.nvim_get_runtime_file('', true)),
+return {
+    {
+        'williamboman/mason.nvim',
+        config = true
+    },
+    {
+        'williamboman/mason-lspconfig.nvim',
+        dependencies = {
+            { 'simrat39/rust-tools.nvim' },
+            { "folke/neodev.nvim" },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'mfussenegger/nvim-jdtls' },
+            { 'neovim/nvim-lspconfig' }
+        },
+        opts = {
+            ensure_installed = {},
+            handlers = {
+                default_setup,
+                jdtls = function() vim.notify("jdtls mason-lspconfig") end,
+                lua_ls = function()
+                    require('lspconfig').lua_ls.setup({
+                        capabilities = LspCommon.lsp_capabilities(),
+                        flags = LspCommon.lsp_flags,
+                        settings = {
+                            Lua = {
+                                runtime = { version = 'LuaJIT' },
+                                -- https://github.com/CppCXY/EmmyLuaCodeStyle/blob/master/docs/format_config_EN.md
+                                format = {
+                                    enable = true,
+                                    defaultConfig = {
+                                        max_line_length = "160"
+                                    }
                                 },
-                            },
-                            completion = {
-                                callSnippet = "Replace"
+                                workspace = {
+                                    checkThirdParty = false,
+                                    -- Tells lua_ls where to find all the Lua files that you have loaded
+                                    -- for your neovim configuration.
+                                    library = {
+                                        '${3rd}/luv/library',
+                                        unpack(vim.api.nvim_get_runtime_file('', true)),
+                                    },
+                                },
+                                completion = {
+                                    callSnippet = "Replace"
+                                }
                             }
                         }
-                    }
-                })
-            end,
+                    })
+                end,
 
-            powershell_es = function()
-                require('lspconfig').powershell_es.setup({
-                    capabilities = LspCommon.lsp_capabilities(),
-                    flags = LspCommon.lsp_flags,
-                    bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
-                })
-            end,
-            rust_analyzer = function()
-                local rusttools = require("rust-tools")
-                local codelldb_path = LspCommon.get_codelldb_path()
-                local liblldb_path = LspCommon.get_liblldb_path()
-                local opts = {
-                    tools = {
-                        -- callback to execute once rust-analyzer is done initializing the workspace
-                        -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
-                        on_initialized = nil,
+                powershell_es = function()
+                    require('lspconfig').powershell_es.setup({
+                        capabilities = LspCommon.lsp_capabilities(),
+                        flags = LspCommon.lsp_flags,
+                        bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
+                    })
+                end,
+                rust_analyzer = function()
+                    local rusttools = require("rust-tools")
+                    local codelldb_path = LspCommon.get_codelldb_path()
+                    local liblldb_path = LspCommon.get_liblldb_path()
+                    local opts = {
+                        tools = {
+                            -- callback to execute once rust-analyzer is done initializing the workspace
+                            -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
+                            on_initialized = nil,
 
-                        -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
-                        reload_workspace_from_cargo_toml = true,
+                            -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
+                            reload_workspace_from_cargo_toml = true,
 
-                        -- These apply to the default RustSetInlayHints command
-                        inlay_hints = {
-                            auto = false
+                            -- These apply to the default RustSetInlayHints command
+                            inlay_hints = {
+                                auto = false
+                            }
+                        },
+                        server = {
+                            on_attach = function(client, bufnr)
+                                vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
+                                    buffer = bufnr,
+                                    desc = "Rusttools hover actions"
+                                })
+
+                                vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
+                                vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
+                                -- add hover options back if rust-tool specific hovers are used
+                            end
+                        },
+
+                        -- rust-analyzer options
+                        dap = {
+                            adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
                         }
-                    },
-                    server = {
+                        -- executor = require("rust-tools.executors").termopen -- options right now: termopen / quickfix
+                    }
+
+                    rusttools.setup(opts)
+                end,
+                tsserver = function()
+                    require('lspconfig').tsserver.setup({
+                        capabilities = LspCommon.lsp_capabilities(),
+                        flags = LspCommon.lsp_flags,
+
                         on_attach = function(client, bufnr)
-                            vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
-                                buffer = bufnr,
-                                desc = "Rusttools hover actions"
-                            })
+                            -- uncomment if using prettier...
+                            client.server_capabilities.documentFormattingProvider = false
+                            client.server_capabilities.documentRangeFormattingProvider = false
+                            LspCommon.nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
+                            LspCommon.nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports',
+                                bufnr)                                                                               -- organize imports (not in youtube nvim video)
+                            -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
+                        end,
 
-                            vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
-                            vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
-                            -- add hover options back if rust-tool specific hovers are used
-                        end
-                    },
+                        root_dir = require('lspconfig.util').root_pattern(".git"),
 
-                    -- rust-analyzer options
-                    dap = {
-                        adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-                    }
-                    -- executor = require("rust-tools.executors").termopen -- options right now: termopen / quickfix
-                }
+                        settings = {
+                            typescript = LspCommon.tsserver_lang_settings,
+                            typescriptreact = LspCommon.tsserver_lang_settings,
+                            javascript = LspCommon.tsserver_lang_settings,
+                            javascriptreact = LspCommon.tsserver_lang_settings
+                        }
+                    })
+                end
+            }
+        },
+        config = function(_, opts)
+            vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
+            vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
+                LspCommon.float_opts)
 
-                rusttools.setup(opts)
-            end,
-            tsserver = function()
-                require('lspconfig').tsserver.setup({
-                    capabilities = LspCommon.lsp_capabilities(),
-                    flags = LspCommon.lsp_flags,
+            require("mason-lspconfig").setup(opts)
+        end
 
-                    on_attach = function(client, bufnr)
-                        -- uncomment if using prettier...
-                        client.server_capabilities.documentFormattingProvider = false
-                        client.server_capabilities.documentRangeFormattingProvider = false
-                        LspCommon.nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
-                        LspCommon.nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports',
-                            bufnr)                                                                               -- organize imports (not in youtube nvim video)
-                        -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
-                    end,
-
-                    root_dir = require('lspconfig.util').root_pattern(".git"),
-
-                    settings = {
-                        typescript = LspCommon.tsserver_lang_settings,
-                        typescriptreact = LspCommon.tsserver_lang_settings,
-                        javascript = LspCommon.tsserver_lang_settings,
-                        javascriptreact = LspCommon.tsserver_lang_settings
-                    }
-                })
-            end
+    },
+    { 'simrat39/rust-tools.nvim' },
+    {
+        "folke/neodev.nvim",
+        opts = {
+            library = {
+                plugins = { "nvim-dap-ui" },
+                types = true
+            }
+        },
+        config = function(_, opts)
+            require("neodev").setup(opts)
+        end
+    },
+    {
+        'mfussenegger/nvim-jdtls',
+        ft = 'java'
+    },
+    -- Auto-Install LSPs, linters, formatters, debuggers
+    -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+    {
+        'WhoIsSethDaniel/mason-tool-installer.nvim',
+        opts = {
+            ensure_installed = {
+                'prettier',
+                'codelldb',
+                'netcoredbg',
+                'java-debug-adapter',
+                'java-test',
+            },
+        },
+        dependencies = {
+            'williamboman/mason-lspconfig.nvim',
         }
     },
-    config = function(_, opts)
-        vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
-        vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-            LspCommon.float_opts)
-
-        require("mason-lspconfig").setup(opts)
-    end
-
-}, { 'simrat39/rust-tools.nvim' }, {
-    "folke/neodev.nvim",
-    opts = {
-        library = {
-            plugins = { "nvim-dap-ui" },
-            types = true
-        }
-    },
-    config = function(_, opts)
-        require("neodev").setup(opts)
-    end
-}
 }
