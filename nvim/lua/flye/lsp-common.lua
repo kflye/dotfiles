@@ -159,7 +159,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end, '[G]oto [R]eferences', bufnr)
 
         nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
-        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation', bufnr)
+        -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation', bufnr)
+        nmap('<C-M-k>', vim.lsp.buf.signature_help, 'Signature Documentation', bufnr)
 
         nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
         nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols', bufnr)

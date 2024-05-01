@@ -44,7 +44,6 @@ return {
     {
         'williamboman/mason-lspconfig.nvim',
         dependencies = {
-            { 'simrat39/rust-tools.nvim' },
             { "folke/neodev.nvim" },
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'mfussenegger/nvim-jdtls' },
@@ -93,46 +92,47 @@ return {
                         bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
                     })
                 end,
-                rust_analyzer = function()
-                    local rusttools = require("rust-tools")
-                    local codelldb_path = LspCommon.get_codelldb_path()
-                    local liblldb_path = LspCommon.get_liblldb_path()
-                    local opts = {
-                        tools = {
-                            -- callback to execute once rust-analyzer is done initializing the workspace
-                            -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
-                            on_initialized = nil,
-
-                            -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
-                            reload_workspace_from_cargo_toml = true,
-
-                            -- These apply to the default RustSetInlayHints command
-                            inlay_hints = {
-                                auto = false
-                            }
-                        },
-                        server = {
-                            on_attach = function(client, bufnr)
-                                vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
-                                    buffer = bufnr,
-                                    desc = "Rusttools hover actions"
-                                })
-
-                                vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
-                                vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
-                                -- add hover options back if rust-tool specific hovers are used
-                            end
-                        },
-
-                        -- rust-analyzer options
-                        dap = {
-                            adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-                        }
-                        -- executor = require("rust-tools.executors").termopen -- options right now: termopen / quickfix
-                    }
-
-                    rusttools.setup(opts)
-                end,
+                rust_analyzer = function() end,
+                -- rust_analyzer = function()
+                --     local rusttools = require("rust-tools")
+                --     local codelldb_path = LspCommon.get_codelldb_path()
+                --     local liblldb_path = LspCommon.get_liblldb_path()
+                --     local opts = {
+                --         tools = {
+                --             -- callback to execute once rust-analyzer is done initializing the workspace
+                --             -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
+                --             on_initialized = nil,
+                --
+                --             -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
+                --             reload_workspace_from_cargo_toml = true,
+                --
+                --             -- These apply to the default RustSetInlayHints command
+                --             inlay_hints = {
+                --                 auto = false
+                --             }
+                --         },
+                --         server = {
+                --             on_attach = function(client, bufnr)
+                --                 vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
+                --                     buffer = bufnr,
+                --                     desc = "Rusttools hover actions"
+                --                 })
+                --
+                --                 vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
+                --                 vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
+                --                 -- add hover options back if rust-tool specific hovers are used
+                --             end
+                --         },
+                --
+                --         -- rust-analyzer options
+                --         dap = {
+                --             adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+                --         }
+                --         -- executor = require("rust-tools.executors").termopen -- options right now: termopen / quickfix
+                --     }
+                --
+                --     rusttools.setup(opts)
+                -- end,
                 tsserver = function()
                     require('lspconfig').tsserver.setup({
                         capabilities = LspCommon.lsp_capabilities(),
@@ -169,7 +169,40 @@ return {
         end
 
     },
-    { 'simrat39/rust-tools.nvim' },
+    {
+        'mrcjkb/rustaceanvim',
+        version = '^4', -- Recommended
+        lazy = false,   -- This plugin is already lazy
+        config = function()
+            vim.g.rustaceanvim = {
+                -- Plugin configuration
+                -- tools = {
+                -- },
+                -- LSP configuration
+                server = {
+                    on_attach = function(client, bufnr)
+                        -- joinLines -- different than regular join lines??? (J)
+                        -- explainError -- perhaps <leader>E
+                        vim.keymap.set('n', '<leader>rU', function() vim.cmd.RustLsp('run') end, { desc = '[r][u]n' })
+                        vim.keymap.set('n', '<leader>ru', function() vim.cmd.RustLsp('runnables') end, { desc = '[r][u]nnables' })
+                        vim.keymap.set('n', '<leader>ra', function() vim.cmd.RustLsp { 'runnables', bang = true } end, { desc = '[r]un [a]gain' })
+                        vim.keymap.set('n', '<leader>rd', function() vim.cmd.RustLsp { 'debuggables' } end, { desc = '[r]un [a]gain' })
+                        vim.keymap.set('n', '<leader>rd', function() vim.cmd.RustLsp { 'debuggables', bang = true } end, { desc = '[r]un [a]gain' })
+                        vim.keymap.set('n', '<leader>rD', function() vim.cmd.RustLsp { 'debug', bang = true } end, { desc = '[r]un [a]gain' })
+                    end,
+                    default_settings = {
+                        -- rust-analyzer language server configuration
+                        ['rust-analyzer'] = {
+                            -- checkOnSave = false,
+                        },
+                    },
+                },
+                -- DAP configuration
+                -- dap = {
+                -- },
+            }
+        end
+    },
     {
         "folke/neodev.nvim",
         opts = {

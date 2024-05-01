@@ -30,23 +30,26 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = 'Move focus to the upper window'
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = 'Move focus to the right window' })
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = 'Move focus to the left window' })
 
-vim.keymap.set("n", "<C-M-j>", "<C-w>j")
-vim.keymap.set("n", "<C-M-k>", "<C-w>k")
-vim.keymap.set("n", "<C-M-l>", "<C-w>l")
-vim.keymap.set("n", "<C-M-h>", "<C-w>h")
+vim.keymap.set("n", "<C-Down>", "<C-w>j", { desc = 'Move focus to the lower window' })
+vim.keymap.set("n", "<C-Up>", "<C-w>k", { desc = 'Move focus to the upper window' })
+vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = 'Move focus to the right window' })
+vim.keymap.set("n", "<C-Left>", "<C-w>h", { desc = 'Move focus to the left window' })
 
-vim.keymap.set("n", "<C-M-Down>", "<C-w>j")
-vim.keymap.set("n", "<C-M-Up>", "<C-w>k")
-vim.keymap.set("n", "<C-M-Right>", "<C-w>l")
-vim.keymap.set("n", "<C-M-Left>", "<C-w>h")
-
+-- <C-W> _ = max vertical
+-- <C-W> | = max horizontal
+-- <C-W> = = equal size
 
 -- Buffer movement
 vim.keymap.set("n", "<M-Left>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 vim.keymap.set("n", "<M-Right>", ":bnext<CR>", { desc = "Next buffer", silent = true })
 
 -- Window management
-vim.keymap.set("n", "<C-Left>", "<C-w><", { desc = "Resize vertical left", silent = true })
-vim.keymap.set("n", "<C-Right>", "<C-w>>", { desc = "Resize vertical Right", silent = true })
-vim.keymap.set("n", "<C-Up>", "<C-w>-", { desc = "Resize horizontal Up", silent = true })
-vim.keymap.set("n", "<C-Down>", "<C-w>+", { desc = "Resize horizontal Down", silent = true })
+vim.keymap.set("n", "<C-M-Down>", "<C-w>+", { desc = "Resize horizontal Down", silent = true })
+vim.keymap.set("n", "<C-M-Up>", "<C-w>-", { desc = "Resize horizontal Up", silent = true })
+vim.keymap.set("n", "<C-M-Right>", "<C-w>>", { desc = "Resize vertical Right", silent = true })
+vim.keymap.set("n", "<C-M-Left>", "<C-w><", { desc = "Resize vertical left", silent = true })
+
+vim.keymap.set("n", "<C-M-j>", "<C-w>+", { desc = "Resize horizontal Down", silent = true })
+vim.keymap.set("n", "<C-M-k>", "<C-w>-", { desc = "Resize horizontal Up", silent = true })
+vim.keymap.set("n", "<C-M-l>", "<C-w>>", { desc = "Resize vertical Right", silent = true })
+vim.keymap.set("n", "<C-M-h>", "<C-w><", { desc = "Resize vertical left", silent = true })
