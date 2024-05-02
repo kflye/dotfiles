@@ -2,7 +2,7 @@ local LspCommon = require("flye.lsp-common")
 
 return { {
     "mfussenegger/nvim-dap",
-    dependencies = { { "rcarriga/nvim-dap-ui" }, { 'williamboman/mason.nvim' }, { 'jay-babu/mason-nvim-dap.nvim' }, { "nvim-neotest/nvim-nio"}  },
+    dependencies = { { "rcarriga/nvim-dap-ui" }, { 'williamboman/mason.nvim' }, { 'jay-babu/mason-nvim-dap.nvim' }, { "nvim-neotest/nvim-nio" } },
     init = function()
         local dap = require("dap")
         local widgets = require('dap.ui.widgets')
@@ -34,6 +34,21 @@ return { {
         dap.listeners.after.event_initialized["dapui_config"] = dapui.open
         dap.listeners.before.event_terminated["dapui_config"] = dapui.close
         dap.listeners.before.event_exited["dapui_config"] = dapui.close
+
+        dap.adapters["pwa-node"] = {
+            type = "server",
+            host = "localhost",
+            port = "${port}",
+            executable = {
+                command = "node",
+                -- 💀 Make sure to update this path to point to your installation
+                args = {
+                    require("mason-registry").get_package("js-debug-adapter"):get_install_path()
+                    .. "/js-debug/src/dapDebugServer.js",
+                    "${port}",
+                },
+            },
+        }
     end,
 
 }, {
@@ -53,7 +68,7 @@ return { {
         { 'williamboman/mason.nvim' }
     },
     opts = {
-        ensure_installed = { "coreclr", "codelldb", "netcoredbg" },
+        ensure_installed = { "coreclr", "codelldb", "netcoredbg", "ts-debug-adapter" },
         handlers = {
             function(config)
                 -- all sources with no handler get passed here

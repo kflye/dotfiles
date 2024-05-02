@@ -53,7 +53,8 @@ return {
             ensure_installed = {},
             handlers = {
                 default_setup,
-                jdtls = function() vim.notify("jdtls mason-lspconfig") end,
+                rust_analyzer = function() return true end,
+                jdtls = function() return true end,
                 lua_ls = function()
                     require('lspconfig').lua_ls.setup({
                         capabilities = LspCommon.lsp_capabilities(),
@@ -92,47 +93,6 @@ return {
                         bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
                     })
                 end,
-                rust_analyzer = function() end,
-                -- rust_analyzer = function()
-                --     local rusttools = require("rust-tools")
-                --     local codelldb_path = LspCommon.get_codelldb_path()
-                --     local liblldb_path = LspCommon.get_liblldb_path()
-                --     local opts = {
-                --         tools = {
-                --             -- callback to execute once rust-analyzer is done initializing the workspace
-                --             -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
-                --             on_initialized = nil,
-                --
-                --             -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
-                --             reload_workspace_from_cargo_toml = true,
-                --
-                --             -- These apply to the default RustSetInlayHints command
-                --             inlay_hints = {
-                --                 auto = false
-                --             }
-                --         },
-                --         server = {
-                --             on_attach = function(client, bufnr)
-                --                 vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, {
-                --                     buffer = bufnr,
-                --                     desc = "Rusttools hover actions"
-                --                 })
-                --
-                --                 vim.keymap.set("n", "<leader>rd", rusttools.debuggables.debuggables)
-                --                 vim.keymap.set("n", "<leader>ru", rusttools.runnables.runnables)
-                --                 -- add hover options back if rust-tool specific hovers are used
-                --             end
-                --         },
-                --
-                --         -- rust-analyzer options
-                --         dap = {
-                --             adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-                --         }
-                --         -- executor = require("rust-tools.executors").termopen -- options right now: termopen / quickfix
-                --     }
-                --
-                --     rusttools.setup(opts)
-                -- end,
                 tsserver = function()
                     require('lspconfig').tsserver.setup({
                         capabilities = LspCommon.lsp_capabilities(),
@@ -143,8 +103,16 @@ return {
                             client.server_capabilities.documentFormattingProvider = false
                             client.server_capabilities.documentRangeFormattingProvider = false
                             LspCommon.nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
-                            LspCommon.nmap("<leader>oi", ":TypescriptOrganizeImports<CR>", '[TS] [O]rganize [I]mports',
-                                bufnr)                                                                               -- organize imports (not in youtube nvim video)
+                            LspCommon.nmap("<leader>oi", function()
+                                    vim.lsp.buf.code_action({
+                                        apply = true,
+                                        context = {
+                                            only = { "source.organizeImports.ts" },
+                                            diagnostics = {},
+                                        },
+                                    })
+                                end, '[TS] [O]rganize [I]mports',
+                                bufnr) -- organize imports (not in youtube nvim video)
                             -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
                         end,
 
@@ -207,7 +175,7 @@ return {
         "folke/neodev.nvim",
         opts = {
             library = {
-                plugins = { "nvim-dap-ui" },
+                plugins = { "nvim-dap-ui", "neotest" },
                 types = true
             }
         },
@@ -217,7 +185,13 @@ return {
     },
     {
         'mfussenegger/nvim-jdtls',
-        ft = 'java'
+        ft = 'java',
+        config = function()
+            local jdtls = require("jdtls")
+            vim.keymap.set("n", "<leader>ur", function()
+                jdtls.test_nearest_method()
+            end)
+        end
     },
     -- Auto-Install LSPs, linters, formatters, debuggers
     -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
@@ -230,6 +204,7 @@ return {
                 'netcoredbg',
                 'java-debug-adapter',
                 'java-test',
+                'jdtls',
             },
         },
         dependencies = {
