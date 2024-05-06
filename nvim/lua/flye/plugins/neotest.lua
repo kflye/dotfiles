@@ -49,6 +49,7 @@ return {
         },
     },
     {
+        'nvim-neotest/neotest',
         dir = "~/neotest-jest/"
     },
     {
