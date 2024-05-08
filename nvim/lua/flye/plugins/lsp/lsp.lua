@@ -147,6 +147,55 @@ return {
                             javascriptreact = LspCommon.tsserver_lang_settings
                         }
                     })
+                end,
+                angularls = function()
+                    -- angular/getTemplateLocationForComponent
+                    require('lspconfig').angularls.setup({
+                        capabilities = LspCommon.lsp_capabilities(),
+                        flags = LspCommon.lsp_flags,
+                        on_attach = function(client, bufnr)
+                            LspCommon.nmap("<leader>gat", function()
+                                local r, c = unpack(vim.api.nvim_win_get_cursor(0))
+                                local args = {
+                                    textDocument = { uri = "file://" .. vim.api.nvim_buf_get_name(bufnr) },
+                                    position = { line = r, character = c },
+                                }
+                                local util = require('vim.lsp.util')
+
+                                client.request("angular/getTemplateLocationForComponent", args, function(err, result, ctx, config)
+                                    config = config or {}
+                                    if result then
+                                        util.jump_to_location(result, client.offset_encoding, config.reuse_win)
+                                    end
+                                end, bufnr)
+                            end, "[G]o to [A]ngular [T]emplate", bufnr)
+
+                            LspCommon.nmap("<leader>gac", function()
+                                local args = {
+                                    textDocument = { uri = "file://" .. vim.api.nvim_buf_get_name(bufnr) },
+                                }
+                                print(vim.inspect(args))
+                                local util = require('vim.lsp.util')
+
+                                client.request("angular/getComponentsWithTemplateFile", args, function(err, result, ctx, config)
+                                    config = config or {}
+                                    if result then
+                                        util.jump_to_location(result[1], client.offset_encoding, config.reuse_win)
+                                    end
+                                end, bufnr)
+                            end, "[G]o to [A]ngular [C]omponent", bufnr)
+                        end,
+                        handlers = {
+                            -- TODO: is not called, shoud it be???
+                            ["angular/getTemplateLocationForComponent"] = function(err, result, ctx, config)
+                                print('callback - handler - gettemplate')
+                                print(vim.inspect(err))
+                                print(vim.inspect(result))
+                                print(vim.inspect(ctx))
+                                print(vim.inspect(config))
+                            end,
+                        }
+                    })
                 end
             }
         },
