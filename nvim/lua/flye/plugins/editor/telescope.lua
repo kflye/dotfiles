@@ -22,7 +22,7 @@ return {
             },
             pickers = {
                 find_files = {
-                    find_command    = {
+                    find_command       = {
                         "fd",
                         '--hidden',
                         '--no-ignore-vcs',
@@ -34,24 +34,52 @@ return {
                         'f',
                     },
                     -- theme = 'dropdown',
-                    layout_strategy = 'vertical',
+                    layout_strategy    = 'vertical',
 
                     -- sorting_strategy = 'ascending', -- behavies wierd
-                    sorting_strategy = 'descending',
+                    sorting_strategy   = 'descending',
                     selection_strategy = 'reset',
 
-                    layout_config = {
+                    layout_config      = {
                         prompt_position = 'top',
 
-                        width          = .7,
-                        height         = .9,
-                        preview_height = .6
+                        width           = .7,
+                        height          = .9,
+                        preview_height  = .6
+                    },
+                },
+                git_status = {
+                    layout_strategy    = 'vertical',
+
+                    -- sorting_strategy = 'ascending', -- behavies wierd
+                    sorting_strategy   = 'descending',
+                    selection_strategy = 'reset',
+                    layout_config      = {
+                        prompt_position = 'top',
+
+                        width           = .7,
+                        height          = .9,
+                        preview_height  = .7
                     },
                 }
             },
         },
         config = function(_, opts)
             local telescope = require("telescope")
+            local state = require("telescope.state")
+            local action_state = require("telescope.actions.state")
+
+            local slow_scroll = function(prompt_bufnr, direction)
+                local previewer = action_state.get_current_picker(prompt_bufnr).previewer
+                local status = state.get_status(prompt_bufnr)
+
+                -- Check if we actually have a previewer and a preview window
+                if type(previewer) ~= "table" or previewer.scroll_fn == nil or status.preview_win == nil then
+                    return
+                end
+
+                previewer:scroll_fn(1 * direction)
+            end
 
             opts = vim.tbl_deep_extend("force", {
                 extensions = {
@@ -60,6 +88,14 @@ return {
                         fuzzy = true,
                         override_generic_sorter = true,
                         override_file_sorter = true,
+                    }
+                },
+                defaults = {
+                    mappings = {
+                        i = {
+                            ["<C-e>"] = function(bufnr) slow_scroll(bufnr, 1) end,
+                            ["<C-y>"] = function(bufnr) slow_scroll(bufnr, -1) end,
+                        }
                     }
                 }
             }, opts)
