@@ -2,23 +2,21 @@ return {
     {
         "nvimtools/none-ls.nvim",
         dependencies = {
-            "nvim-lua/plenary.nvim"
+            "nvim-lua/plenary.nvim",
+            'nvimtools/none-ls-extras.nvim',
         },
         config = function()
             local null_ls = require "null-ls"
 
             local formatting = null_ls.builtins.formatting
-            local diagnostics = null_ls.builtins.diagnostics
 
             null_ls.setup {
                 debug = false,
                 sources = {
+                    require('none-ls.diagnostics.eslint_d'),
+                    require('none-ls.formatting.eslint_d'),
+                    require('none-ls.code_actions.eslint_d'),
                     formatting.prettier,
-                    -- formatting.prettier.with {
-                      -- extra_filetypes = { "toml" },
-                      -- extra_args = { "--tab-width=2", "--no-semi", "--single-quote", "--jsx-single-quote" },
-                    -- },
-                    -- formatting.eslint,
                     null_ls.builtins.completion.spell,
                 },
             }

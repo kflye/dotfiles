@@ -134,11 +134,8 @@ return {
                                         },
                                     })
                                 end, '[TS] [O]rganize [I]mports',
-                                bufnr) -- organize imports (not in youtube nvim video)
-                            -- vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
+                                bufnr)
                         end,
-
-                        root_dir = require('lspconfig.util').root_pattern(".git"),
 
                         settings = {
                             typescript = LspCommon.tsserver_lang_settings,
@@ -149,7 +146,6 @@ return {
                     })
                 end,
                 angularls = function()
-                    -- angular/getTemplateLocationForComponent
                     require('lspconfig').angularls.setup({
                         capabilities = LspCommon.lsp_capabilities(),
                         flags = LspCommon.lsp_flags,
@@ -160,6 +156,7 @@ return {
                                     textDocument = { uri = "file://" .. vim.api.nvim_buf_get_name(bufnr) },
                                     position = { line = r, character = c },
                                 }
+                                print('go to angular template', vim.inspect(args))
                                 local util = require('vim.lsp.util')
 
                                 client.request("angular/getTemplateLocationForComponent", args, function(err, result, ctx, config)
@@ -174,7 +171,7 @@ return {
                                 local args = {
                                     textDocument = { uri = "file://" .. vim.api.nvim_buf_get_name(bufnr) },
                                 }
-                                print(vim.inspect(args))
+                                print('go to angular component', vim.inspect(args))
                                 local util = require('vim.lsp.util')
 
                                 client.request("angular/getComponentsWithTemplateFile", args, function(err, result, ctx, config)
@@ -185,24 +182,30 @@ return {
                                 end, bufnr)
                             end, "[G]o to [A]ngular [C]omponent", bufnr)
                         end,
-                        handlers = {
-                            -- TODO: is not called, shoud it be???
-                            ["angular/getTemplateLocationForComponent"] = function(err, result, ctx, config)
-                                print('callback - handler - gettemplate')
-                                print(vim.inspect(err))
-                                print(vim.inspect(result))
-                                print(vim.inspect(ctx))
-                                print(vim.inspect(config))
-                            end,
-                        }
                     })
+                end,
+                -- TODO: Does not seem to do anything, autocmd does work however
+                -- no diagnostic is shown
+                eslint = function()
+                    require('lspconfig').eslint.setup {
+                        capabilities = LspCommon.lsp_capabilities(),
+                        flags = LspCommon.lsp_flags,
+                        -- on_attach = function(client, bufnr)
+                        --     vim.api.nvim_create_autocmd("BufWritePre", {
+                        --         buffer = bufnr,
+                        --         command = "EslintFixAll",
+                        --     })
+                        -- end
+                        settings = {
+                            packageManager = "npm",
+                        }
+                    }
                 end
             }
         },
         config = function(_, opts)
             vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
-            vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-                LspCommon.float_opts)
+            vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, LspCommon.float_opts)
 
             require("mason-lspconfig").setup(opts)
         end
@@ -214,12 +217,16 @@ return {
         'WhoIsSethDaniel/mason-tool-installer.nvim',
         opts = {
             ensure_installed = {
+                'tsserver',
+                'eslint',
+                'eslint_d',
                 'prettier',
                 'codelldb',
                 'netcoredbg',
                 'java-debug-adapter',
                 'java-test',
                 'jdtls',
+                'lua_ls',
             },
         },
         dependencies = {

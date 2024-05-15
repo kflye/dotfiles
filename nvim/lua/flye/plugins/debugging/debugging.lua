@@ -53,35 +53,7 @@ return {
             vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
         end,
     },
-    {
-        'jay-babu/mason-nvim-dap.nvim',
-        dependencies = {
-            { 'williamboman/mason.nvim' }
-        },
-        opts = {
-            ensure_installed = { "codelldb", "netcoredbg" },
-            handlers = {
-                function(config)
-                    print("handler... ", vim.inspect(config))
-                    -- all sources with no handler get passed here
-                    -- Keep original functionality
-                    require('mason-nvim-dap').default_setup(config)
-                end,
-                coreclr = function(config)
-                    print("coreclr ... ", vim.inspect(config))
-                    config.adapters = {
-                        type = "executable",
-                        command = LspCommon.get_netcoredbg_path(),
-                        args = { "--interpreter=vscode" }
-                    }
-                    require('mason-nvim-dap').default_setup(config)
-                end
-            }
-        },
-        config = function(_, opts)
-            require("mason-nvim-dap").setup(opts)
-        end
-    },
+    --  TODO: Have removed:    'jay-babu/mason-nvim-dap.nvim',
     {
         "theHamsta/nvim-dap-virtual-text",
         config = true,

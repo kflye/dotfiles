@@ -5,6 +5,7 @@
 -- end
 --
 -- local jdtls_path = require('mason-registry').get_package('jdtls'):get_install_path()
+-- local lombok_path = require('mason-registry').get_package('lombok-nightly'):get_install_path()
 -- local java_test_path = require('mason-registry').get_package('java-test'):get_install_path()
 -- local java_debug_path = require('mason-registry').get_package('java-debug-adapter'):get_install_path()
 --
@@ -36,7 +37,7 @@
 --         '-Declipse.product=org.eclipse.jdt.ls.core.product',
 --         '-Dlog.protocol=true',
 --         '-Dlog.level=ALL',
---         '-javaagent:' .. jdtls_path .. '/lombok.jar',
+--         '-javaagent:' .. lombok_path .. '/lombok.jar',
 --         '-Xmx4g',
 --         '--add-modules=ALL-SYSTEM',
 --         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
