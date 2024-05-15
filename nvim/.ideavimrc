@@ -47,6 +47,8 @@ nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
 nnoremap 0 g^
 nnoremap x "_x
 
+" CopyReference
+
 " Move line up/down
 nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==
@@ -99,17 +101,13 @@ nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
 
 " Navigation
-nmap [[ <Action>(MethodDown)
-nmap ]] <Action>(MethodUp)
+nmap [[ <Action>(MethodUp)
+nmap ]] <Action>(MethodDown)
 
 
 " Running and Debugging
 nmap <leader>tb <Action>(ToggleLineBreakpoint)
-nmap <leader>ur <Action>(RiderUnitTestRunContextAction)
-nmap <leader>ud <Action>(RiderUnitTestDebugContextAction)
-nmap <leader>ua <Action>(RiderUnitTestRunSolutionAction)
-nmap <leader>ue <Action>(RiderUnitTestSessionRerunFailedTestsAction)
-nmap <leader>rc <Action>(ChooseRunConfiguration )
+nmap <leader>rc <Action>(ChooseRunConfiguration)
 nmap <leader>ru <Action>(Run)
 nmap <leader>ra <Action>(Rerun)
 nmap <leader>rd <Action>(Debug)
@@ -134,6 +132,7 @@ nmap <c-a-Up> <Action>(PrevSplitter)
 nmap <c-Right> <Action>(StretchSplitToRight)
 nmap <c-Left> <Action>(StretchSplitToLeft)
 nmap <c-w>= <Action>(MaximizeEditorInSplit)
+nmap <c-w>\| <Action>(MaximizeEditorInSplit) " <c-w>|
 
 nmap zo <Action>(ExpandRegion)
 nmap zc <Action>(CollapseRegion)
@@ -163,8 +162,8 @@ map <leader>oi <Action>(OptimizeImports)
 
 " --- Diagnostics ---
 nmap <leader>e <Action>(ShowErrorDescription)
-nmap [d <Action>(GotoNextError)
-nmap ]d <Action>(GotoPreviousError)
+nmap [d <Action>(GotoPreviousError)
+nmap ]d <Action>(GotoNextError)
 
 
 
@@ -183,6 +182,12 @@ nmap <leader>wh <Action>(HideSideWindows) " TODO: find alternative
 nmap <leader>bs <Action>(CompileDirty)
 nmap <leader>ba <Action>(CompileProject)
 
+" --- Tests ---
+nmap <leader>ur <Action>(RunClass)
+nmap <leader>ud <Action>(DebugClass)
+nmap <leader>ua <Action>(RiderUnitTestRunSolutionAction)
+nmap <leader>ue <Action>(RiderUnitTestSessionRerunFailedTestsAction)
+
 
 """" rider specific mappings
 elseif &ide =~? 'rider'
@@ -193,6 +198,11 @@ nmap <leader>ws <Action>(LocateInSolutionView)
 nmap <leader>wn <Action>(ActivateNuGetToolWindow)
 nmap <leader>wh <Action>(HideSideWindows)
 
+" Running and Debugging
+nmap <leader>ur <Action>(RiderUnitTestRunContextAction)
+nmap <leader>ud <Action>(RiderUnitTestDebugContextAction)
+nmap <leader>ua <Action>(RiderUnitTestRunSolutionAction)
+nmap <leader>ue <Action>(RiderUnitTestSessionRerunFailedTestsAction)
 
 " BuildWholeSolutionAction
 nmap <leader>bs <Action>(BuildWholeSolutionAction)
