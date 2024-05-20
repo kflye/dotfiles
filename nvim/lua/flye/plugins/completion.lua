@@ -54,7 +54,7 @@ return {
                     ['<C-y>'] = cmp.mapping.confirm({
                         behavior = cmp.SelectBehavior.Insert,
                         select = true
-                    }),
+                    }, { 'i', 'c' }),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ['<C-e>'] = cmp.mapping.abort(),
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),

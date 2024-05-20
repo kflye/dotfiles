@@ -51,7 +51,7 @@ vim.opt.undofile = true
 -- menuone: popup even when there's only one match
 -- noinsert: Do not insert text until a selection is made
 -- noselect: Do not select, force to select one from the menu
-vim.opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
 -- shortness: avoid showing extra messages when using completion
 -- don't give |ins-completion-menu| messages; for		*shm-c*
 -- example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
