@@ -4,7 +4,6 @@ return {
     dependencies = {
         {"nvim-treesitter/nvim-treesitter-textobjects"},
         {"nvim-treesitter/nvim-treesitter-context"}, -- alternative could be SmiteshP/nvim-navic
-        {"JoosepAlviste/nvim-ts-context-commentstring"},
     },
     opts = {
         ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "tsx", "rust", "toml", "yaml", "c_sharp" },
