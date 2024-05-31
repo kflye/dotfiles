@@ -47,6 +47,9 @@ nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
 nnoremap 0 g^
 nnoremap x "_x
 
+" Paste, keeping value in clipboard
+xmap <leader>p \"_dP
+
 " CopyReference
 
 " Move line up/down
@@ -87,7 +90,7 @@ nmap <leader>tt <Action>(ActivateTerminalToolWindow)
 nmap <leader>se :action SearchEverywhere<CR>
 " [S]earch [T]ext by [G]rep
 nmap <leader>sg <Action>(FindInPath)
-vmap <leader>sg <Action>(FindInPath)
+xmap <leader>sg <Action>(FindInPath)
 " [S]earch [T]ext by current [W]ord
 map <leader>sw <Action>(EditorSelectWord)
 
@@ -121,16 +124,14 @@ nmap <leader>qa <Action>(CloseAllEditorsButActive)
 nmap <c-w>q <Action>(CloseAllEditors)
 nmap <c-w>v <Action>(MoveTabRight)
 nmap <c-w>s <Action>(MoveTabDown)
-nmap <c-a-l> <Action>(NextSplitter)
-nmap <c-a-h> <Action>(PrevSplitter)
-nmap <c-a-j> <Action>(NextSplitter)
-nmap <c-a-k> <Action>(PrevSplitter)
-nmap <c-a-Right> <Action>(NextSplitter)
-nmap <c-a-Left> <Action>(PrevSplitter)
-nmap <c-a-Down> <Action>(NextSplitter)
-nmap <c-a-Up> <Action>(PrevSplitter)
-nmap <c-Right> <Action>(StretchSplitToRight)
-nmap <c-Left> <Action>(StretchSplitToLeft)
+nmap <c-l> <Action>(NextSplitter)
+nmap <c-h> <Action>(PrevSplitter)
+nmap <c-j> <Action>(NextSplitter)
+nmap <c-k> <Action>(PrevSplitter)
+nmap <a-.> <Action>(StretchSplitToRight)
+nmap <a-,> <Action>(StretchSplitToLeft)
+nmap <a-s> <Action>(StretchSplitToBottom)
+nmap <a-t> <Action>(StretchSplitToTop)
 nmap <c-w>= <Action>(MaximizeEditorInSplit)
 nmap <c-w>\| <Action>(MaximizeEditorInSplit) " <c-w>|
 
@@ -148,12 +149,12 @@ nmap <leader>= <Action>(ReformatCode)
 nmap <leader>gl <Action>(GotoRelated)
 
 nmap K <Action>(QuickJavaDoc)
-nmap <c-k> <Action>(ParameterInfo)
-imap <c-k> <Action>(ParameterInfo)
+nmap <C-A-k> <Action>(ParameterInfo)
+imap <c-a-k> <Action>(ParameterInfo)
 
 " Snippets (templates)
 imap <c-y> <Action>(EditorChooseLookupItem)
-" nmap <c-y> <Action>(EditorChooseLookupItem)
+nmap <c-y> <Action>(EditorChooseLookupItem)
 imap <c-l> <Action>(NextTemplateVariable)
 imap <c-h> <Action>(PreviousTemplateVariable)
 
