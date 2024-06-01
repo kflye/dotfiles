@@ -3,10 +3,10 @@ local wezterm = require 'wezterm'
 
 local config = wezterm.config_builder()
 
-config.font = wezterm.font("JuliaMono Nerd Font", { weight = 'Light' })
+config.font = wezterm.font("RedHatMono Nerd Font", { weight = 'Light' })
 -- config.color_scheme = 'tokyonight_storm'
--- config.color_scheme = "Gruvbox dark, medium (base16)"
-config.color_scheme = 'catppuccin-macchiato'
+config.color_scheme = "Gruvbox dark, medium (base16)"
+-- config.color_scheme = 'catppuccin-macchiato'
 -- config.color_scheme = 'Kanagawa (Gogh)'
 
 --
