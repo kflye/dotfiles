@@ -95,3 +95,6 @@ vim.opt.showmode = false
 --  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+-- Don't have `o` add a comment
+vim.opt.formatoptions:remove "o"
