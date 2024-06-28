@@ -154,7 +154,8 @@ imap <c-a-k> <Action>(ParameterInfo)
 
 " Snippets (templates)
 imap <c-y> <Action>(EditorChooseLookupItem)
-nmap <c-y> <Action>(EditorChooseLookupItem)
+" TODO: Overlaps with move page one line down in normal mode
+" nmap <c-y> <Action>(EditorChooseLookupItem)
 imap <c-l> <Action>(NextTemplateVariable)
 imap <c-h> <Action>(PreviousTemplateVariable)
 
