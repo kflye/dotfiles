@@ -13,3 +13,5 @@ fisher install edc/bass
 
 # using build in function for setting up fzf keybindings (missing tab completion?)
 # fisher install jethrokuan/fzf
+
+fisher install jorgebucaran/nvm.fish

@@ -135,11 +135,21 @@ return {
                                 bufnr)
                         end,
 
-                        settings = {
-                            typescript = LspCommon.tsserver_lang_settings,
-                            typescriptreact = LspCommon.tsserver_lang_settings,
-                            javascript = LspCommon.tsserver_lang_settings,
-                            javascriptreact = LspCommon.tsserver_lang_settings
+                        init_options = {
+                            hostInfo = "neovim",
+                            preferences = {
+                                -- https://github.com/microsoft/TypeScript/blob/v5.0.4/src/server/protocol.ts#L3439
+                                importModuleSpecifierPreference = 'relative',
+                                importModuleSpecifierEnding = 'minimal',
+                                includeInlayParameterNameHints = 'literals',     -- "all" | "none" | "literals"
+                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                includeInlayFunctionParameterTypeHints = false,
+                                includeInlayVariableTypeHints = false,
+                                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                                includeInlayPropertyDeclarationTypeHints = false,
+                                includeInlayFunctionLikeReturnTypeHints = false,
+                                includeInlayEnumMemberValueHints = false
+                            }
                         }
                     })
                 end,

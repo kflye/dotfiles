@@ -19,8 +19,7 @@ return {
             vim.keymap.set('n', '<leader>tB', function()
                 dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
             end, { desc = 'Debug: Set Breakpoint' })
-            -- TODO: rc instead ???
-            vim.keymap.set('n', '<leader>rb', dap.run_to_cursor, { desc = 'Debug: [R]un to cursor' })
+            vim.keymap.set('n', '<leader>rc', dap.run_to_cursor, { desc = 'Debug: [R]un to cursor' })
             vim.keymap.set('n', '<leader>?', function() require('dapui').eval(nil, { enter = true }) end, { desc = 'Debug: Eval under cursor' })
 
             vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: Repl open' })

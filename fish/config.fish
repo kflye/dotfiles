@@ -27,8 +27,8 @@ for FILE in $SSH_KEYS
 end 
 
 set -u XDG_CONFIG_HOME "$HOME/.config"
-
 set -x NODE_OPTIONS --max-old-space-size=8192
+set --universal nvm_default_version lts
 
 eval (tmuxifier init - fish)
 eval $cmd
