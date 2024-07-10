@@ -81,21 +81,23 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 -- Auto completion + snippets
 -- <C-p/n> mapped by default
 vim.keymap.set("n", "<C-y>", function() vscode.action("acceptSelectedCodeAction") end, { desc = "Accept selected code action" })
-vim.keymap.set({ 'i', 's' }, '<C-f>', function() vscode.action('jumpToNextSnippetPlaceholder') end, { desc = "Jump to next snippet" })
-vim.keymap.set({ 'i', 's' }, '<C-b>', function() vscode.action('jumpToPrevSnippetPlaceholder') end, { desc = "Jump to previous snippet" })
+vim.keymap.set({ 'i', 's' }, '<C-n>', function() vscode.action('jumpToNextSnippetPlaceholder') end, { desc = "Jump to next snippet" })
+vim.keymap.set({ 'i', 's' }, '<C-p>', function() vscode.action('jumpToPrevSnippetPlaceholder') end, { desc = "Jump to previous snippet" })
 
 
 -- Find / Telescope
 vim.keymap.set('n', '<leader>sf', function() vscode.action("workbench.action.quickOpen") end, { desc = "[S]earch [F]iles" })
 vim.keymap.set('n', '<leader>sb', function() vscode.action("workbench.action.quickOpenLeastRecentlyUsedEditor") end, { desc = "[S]earch [B]uffers" })
 vim.keymap.set('n', '<leader>sB', function() vscode.action("workbench.action.quickOpenPreviousRecentlyUsedEditor") end, { desc = "[S]earch [B]uffers" })
-vim.keymap.set('n', '<leader>stw', function()
+vim.keymap.set('n', '<leader>sw', function()
     vscode.action("editor.action.addSelectionToNextFindMatch")
     vscode.action("workbench.action.findInFiles")
 end, { desc = "[S]earch [T]ext by current [W]ord" })
-vim.keymap.set('n', '<leader>stg', function() vscode.action("workbench.action.experimental.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
+vim.keymap.set('n', '<leader>sg', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
 vim.keymap.set('n', '<leader>sgf', function() vscode.action("") end, { desc = "[S]earch [G]it [F]iles" })
 
+vim.keymap.set('n', '<C-l>', function() vscode.action("workbench.action.focusNextGroup") end, { desc = "Move to next tab group" })
+vim.keymap.set('n', '<C-h>', function() vscode.action("workbench.action.focusPreviousGroup") end, { desc = "Move to prev tab group" })
 
 -- terminal -- <C-`> default vscode keybinding
 vim.keymap.set('n', '<leader>tt', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "[T]oggle [T]erminal" })
