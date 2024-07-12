@@ -32,3 +32,6 @@ set --universal nvm_default_version lts
 
 eval (tmuxifier init - fish)
 eval $cmd
+
+# opam configuration
+source /home/flye/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
