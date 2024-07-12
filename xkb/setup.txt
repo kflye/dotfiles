@@ -3,4 +3,11 @@ https://medium.com/@damko/a-simple-humble-but-comprehensive-guide-to-xkb-for-lin
 
 add to /usr/share/X11/xkb/rules/{base,evdev}.{xml,lst}
 
+# 
+localectl set-x11-keymap us colemak_dh_iso_sym caps:swapescape,ctrl:nocaps
 
+
+# gnome 
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+colemak_dh_iso_sym')]
+gsettings set org.gnome.desktop.input-sources xkb-options \
+    "['ctrl:nocaps', 'caps:swapescape']"
