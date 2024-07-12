@@ -15,7 +15,8 @@ echo $XDG_CONFIG_HOME
 
 
 sudo apt install ripgrep fd-find bat fzf zoxide python3-pip fish git keychain \
-	ninja-build gettext cmake unzip curl # neovim build dependencies
+	ninja-build gettext cmake unzip curl \
+    stow jq bc
 
 
 if ! command -v lazygit &> /dev/null; then

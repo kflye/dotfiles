@@ -33,8 +33,8 @@ return { --    use 'folke/tokyonight.nvim'
         priority = 1000,
         enabled = true,
         config = function(_, opts)
-            require("catppuccin").setup(opts)
-            vim.cmd [[colorscheme catppuccin-mocha]]
+            -- require("catppuccin").setup(opts)
+            -- vim.cmd [[colorscheme catppuccin-mocha]]
         end
     },
     {
