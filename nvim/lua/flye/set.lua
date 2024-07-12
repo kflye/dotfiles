@@ -12,6 +12,9 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 
+-- Files
+vim.opt.autoread = true
+
 -- clipboard -- vim.opt.clipboard:append("unnamedplus") yank to system clipboard from vim
 vim.opt.clipboard = "unnamedplus"
 
