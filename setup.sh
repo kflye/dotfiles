@@ -14,7 +14,7 @@ echo $XDG_CONFIG_HOME
 # sudo apt-add-repository ppa:fish-shell/release-3
 
 
-sudo apt install ripgrep fd-find bat fzf zoxide python3-pip fish git keychain \
+sudo apt install ripgrep fd-find bat fzf zoxide python3-pip fish tmux git keychain \
 	ninja-build gettext cmake unzip curl \
     stow jq bc
 
@@ -25,6 +25,8 @@ if ! command -v lazygit &> /dev/null; then
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
     sudo install lazygit /usr/local/bin
+	rm lazygit
+	rm lazygit.tar.gz
 fi
 
 if [ ! -d "${HOME}/.local/bin" ]; then
@@ -44,33 +46,6 @@ fi
 if ! command -v starship &> /dev/null; then
     echo "starship could not be found"
 	curl -sS https://starship.rs/install.sh | sh
-fi
-
-if [ ! -d "${HOME}/.config" ]; then
-	mkdir "${HOME}/.config/fish"
-	mkdir "${HOME}/.config/fish/functions"
-fi
-
-clone_path="${clone_path:-"${PWD}"}"
-echo "Current working directory: $clone_path"
-
-rm -rf ~/.config/nvim;
-ln -fs "${clone_path}/nvim" "${HOME}/.config/nvim"
-
-
-ln -fs "${clone_path}/starship/starship.toml" "${HOME}/.config/starship.toml"
-ln -fs "${clone_path}/fish/config.fish" "${HOME}/.config/fish/config.fish"
-ln -fs "${clone_path}/fish/themes" "${HOME}/.config/fish"
-ln -fs "${clone_path}/fish/functions/" "${HOME}/.config/fish/" # TODO: Not testet
-
-# git
-ln -fs "${clone_path}/git/.gitconfig" "${HOME}/.gitconfig"
-ln -fs "${clone_path}/git/.gitignore" "${HOME}/.gitignore"
-ln -fs "${clone_path}/git/.gitattributes" "${HOME}/.gitattributes"
-
-if [ ! -f "${HOME}/.gitconfig.local" ]; then
-	echo "copying .gitconfig.local"
-	cp "${clone_path}/git/.gitconfig.local" "${HOME}/.gitconfig.local" 
 fi
 
 

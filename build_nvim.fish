@@ -10,7 +10,7 @@ git clone https://github.com/neovim/neovim ~/neovim
 
 cd ~/neovim 
 
-git checkout master
+git checkout v0.10.0
 
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 
