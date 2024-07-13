@@ -43,3 +43,48 @@ xkb_symbols "colemak_dh_iso_sym" {
     key <AB10> { [        slash,     question,          dollar,       asciitilde ] };
     
 };
+
+partial alphanumeric_keys
+xkb_symbols "basic_sym" {
+    include "us(basic)"
+    name[Group1]= "English (Symbols)";
+
+    key <AD01> { [            q,            Q,      apostrophe,       asciitilde ] };
+    key <AD02> { [            w,            W,            less,            Aring ] };
+    key <AD03> { [            e,            E,         greater,           Atilde ] };
+    key <AD04> { [            r,            R,        quotedbl,           Oslash ] };
+    key <AD05> { [            t,            B,           grave,       asciitilde ] };
+    key <AD06> { [            j,            J,       ampersand,          Dstroke ] };
+    key <AD07> { [            u,            L,     bracketleft,          Lstroke ] };
+    key <AD08> { [            i,            U,    bracketright,           Uacute ] };
+    key <AD09> { [            o,            Y,         percent,       Udiaeresis ] };
+    key <AD10> { [            p,            P,              at,       Odiaeresis ] };
+    key <AD11> { [  bracketleft,    braceleft,   guillemotleft,        0x1002039 ] };
+    key <AD12> { [ bracketright,   braceright,  guillemotright,        0x100203a ] };
+    key <BKSL> { [    backslash,          bar,      asciitilde,       asciitilde ] };
+
+    key <AC01> { [            a,            A,          exclam,           Aacute ] };
+    key <AC02> { [            s,            S,           minus,       asciitilde ] };
+    key <AC03> { [            d,            D,            plus,        0x1001e9e ] };
+    key <AC04> { [            f,            F,           equal, dead_doubleacute ] };
+    key <AC05> { [            g,            G,      numbersign,       asciitilde ] };
+    key <AC06> { [            h,            H,             bar,       asciitilde ] };
+    key <AC07> { [            j,            J,       parenleft,           Ntilde ] };
+    key <AC08> { [            k,            K,      parenright,           Eacute ] };
+    key <AC09> { [            l,            L,      underscore,           Iacute ] };
+    key <AC10> { [    semicolon,        colon,           colon,           Oacute ] };
+    key <AC11> { [   apostrophe,     quotedbl,          otilde,           Otilde ] };
+
+    key <LSGT> { [            z,            Z,     asciicircum,               AE ] };
+    key <AB01> { [            z,            Z,           slash,       asciitilde ] };
+    key <AB02> { [            x,            X,        asterisk,         Ccedilla ] };
+    key <AB03> { [            c,            C,       backslash,       asciitilde ] };
+    key <AB04> { [            v,            V,              oe,               OE ] };
+    key <AB05> { [            b,            B,              ae,               AE ] }; //Z appears here too because <LSGT> key is not present on ANSI keyboards
+    key <AB06> { [            n,            N,      asciitilde,       asciitilde ] };
+    key <AB07> { [            m,            M,       braceleft,       asciitilde ] };
+    key <AB08> { [        comma,         less,      braceright,       asciitilde ] };
+    key <AB09> { [       period,      greater,        question,       asciitilde ] };
+    key <AB10> { [        slash,     question,          dollar,       asciitilde ] };
+};
+

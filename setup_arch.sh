@@ -14,7 +14,8 @@ echo $XDG_CONFIG_HOME
 # sudo apt-add-repository ppa:fish-shell/release-3
 
 
-sudo pacman -S ripgrep fd bat fzf zoxide python-pip fish git keychain ninja gettext cmake unzip curl lazygit starship wget
+sudo pacman -S ripgrep fd bat fzf zoxide python-pip fish git keychain ninja gettext cmake unzip curl lazygit starship wget \
+    stow jq bc
 
 
 if [ ! -d "${HOME}/.local/bin" ]; then
