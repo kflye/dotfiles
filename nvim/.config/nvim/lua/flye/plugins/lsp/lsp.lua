@@ -39,7 +39,7 @@ return {
         'williamboman/mason.nvim',
         opts = {
             registries = {
-                'github:nvim-java/mason-registry',
+                -- 'github:nvim-java/mason-registry',
                 'github:mason-org/mason-registry',
             },
         },
@@ -50,7 +50,6 @@ return {
         dependencies = {
             { "folke/neodev.nvim" },
             { 'hrsh7th/cmp-nvim-lsp' },
-            { 'nvim-java/nvim-java' },
             { 'neovim/nvim-lspconfig' }
         },
         opts = {
@@ -58,23 +57,23 @@ return {
             handlers = {
                 default_setup,
                 rust_analyzer = function() return true end,
-                jdtls = function()
-                    require('lspconfig').jdtls.setup({
-                        settings = {
-                            java = {
-                                configuration = {
-                                    runtimes = {
-                                        {
-                                            name = "Current Java",
-                                            path = vim.fn.glob("$JAVA_HOME"),
-                                            default = true,
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    })
-                end,
+                -- jdtls = function()
+                --     require('lspconfig').jdtls.setup({
+                --         settings = {
+                --             java = {
+                --                 configuration = {
+                --                     runtimes = {
+                --                         {
+                --                             name = "Current Java",
+                --                             path = vim.fn.glob("$JAVA_HOME"),
+                --                             default = true,
+                --                         }
+                --                     }
+                --                 }
+                --             }
+                --         }
+                --     })
+                -- end,
                 lua_ls = function()
                     require('lspconfig').lua_ls.setup({
                         capabilities = LspCommon.lsp_capabilities(),
@@ -231,9 +230,9 @@ return {
                 'prettier',
                 'codelldb',
                 'netcoredbg',
-                'java-debug-adapter',
-                'java-test',
-                'jdtls',
+                -- 'java-debug-adapter',
+                -- 'java-test',
+                -- 'jdtls',
                 'lua_ls',
             },
         },

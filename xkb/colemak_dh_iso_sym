@@ -53,11 +53,11 @@ xkb_symbols "basic_sym" {
     key <AD02> { [            w,            W,            less,            Aring ] };
     key <AD03> { [            e,            E,         greater,           Atilde ] };
     key <AD04> { [            r,            R,        quotedbl,           Oslash ] };
-    key <AD05> { [            t,            B,           grave,       asciitilde ] };
-    key <AD06> { [            j,            J,       ampersand,          Dstroke ] };
-    key <AD07> { [            u,            L,     bracketleft,          Lstroke ] };
-    key <AD08> { [            i,            U,    bracketright,           Uacute ] };
-    key <AD09> { [            o,            Y,         percent,       Udiaeresis ] };
+    key <AD05> { [            t,            T,           grave,       asciitilde ] };
+    key <AD06> { [            y,            Y,       ampersand,          Dstroke ] };
+    key <AD07> { [            u,            U,     bracketleft,          Lstroke ] };
+    key <AD08> { [            i,            I,    bracketright,           Uacute ] };
+    key <AD09> { [            o,            O,         percent,       Udiaeresis ] };
     key <AD10> { [            p,            P,              at,       Odiaeresis ] };
     key <AD11> { [  bracketleft,    braceleft,   guillemotleft,        0x1002039 ] };
     key <AD12> { [ bracketright,   braceright,  guillemotright,        0x100203a ] };
@@ -86,5 +86,7 @@ xkb_symbols "basic_sym" {
     key <AB08> { [        comma,         less,      braceright,       asciitilde ] };
     key <AB09> { [       period,      greater,        question,       asciitilde ] };
     key <AB10> { [        slash,     question,          dollar,       asciitilde ] };
+
+    include "level3(ralt_switch)"
 };
 
