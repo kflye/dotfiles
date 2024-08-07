@@ -1,4 +1,4 @@
-$path = "$PSScriptRoot"
+$path = "$PSScriptRoot/git"
 
 $localGitConfig = "$HOME/.gitconfig.local"
 
@@ -18,5 +18,5 @@ New-Item -ItemType SymbolicLink -Force -Path $HOME/.gitattributes -Target $path\
 if ($IsWindows)
 {
     #SSH Agent
-    Get-Service -Name ssh-agent | Set-Service -StartupType Automatic;
+    # Get-Service -Name ssh-agent | Set-Service -StartupType Automatic;
 }
