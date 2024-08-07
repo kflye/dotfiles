@@ -1,4 +1,4 @@
-local LspCommon = require("flye.lsp-common")
+local LspCommon = require('flye.lsp-common')
 
 local default_setup = function(server)
     require('lspconfig')[server].setup({
@@ -24,14 +24,111 @@ sign({ name = 'DiagnosticSignInfo', text = '󰋽' })
 
 vim.diagnostic.config({
     virtual_text = true,
-    signs = true,             -- default
     update_in_insert = false, -- default
     underline = true,         -- default
     severity_sort = true,
-    float = LspCommon.float_opts
+    float = LspCommon.float_opts,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '󰅚',
+            [vim.diagnostic.severity.WARN] = '󰀪',
+            [vim.diagnostic.severity.HINT] = '󰌶',
+            [vim.diagnostic.severity.INFO] = '󰋽',
+        },
+    }
 })
 
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+local nmap = function(keys, func, desc, bufnr)
+    if desc then
+        desc = 'LSP: ' .. desc
+    end
+
+    vim.keymap.set('n', keys, func, {
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
+        desc = desc
+    })
+end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+    callback = function(event)
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        local bufnr = event.buf
+
+        -- LSP actions
+        nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
+        nmap('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
+        nmap('go', require('telescope.builtin').lsp_type_definitions, 'Type Definition', bufnr)
+        -- nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences', bufnr)
+        nmap('gr', function()
+            require('telescope.builtin').lsp_references({ include_declaration = false })
+        end, '[G]oto [R]eferences', bufnr)
+
+        nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
+        vim.keymap.set({ 'n', 'i' }, '<C-M-k>', vim.lsp.buf.signature_help,
+            { desc = 'LSP: Signature Documentation', buffer = bufnr, noremap = true, silent = true })
+
+        nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
+        nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols', bufnr)
+
+        -- Lesser used LSP functionality
+        nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
+        -- add/remove/list workspace_folders
+
+        nmap('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename ', bufnr)
+        nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
+        nmap('<leader>cc', vim.lsp.codelens.run, '[C]odelens run', bufnr)
+        nmap('<leader>cC', vim.lsp.codelens.refresh, '[C]odelens run', bufnr)
+
+        nmap('<leader>=', function()
+            vim.lsp.buf.format {
+                async = true
+            }
+        end, 'Format current buffer with LSP', bufnr)
+
+        if client and client.server_capabilities.documentHighlightProvider then
+            local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                buffer = event.buf,
+                group = highlight_augroup,
+                callback = vim.lsp.buf.document_highlight,
+            })
+
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                buffer = event.buf,
+                group = highlight_augroup,
+                callback = vim.lsp.buf.clear_references,
+            })
+        end
+
+        -- The following autocommand is used o enable inlay hints in your
+        -- code, if the language server you are using supports them
+        --
+        -- This may be unwanted, since they displace some of your code
+        if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+            vim.lsp.inlay_hint.enable(true)
+            nmap('<leader>ch', function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            end, '[C]ode toggle Inlay [H]ints')
+        end
+    end
+})
+
+vim.api.nvim_create_autocmd('LspDetach', {
+    group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+    callback = function(event)
+        vim.lsp.buf.clear_references()
+        vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event.buf }
+    end,
+})
+
+vim.keymap.set('n', '<leader>ce', vim.diagnostic.open_float)
+vim.keymap.set('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
+vim.keymap.set('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
+-- Add buffer diagnostics to the location list.
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 return {
@@ -48,7 +145,7 @@ return {
     {
         'williamboman/mason-lspconfig.nvim',
         dependencies = {
-            { "folke/neodev.nvim" },
+            { 'folke/neodev.nvim' },
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'neovim/nvim-lspconfig' }
         },
@@ -57,23 +154,6 @@ return {
             handlers = {
                 default_setup,
                 rust_analyzer = function() return true end,
-                -- jdtls = function()
-                --     require('lspconfig').jdtls.setup({
-                --         settings = {
-                --             java = {
-                --                 configuration = {
-                --                     runtimes = {
-                --                         {
-                --                             name = "Current Java",
-                --                             path = vim.fn.glob("$JAVA_HOME"),
-                --                             default = true,
-                --                         }
-                --                     }
-                --                 }
-                --             }
-                --         }
-                --     })
-                -- end,
                 lua_ls = function()
                     require('lspconfig').lua_ls.setup({
                         capabilities = LspCommon.lsp_capabilities(),
@@ -85,7 +165,7 @@ return {
                                 format = {
                                     enable = true,
                                     defaultConfig = {
-                                        max_line_length = "160"
+                                        max_line_length = '160'
                                     }
                                 },
                                 workspace = {
@@ -98,7 +178,7 @@ return {
                                     },
                                 },
                                 completion = {
-                                    callSnippet = "Replace"
+                                    callSnippet = 'Replace'
                                 }
                             }
                         }
@@ -109,7 +189,7 @@ return {
                     require('lspconfig').powershell_es.setup({
                         capabilities = LspCommon.lsp_capabilities(),
                         flags = LspCommon.lsp_flags,
-                        bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/"
+                        bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services/'
                     })
                 end,
                 tsserver = function()
@@ -121,12 +201,12 @@ return {
                             -- uncomment if using prettier...
                             client.server_capabilities.documentFormattingProvider = false
                             client.server_capabilities.documentRangeFormattingProvider = false
-                            LspCommon.nmap("<leader>rf", ":TypescriptRenameFile<CR>", '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
-                            LspCommon.nmap("<leader>oi", function()
+                            nmap('<leader>rf', ':TypescriptRenameFile<CR>', '[TS] [R]ename [F]ile', bufnr) -- rename file and update imports
+                            nmap('<leader>oi', function()
                                     vim.lsp.buf.code_action({
                                         apply = true,
                                         context = {
-                                            only = { "source.organizeImports.ts" },
+                                            only = { 'source.organizeImports.ts' },
                                             diagnostics = {},
                                         },
                                     })
@@ -135,12 +215,12 @@ return {
                         end,
 
                         init_options = {
-                            hostInfo = "neovim",
+                            hostInfo = 'neovim',
                             preferences = {
                                 -- https://github.com/microsoft/TypeScript/blob/v5.0.4/src/server/protocol.ts#L3439
                                 importModuleSpecifierPreference = 'relative',
                                 importModuleSpecifierEnding = 'minimal',
-                                includeInlayParameterNameHints = 'literals',     -- "all" | "none" | "literals"
+                                includeInlayParameterNameHints = 'literals', -- 'all' | 'none' | 'literals'
                                 includeInlayParameterNameHintsWhenArgumentMatchesName = false,
                                 includeInlayFunctionParameterTypeHints = false,
                                 includeInlayVariableTypeHints = false,
@@ -157,37 +237,37 @@ return {
                         capabilities = LspCommon.lsp_capabilities(),
                         flags = LspCommon.lsp_flags,
                         on_attach = function(client, bufnr)
-                            LspCommon.nmap("<leader>gat", function()
+                            nmap('<leader>gat', function()
                                 local r, c = unpack(vim.api.nvim_win_get_cursor(0))
                                 local args = {
-                                    textDocument = { uri = "file://" .. vim.api.nvim_buf_get_name(bufnr) },
+                                    textDocument = { uri = 'file://' .. vim.api.nvim_buf_get_name(bufnr) },
                                     position = { line = r, character = c },
                                 }
                                 print('go to angular template', vim.inspect(args))
                                 local util = require('vim.lsp.util')
 
-                                client.request("angular/getTemplateLocationForComponent", args, function(err, result, ctx, config)
+                                client.request('angular/getTemplateLocationForComponent', args, function(err, result, ctx, config)
                                     config = config or {}
                                     if result then
                                         util.jump_to_location(result, client.offset_encoding, config.reuse_win)
                                     end
                                 end, bufnr)
-                            end, "[G]o to [A]ngular [T]emplate", bufnr)
+                            end, '[G]o to [A]ngular [T]emplate', bufnr)
 
-                            LspCommon.nmap("<leader>gac", function()
+                            nmap('<leader>gac', function()
                                 local args = {
-                                    textDocument = { uri = "file://" .. vim.api.nvim_buf_get_name(bufnr) },
+                                    textDocument = { uri = 'file://' .. vim.api.nvim_buf_get_name(bufnr) },
                                 }
                                 print('go to angular component', vim.inspect(args))
                                 local util = require('vim.lsp.util')
 
-                                client.request("angular/getComponentsWithTemplateFile", args, function(err, result, ctx, config)
+                                client.request('angular/getComponentsWithTemplateFile', args, function(err, result, ctx, config)
                                     config = config or {}
                                     if result then
                                         util.jump_to_location(result[1], client.offset_encoding, config.reuse_win)
                                     end
                                 end, bufnr)
-                            end, "[G]o to [A]ngular [C]omponent", bufnr)
+                            end, '[G]o to [A]ngular [C]omponent', bufnr)
                         end,
                     })
                 end,
@@ -198,13 +278,13 @@ return {
                         capabilities = LspCommon.lsp_capabilities(),
                         flags = LspCommon.lsp_flags,
                         -- on_attach = function(client, bufnr)
-                        --     vim.api.nvim_create_autocmd("BufWritePre", {
+                        --     vim.api.nvim_create_autocmd('BufWritePre', {
                         --         buffer = bufnr,
-                        --         command = "EslintFixAll",
+                        --         command = 'EslintFixAll',
                         --     })
                         -- end
                         settings = {
-                            packageManager = "npm",
+                            packageManager = 'npm',
                         }
                     }
                 end
@@ -214,7 +294,7 @@ return {
             vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, LspCommon.float_opts)
             vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, LspCommon.float_opts)
 
-            require("mason-lspconfig").setup(opts)
+            require('mason-lspconfig').setup(opts)
         end
 
     },
@@ -230,9 +310,6 @@ return {
                 'prettier',
                 'codelldb',
                 'netcoredbg',
-                -- 'java-debug-adapter',
-                -- 'java-test',
-                -- 'jdtls',
                 'lua_ls',
             },
         },

@@ -113,9 +113,16 @@ return {
             { '<leader>sw',  function() require('telescope.builtin').grep_string {} end, { desc = '[S]earch [T]ext by current [W]ord' } },
             { '<leader>sg',  function() require('telescope.builtin').live_grep {} end,   { desc = '[S]earch [T]ext by [G]rep' } },
             { '<leader>sts', function() require('telescope.builtin').treesitter {} end,  { desc = '[S]earch [T]reesitter [S]ymbols' } },
+
             { "<leader>gb",  function() require('telescope.builtin').git_branches {} end },
             { "<leader>gs",  function() require('telescope.builtin').git_status {} end },
             { '<leader>gf',  function() require('telescope.builtin').git_files {} end,   { desc = '[S]earch [G]it [F]iles' } },
+
+            { '<leader>s"',  function() require('telescope.builtin').registers {} end, { desc = '[S]earch [R]egister' } },
+            { '<leader>sj',  function() require('telescope.builtin').jumplist {} end, { desc = '[S]earch [J]umplist' } },
+            { '<leader>sl',  function() require('telescope.builtin').loclist {} end, { desc = '[S]earch [L]oclist' } },
+            { '<leader>sq',  function() require('telescope.builtin').quickfix {} end, { desc = '[S]earch [Q]uickfix list' } },
+
             { '<leader>sx',  function() require('telescope.builtin').diagnostics {} end, { desc = '[S]earch [D]iagnostics' } }
         }
     }

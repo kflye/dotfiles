@@ -11,8 +11,6 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
-vim.keymap.set("n", "0", "g^")
-
 
 if (vim.fn.has("win32")) then
     vim.keymap.set({ "n", "i", "v", "s", "x", "c", "o" }, "<C-z>", "<nop>")
@@ -40,16 +38,15 @@ vim.keymap.set("n", "<C-Left>", "<C-w>h", { desc = 'Move focus to the left windo
 -- <C-W> = = equal size
 
 -- Buffer movement
-vim.keymap.set("n", "<M-Left>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
-vim.keymap.set("n", "<M-Right>", ":bnext<CR>", { desc = "Next buffer", silent = true })
+vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer", silent = true })
 
 -- Window management
-vim.keymap.set("n", "<M-Down>", "<C-w>+", { desc = "Resize horizontal Down", silent = true })
-vim.keymap.set("n", "<M-Up>", "<C-w>-", { desc = "Resize horizontal Up", silent = true })
-vim.keymap.set("n", "<M-Right>", "<C-w>>", { desc = "Resize vertical Right", silent = true })
-vim.keymap.set("n", "<M-Left>", "<C-w><", { desc = "Resize vertical left", silent = true })
-
 vim.keymap.set("n", "<M-t>", "<C-w>+", { desc = "Resize horizontal Down", silent = true })
 vim.keymap.set("n", "<M-s>", "<C-w>-", { desc = "Resize horizontal Up", silent = true })
 vim.keymap.set("n", "<M-.>", "<C-w>5>", { desc = "Resize vertical Right", silent = true })
 vim.keymap.set("n", "<M-,>", "<C-w>5<", { desc = "Resize vertical left", silent = true })
+
+
+vim.keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
+vim.keymap.set("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
