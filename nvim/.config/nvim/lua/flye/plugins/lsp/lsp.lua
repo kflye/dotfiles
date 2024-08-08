@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
             }
         end, 'Format current buffer with LSP', bufnr)
 
-        if client and client.server_capabilities.documentHighlightProvider then
+        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             -- The following two autocommands are used to highlight references of the
             -- word under your cursor when your cursor rests there for a little while.
             --    See `:help CursorHold` for information about when this is executed
@@ -121,10 +121,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             vim.lsp.inlay_hint.enable(true)
             nmap('<leader>ch', function()
-                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
             end, '[C]ode toggle Inlay [H]ints')
         end
     end
