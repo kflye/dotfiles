@@ -1,13 +1,10 @@
 return {
     {
         'mrcjkb/rustaceanvim',
-        version = '^4', -- Recommended
-        lazy = false, -- This plugin is already lazy
+        version = '^5', -- Recommended
+        lazy = false,   -- This plugin is already lazy
         config = function()
             vim.g.rustaceanvim = {
-                -- Plugin configuration
-                -- tools = {
-                -- },
                 -- LSP configuration
                 server = {
                     on_attach = function(client, bufnr)
@@ -21,15 +18,13 @@ return {
                         vim.keymap.set('n', '<leader>rD', function() vim.cmd.RustLsp { 'debug', bang = true } end, { desc = '[r]un [a]gain' })
                     end,
                     default_settings = {
-                        -- rust-analyzer language server configuration
+                        --- options to send to rust-analyzer
+                        --- See: https://rust-analyzer.github.io/manual.html#configuration
                         ['rust-analyzer'] = {
                             -- checkOnSave = false,
                         },
                     },
                 },
-                -- DAP configuration
-                -- dap = {
-                -- },
             }
         end
     },

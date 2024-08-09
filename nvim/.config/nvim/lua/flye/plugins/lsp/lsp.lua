@@ -282,12 +282,6 @@ return {
                     require('lspconfig').eslint.setup {
                         capabilities = LspCommon.lsp_capabilities(),
                         flags = LspCommon.lsp_flags,
-                        -- on_attach = function(client, bufnr)
-                        --     vim.api.nvim_create_autocmd('BufWritePre', {
-                        --         buffer = bufnr,
-                        --         command = 'EslintFixAll',
-                        --     })
-                        -- end
                         settings = {
                             packageManager = 'npm',
                         }

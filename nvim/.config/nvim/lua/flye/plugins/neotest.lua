@@ -9,6 +9,7 @@ return {
             "nvim-treesitter/nvim-treesitter",
             'nvim-neotest/neotest-jest',
             "rcasia/neotest-java",
+            "mrcjkb/rustaceanvim"
         },
         config = function()
             require('neotest').setup({
@@ -24,6 +25,7 @@ return {
                     require("neotest-java")({
                         ignore_wrapper = false, -- whether to ignore maven/gradle wrapper
                     }),
+                    require('rustaceanvim.neotest'),
                 },
                 status = { virtual_text = true },
                 output = { open_on_run = false },
