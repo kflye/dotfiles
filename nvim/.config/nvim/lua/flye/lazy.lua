@@ -22,6 +22,7 @@ local opts = {}
 require("lazy").setup({
     spec = {
         {import = "flye.plugins"},
+        {import = "flye.plugins.ai"},
         {import = "flye.plugins.lsp"},
         {import = "flye.plugins.debugging"},
         {import = "flye.plugins.editor"},

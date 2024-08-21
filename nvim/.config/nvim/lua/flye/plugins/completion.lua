@@ -82,6 +82,7 @@ return {
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
                     { name = 'nvim_lsp_signature_help' },
+                    { name = "copilot" }, -- group_index = 2 ???
                     { name = "nvim_lua" },
                     { name = "luasnip" },
                     { name = "buffer" },
@@ -92,19 +93,34 @@ return {
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
                     format = require("lspkind").cmp_format({
+                        symbol_map = { Copilot = "" },
                         mode = "symbol_text",
                         menu = ({
-                            nvim_lsp = "[LSP]",
+                            nvim_lsp                = "[LSP]",
                             nvim_lsp_signature_help = "[LSP_SIGN]",
-                            nvim_lua = "[Lua]",
-                            luasnip = "[LuaSnip]",
-                            buffer = "[Buffer]",
-                            path = "[Path]",
-                            crates = "[Crates]"
+                            copilot                 = "[Copilot]",
+                            nvim_lua                = "[Lua]",
+                            luasnip                 = "[LuaSnip]",
+                            buffer                  = "[Buffer]",
+                            path                    = "[Path]",
+                            crates                  = "[Crates]",
                         })
                     })
                 }
             }
+        end,
+    },
+    {
+        "onsails/lspkind.nvim",
+        config = function(_, opts)
+            local lspkind = require("lspkind")
+            lspkind.init({
+                symbol_map = {
+                    Copilot = "",
+                },
+            })
+
+            vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
         end,
     }
 }
