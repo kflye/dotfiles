@@ -1,7 +1,8 @@
 local vscode = require("vscode-neovim")
 vim.notify = vscode.notify
 
-vim.notify("start, init.lua")
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -19,12 +20,14 @@ vim.opt.clipboard = "unnamedplus"
 -- enable virtual edit in block mode (<C-v>)
 vim.opt.virtualedit = "block"
 
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.opt.incsearch = true
 -- view a preview of search and replace in a split
 vim.opt.inccommand = "split"
 
 -- apperance
+vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 
 vim.opt.ignorecase = true
@@ -35,7 +38,10 @@ vim.opt.smartindent = true
 
 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 -- delays and poor user experience.
-vim.opt.updatetime = 50
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 1000
+
+vim.opt.formatoptions:remove "o"
 
 vim.g.mapleader = " "
 
@@ -76,7 +82,10 @@ vim.keymap.set("n", "<leader>=", function() vscode.action("editor.action.formatD
 vim.keymap.set('n', '[d', function() vscode.action("editor.action.marker.prev") end, { desc = "Go to previous problem" })
 vim.keymap.set('n', ']d', function() vscode.action("editor.action.marker.next") end, { desc = "Go to next problem" })
 vim.keymap.set('n', '<leader>e', function() vscode.action("editor.action.showHover") end, { desc = "Open problem float" })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<leader>q', function() vscode.action("workbench.action.closeActiveEditor") end)
+vim.keymap.set('n', '<leader>bd', function() vscode.action("workbench.action.closeActiveEditor") end)
+vim.keymap.set('n', '<leader>qa', function() vscode.action("workbench.action.closeOtherEditors") end)
+vim.keymap.set('n', '<leader>qA', function() vscode.action("workbench.action.closeEditorsInGroup") end)
 
 -- Auto completion + snippets
 -- <C-p/n> mapped by default
@@ -94,17 +103,24 @@ vim.keymap.set('n', '<leader>sw', function()
     vscode.action("workbench.action.findInFiles")
 end, { desc = "[S]earch [T]ext by current [W]ord" })
 vim.keymap.set('n', '<leader>sg', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
-vim.keymap.set('n', '<leader>sgf', function() vscode.action("") end, { desc = "[S]earch [G]it [F]iles" })
+vim.keymap.set('n', '<leader>gf', function() vscode.action("") end, { desc = "[S]earch [G]it [F]iles" })
 
+-- window navigation
 vim.keymap.set('n', '<C-l>', function() vscode.action("workbench.action.focusNextGroup") end, { desc = "Move to next tab group" })
 vim.keymap.set('n', '<C-h>', function() vscode.action("workbench.action.focusPreviousGroup") end, { desc = "Move to prev tab group" })
+vim.keymap.set('n', '<S-l>', function() vscode.action("workbench.action.nextEditorInGroup") end, { desc = "Move to prev tab group" })
+vim.keymap.set('n', '<S-h>', function() vscode.action("workbench.action.previousEditorInGroup") end, { desc = "Move to prev tab group" })
+
+-- ctrl-arrow navigation
+vim.keymap.set('n', '<C-right>', function() vscode.action("workbench.action.focusNextGroup") end, { desc = "Move to next tab group" })
+vim.keymap.set('n', '<C-left>', function() vscode.action("workbench.action.focusPreviousGroup") end, { desc = "Move to prev tab group" })
 
 -- terminal -- <C-`> default vscode keybinding
 vim.keymap.set('n', '<leader>tt', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "[T]oggle [T]erminal" })
 
 
 -- file explorer
-vim.keymap.set('n', '<leader>we', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "Window/Explorer toggle" })
+vim.keymap.set('n', '<leader>wt', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "Window/Explorer toggle" })
 vim.keymap.set('n', '<leader>ws', function() vscode.action("workbench.files.action.showActiveFileInExplorer") end, { desc = "Window/Explorer toggle" })
 
 
@@ -115,6 +131,3 @@ vim.keymap.set('n', '<leader>xx', function() vscode.action("workbench.actions.vi
 -- debugging
 vim.keymap.set('n', '<leader>tb', function() vscode.action("editor.debug.action.toggleBreakpoint") end, { desc = "Toggle breakpoint"})
 vim.keymap.set('n', '<leader>tB', function() vscode.action("editor.debug.action.toggleInlineBreakpoint") end, { desc = "Toggle breakpoint"})
-
-
-vim.notify("end, init.lua")
