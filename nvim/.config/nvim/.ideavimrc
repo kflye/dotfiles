@@ -47,10 +47,12 @@ nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
 nnoremap 0 g^
 nnoremap x "_x
 
+nmap zo <Action>(ExpandRegion)
+nmap zc <Action>(CollapseRegion)
+nmap za <Action>(ExpandCollapseToggleAction)
+
 " Paste, keeping value in clipboard
 xmap <leader>p \"_dP
-
-" CopyReference
 
 " Move line up/down
 nnoremap <A-j> :m .+1<CR>==
@@ -60,160 +62,159 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" Refactorings
-nmap <leader>ca :action ShowIntentionActions<CR>
-vmap <leader>ca :action ShowIntentionActions<CR>
-nmap <leader>rr :action Refactorings.QuickListPopupAction<CR>
-nmap <leader>re :action RenameElement<CR>
-" ri(v/f/p) refactor introduce variable / field / parameter 
-nmap <leader>riv <Action>(IntroduceVariable) 
-nmap <leader>rif <Action>(IntroduceField) 
-nmap <leader>rip <Action>(IntroduceParameter) 
-
-" TODO: Find mapping in treesitter - Move element left/right -> MoveElementLeft
-
 " Search and replace
 nnoremap <Leader><Leader>r :%s//g<Left><Left>
 
 
-" Window management
+
+" ----- Window navigation -----
+nmap <c-l> <Action>(NextSplitter)
+nmap <c-h> <Action>(PrevSplitter)
+nmap <c-j> <Action>(NextSplitter)
+nmap <c-k> <Action>(PrevSplitter)
+
+
+
+" ----- Window management -----
+nmap <a-t> <Action>(StretchSplitToTop)
+nmap <a-s> <Action>(StretchSplitToBottom)
+nmap <a-.> <Action>(StretchSplitToRight)
+nmap <a-,> <Action>(StretchSplitToLeft)
+nmap <c-w>= <Action>(MaximizeEditorInSplit)
+nmap <c-w>\| <Action>(MaximizeEditorInSplit)
+
+nmap <c-w>q <Action>(CloseAllEditors)
+nmap <c-w>v <Action>(MoveTabRight)
+nmap <c-w>s <Action>(MoveTabDown)
 nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
-nmap <leader>wf <Action>(ActivateProjectToolWindow)
+
+nmap <leader>bd <Action>(CloseContent)
+nmap <leader>qa <Action>(CloseAllEditorsButActive)
+
+
+
+" ----- Workspace / Explorer -----
 nmap <leader>wt <Action>(ActivateProjectToolWindow)
-nmap <leader>wr <Action>(ActivateRunToolWindow)
+nmap <leader>wf <Action>(ActivateProjectToolWindow)
 nmap <leader>ww <Action>(HideAllWindows)
 nmap <leader>wz <Action>(ToggleZenMode)
 nmap <leader>wd <Action>(ToggleDistractionFreeMode)
+nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
+nmap <leader>wr <Action>(ActivateRunToolWindow)
 nmap <leader>tt <Action>(ActivateTerminalToolWindow)
 
-"""""" Jump
-nmap <leader>se :action SearchEverywhere<CR>
-" [S]earch [T]ext by [G]rep
-nmap <leader>sg <Action>(FindInPath)
-xmap <leader>sg <Action>(FindInPath)
-" [S]earch [T]ext by current [W]ord
-map <leader>sw <Action>(EditorSelectWord)
+if &ide =~? 'intellij idea'
+    nmap <leader>ws <Action>(SelectInProjectView)
+    nmap <leader>wn <Action>(ActivateNuGetToolWindow) " TODO: gradle package search?
+elseif &ide =~? 'rider'
+    nmap <leader>ws <Action>(LocateInSolutionView)
+    nmap <leader>wn <Action>(ActivateNuGetToolWindow)
+    nmap <leader>wh <Action>(HideSideWindows)
+endif
 
+
+
+" ----- Diagnostics -----
 nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
-nmap <leader>sds <Action>(FileStructurePopup)
-
-nmap <leader>sf <Action>(GotoFile)
-nmap <leader>sb <Action>(RecentFiles)
-nmap <leader>rl <Action>(RecentLocations)
-nmap <C-o> <Action>(Back)
-nmap <C-i> <Action>(Forward)
-
-" Navigation
-nmap [[ <Action>(MethodUp)
-nmap ]] <Action>(MethodDown)
+nmap <leader>ce <Action>(ShowErrorDescription)
+nmap [d <Action>(GotoPreviousError)
+nmap ]d <Action>(GotoNextError)
 
 
-" Running and Debugging
+if &ide =~? 'intellij idea'
+elseif &ide =~? 'rider'
+    nmap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
+    nmap <leader>ge <Action>(ReSharperGotoNextErrorInSolution)
+    nmap <leader>gE <Action>(ReSharperGotoPrevErrorInSolution)
+endif
+
+
+
+" ----- Test / Debug -----
 nmap <leader>tb <Action>(ToggleLineBreakpoint)
 nmap <leader>rc <Action>(ChooseRunConfiguration)
 nmap <leader>ru <Action>(Run)
 nmap <leader>ra <Action>(Rerun)
 nmap <leader>rd <Action>(Debug)
-nmap <leader>rs <Action>(Stop)
+nmap <leader>tS <Action>(Stop)
+if &ide =~? 'intellij idea'
+    nmap <leader>tr <Action>(RunClass)
+    nmap <leader>td <Action>(DebugClass)
+elseif &ide =~? 'rider'
+    nmap <leader>tr <Action>(RiderUnitTestRunContextAction)
+    nmap <leader>td <Action>(RiderUnitTestDebugContextAction)
+    nmap <leader>tF <Action>(RiderUnitTestRunSolutionAction)
+    nmap <leader>te <Action>(RiderUnitTestSessionRerunFailedTestsAction)
+endif
 
 
-" Split
-" nmap <c-w>o <Action>(UnsplitAll)<Action>(CloseAllEditorsButActive)<CR>
-nmap <leader>bd <Action>(CloseContent)
-nmap <leader>qa <Action>(CloseAllEditorsButActive)
-nmap <c-w>q <Action>(CloseAllEditors)
-nmap <c-w>v <Action>(MoveTabRight)
-nmap <c-w>s <Action>(MoveTabDown)
-nmap <c-l> <Action>(NextSplitter)
-nmap <c-h> <Action>(PrevSplitter)
-nmap <c-j> <Action>(NextSplitter)
-nmap <c-k> <Action>(PrevSplitter)
-nmap <a-.> <Action>(StretchSplitToRight)
-nmap <a-,> <Action>(StretchSplitToLeft)
-nmap <a-s> <Action>(StretchSplitToBottom)
-nmap <a-t> <Action>(StretchSplitToTop)
-nmap <c-w>= <Action>(MaximizeEditorInSplit)
-nmap <c-w>\| <Action>(MaximizeEditorInSplit) " <c-w>|
 
-nmap zo <Action>(ExpandRegion)
-nmap zc <Action>(CollapseRegion)
-nmap za <Action>(ExpandCollapseToggleAction)
+" ----- Search -----
+nmap <leader>se :action SearchEverywhere<CR>
+nmap <leader>sf <Action>(GotoFile)
+nmap <leader>sb <Action>(RecentFiles)
+map <leader>sw <Action>(EditorSelectWord)
+nmap <leader>sg <Action>(FindInPath)
+xmap <leader>sg <Action>(FindInPath)
+nmap <leader>sds <Action>(FileStructurePopup)
+nmap <leader>sl <Action>(RecentLocations)
 
-nmap <leader>gd <Action>(GotoDeclaration)
-"  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-nmap <leader>gi <Action>(GotoImplementation)
-nmap <leader>go <Action>(GotoTypeDeclaration)
-nmap <leader>gr <Action>(ShowUsages)
-nmap <leader>= <Action>(ReformatCode)
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
 
-nmap <leader>gl <Action>(GotoRelated)
 
-nmap K <Action>(QuickJavaDoc)
-nmap <C-A-k> <Action>(ParameterInfo)
-imap <c-a-k> <Action>(ParameterInfo)
 
-" Snippets (templates)
+" ----- Completion / snippets -----
 imap <c-y> <Action>(EditorChooseLookupItem)
-" TODO: Overlaps with move page one line down in normal mode
-" nmap <c-y> <Action>(EditorChooseLookupItem)
+" nmap <c-y> <Action>(EditorChooseLookupItem) " TODO: Overlaps with move page one line down in normal mode
 imap <c-l> <Action>(NextTemplateVariable)
 imap <c-h> <Action>(PreviousTemplateVariable)
 
-" Utilities
+
+
+" ----- LSP -----
+nmap gd <Action>(GotoDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap go <Action>(GotoTypeDeclaration)
+nmap gr <Action>(ShowUsages)
+
+nmap K <Action>(QuickJavaDoc)
+nmap <C-A-k> <Action>(ParameterInfo)
+imap <C-A-k> <Action>(ParameterInfo)
+
+nmap <leader>gl <Action>(GotoRelated)
+
+nmap <leader>cr :action RenameElement<CR>
+nmap <leader>ca :action ShowIntentionActions<CR>
+vmap <leader>ca :action ShowIntentionActions<CR>
+nmap <leader>cR :action Refactorings.QuickListPopupAction<CR>
+nmap <leader>riv <Action>(IntroduceVariable) 
+nmap <leader>rif <Action>(IntroduceField) 
+nmap <leader>rip <Action>(IntroduceParameter) 
+
+nmap <leader>= <Action>(ReformatCode)
+
+nmap [[ <Action>(MethodUp)
+nmap ]] <Action>(MethodDown)
+" TODO: Find mapping in treesitter - Move element left/right -> MoveElementLeft
+
 map <leader>oi <Action>(OptimizeImports)
 
-" --- Diagnostics ---
-nmap <leader>e <Action>(ShowErrorDescription)
-nmap [d <Action>(GotoPreviousError)
-nmap ]d <Action>(GotoNextError)
 
-
-
-
-"""" intellij specific mappings
 if &ide =~? 'intellij idea'
-
-" Window management
-nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
-nmap <leader>ws <Action>(SelectInProjectView)
-nmap <leader>wn <Action>(ActivateNuGetToolWindow) " TODO: gradle package search?
-
-nmap <leader>wh <Action>(HideSideWindows) " TODO: find alternative
-
 
 nmap <leader>bs <Action>(CompileDirty)
 nmap <leader>ba <Action>(CompileProject)
 
-" --- Tests ---
-nmap <leader>ur <Action>(RunClass)
-nmap <leader>ud <Action>(DebugClass)
-nmap <leader>ua <Action>(RiderUnitTestRunSolutionAction)
-nmap <leader>ue <Action>(RiderUnitTestSessionRerunFailedTestsAction)
-
-
-"""" rider specific mappings
 elseif &ide =~? 'rider'
-
-" Window management
-nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
-nmap <leader>ws <Action>(LocateInSolutionView)
-nmap <leader>wn <Action>(ActivateNuGetToolWindow)
-nmap <leader>wh <Action>(HideSideWindows)
-
-" Running and Debugging
-nmap <leader>ur <Action>(RiderUnitTestRunContextAction)
-nmap <leader>ud <Action>(RiderUnitTestDebugContextAction)
-nmap <leader>ua <Action>(RiderUnitTestRunSolutionAction)
-nmap <leader>ue <Action>(RiderUnitTestSessionRerunFailedTestsAction)
 
 " BuildWholeSolutionAction
 nmap <leader>bs <Action>(BuildWholeSolutionAction)
 nmap <leader>ba <Action>(RebuildSolutionAction)
 
-nmap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
+endif
 
 
-nmap <leader>ge <Action>(ReSharperGotoNextErrorInSolution)
-nmap <leader>gE <Action>(ReSharperGotoPrevErrorInSolution)
-
+if &ide =~? 'intellij idea'
+elseif &ide =~? 'rider'
 endif

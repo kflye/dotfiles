@@ -59,7 +59,7 @@ return {
         config = function(_, opts)
             require('neo-tree').setup(opts)
 
-            vim.keymap.set('n', '<leader>w', '', { desc = '+Workspace explorer' })
+            vim.keymap.set('n', '<leader>w', '', { desc = '+workspace/explorer' })
 
             vim.keymap.set('n', '<M-1>', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
             vim.keymap.set('n', '<leader>wt', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })

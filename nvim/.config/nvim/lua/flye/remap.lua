@@ -18,9 +18,9 @@ end
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
-vim.keymap.set("n", "<leader>1", ":diffget LOCAL<CR>", { desc = "Merge - Pick LOCAL" })
-vim.keymap.set("n", "<leader>2", ":diffget BASE<CR>", { desc = "Merge - Pick BASE" })
-vim.keymap.set("n", "<leader>3", ":diffget REMOTE<CR>", { desc = "Merge - Pick REMOTE" })
+vim.keymap.set("n", "<leader>g1", ":diffget LOCAL<CR>", { desc = "Merge - Pick LOCAL" })
+vim.keymap.set("n", "<leader>g2", ":diffget BASE<CR>", { desc = "Merge - Pick BASE" })
+vim.keymap.set("n", "<leader>g3", ":diffget REMOTE<CR>", { desc = "Merge - Pick REMOTE" })
 
 -- Window navigation
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = 'Move focus to the lower window' })

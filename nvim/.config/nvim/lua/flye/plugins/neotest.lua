@@ -40,6 +40,7 @@ return {
             })
         end,
         keys = {
+            { "<leader>t",  '',                                                                                 desc = "+test" },
             { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end,                      desc = "Run File" },
             { "<leader>tF", function() require("neotest").run.run(vim.uv.cwd()) end,                            desc = "Run All Test Files" },
             { "<leader>tr", function() require("neotest").run.run() end,                                        desc = "Run Nearest" },

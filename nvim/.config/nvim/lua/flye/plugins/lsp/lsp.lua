@@ -62,7 +62,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
         nmap('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
         nmap('go', require('telescope.builtin').lsp_type_definitions, 'Type Definition', bufnr)
-        -- nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences', bufnr)
         nmap('gr', function()
             require('telescope.builtin').lsp_references({ include_declaration = false })
         end, '[G]oto [R]eferences', bufnr)
@@ -75,7 +74,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols', bufnr)
 
         -- Lesser used LSP functionality
-        nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
+        nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
         -- add/remove/list workspace_folders
 
         nmap('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename ', bufnr)
@@ -197,8 +196,8 @@ return {
                         bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services/'
                     })
                 end,
-                tsserver = function()
-                    require('lspconfig').tsserver.setup({
+                ts_ls = function()
+                    require('lspconfig').ts_ls.setup({
                         capabilities = LspCommon.lsp_capabilities(),
                         flags = LspCommon.lsp_flags,
 
@@ -303,7 +302,7 @@ return {
         'WhoIsSethDaniel/mason-tool-installer.nvim',
         opts = {
             ensure_installed = {
-                'tsserver',
+                'ts_ls',
                 'eslint',
                 'eslint_d',
                 'prettier',

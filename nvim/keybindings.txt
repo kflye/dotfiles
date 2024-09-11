@@ -1,0 +1,161 @@
+----- Window navigation -----
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = 'Move focus to the lower window' })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = 'Move focus to the upper window' })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = 'Move focus to the right window' })
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = 'Move focus to the left window' })
+
+vim.keymap.set("n", "<C-Down>", "<C-w>j", { desc = 'Move focus to the lower window' })
+vim.keymap.set("n", "<C-Up>", "<C-w>k", { desc = 'Move focus to the upper window' })
+vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = 'Move focus to the right window' })
+vim.keymap.set("n", "<C-Left>", "<C-w>h", { desc = 'Move focus to the left window' })
+
+
+
+----- Buffer movement -----
+vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer", silent = true })
+
+
+
+----- Window management -----
+vim.keymap.set("n", "<M-t>", "<C-w>+", { desc = "Resize horizontal Down", silent = true })
+vim.keymap.set("n", "<M-s>", "<C-w>-", { desc = "Resize horizontal Up", silent = true })
+vim.keymap.set("n", "<M-.>", "<C-w>5>", { desc = "Resize vertical Right", silent = true })
+vim.keymap.set("n", "<M-,>", "<C-w>5<", { desc = "Resize vertical left", silent = true })
+
+vim.keymap.set("n", "<leader>bd", bd.bufdelete, { desc = "Delete current buffer" })
+vim.keymap.set("n", "<leader>q", bd.bufdelete, { desc = "Delete current buffer" })
+vim.keymap.set("n", "<leader>Q", bd.bufwipeout, { desc = "Delete current buffer" })
+
+
+
+----- quickfix + location list -----
+vim.keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
+vim.keymap.set("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
+
+
+
+----- trouble / diagnostics -----
+vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
+vim.keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)" })
+vim.keymap.set("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)" })
+vim.keymap.set("n", "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", { desc = "LSP Definitions / references / ... (Trouble)" })
+vim.keymap.set("n", "<leader>xL", "<cmd>Trouble loclist toggle<cr>", { desc = "Location List (Trouble)" })
+vim.keymap.set("n", "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix List (Trouble)" })
+
+vim.keymap.set('n', '<leader>ce', vim.diagnostic.open_float)
+
+
+----- test / debugging -----
+vim.keymap.set("n", "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = "Run File" })
+vim.keymap.set("n", "<leader>tF", function() require("neotest").run.run(vim.uv.cwd()) end,                            { desc = "Run All Test Files" })
+vim.keymap.set("n", "<leader>tr", function() require("neotest").run.run() end,                                        { desc = "Run Nearest" })
+vim.keymap.set("n", "<leader>td", function() require("neotest").run.run({ strategy = 'dap' }) end,                    { desc = "Debug Nearest" })
+vim.keymap.set("n", "<leader>tl", function() require("neotest").run.run_last() end,                                   { desc = "Run Last" })
+vim.keymap.set("n", "<leader>ts", function() require("neotest").summary.toggle() end,                                 { desc = "Toggle Summary" })
+vim.keymap.set("n", "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, { desc = "Show Output" })
+vim.keymap.set("n", "<leader>tO", function() require("neotest").output_panel.toggle() end,                            { desc = "Toggle Output Panel" })
+vim.keymap.set("n", "<leader>tS", function() require("neotest").run.stop() end,                                       { desc = "Stop" })
+
+vim.keymap.set({ 'v', 'n' }, '<leader>d', '', { desc = '+debug' })
+
+vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Debug: Start/Continue' })
+vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: Step Into' })
+vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Debug: Step Over' })
+vim.keymap.set('n', '<S-F11>', dap.step_out, { desc = 'Debug: Step Out' })
+vim.keymap.set('n', '<leader>dt', dap.terminate, { desc = 'Debug: Run Stop' })
+vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+vim.keymap.set('n', '<leader>dB', function()    dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, { desc = 'Debug: Set Breakpoint' })
+vim.keymap.set('n', '<leader>dC', dap.run_to_cursor, { desc = '[D]ebug: run to [C]ursor' })
+vim.keymap.set('n', '<leader>?', function() require('dapui').eval(nil, { enter = true }) end, { desc = 'Debug: Eval under cursor' })
+
+vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: Repl open' })
+vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = 'Debug: Run last' })
+vim.keymap.set('n', '<leader>dw', widgets.hover, { desc = 'Debug: Hover [W]idgets' })
+vim.keymap.set({ 'n', 'v' }, '<leader>dp', widgets.preview, { desc = 'Debug: Preview' })
+vim.keymap.set('n', '<leader>df', function()
+    widgets.centered_float(widgets.frames)
+end, { desc = 'Debug: Frames' })
+vim.keymap.set('n', '<leader>ds', function()
+    widgets.centered_float(widgets.scopes)
+end, { desc = 'Debug: Scopes' })
+
+
+
+----- completion -----
+['<C-p>'] = cmp.mapping.select_prev_item(),
+['<C-n>'] = cmp.mapping.select_next_item(),
+['<C-y>'] = cmp.mapping.confirm({}, { 'i', 'c' }),
+["<C-Space>"] = cmp.mapping.complete(),
+['<C-e>'] = cmp.mapping.abort(),
+['<C-b>'] = cmp.mapping.scroll_docs(-4),
+['<C-f>'] = cmp.mapping.scroll_docs(4),
+['<C-l>'] = -- jump left in snippet
+['<C-h>'] = -- jump right in snippet
+
+
+
+----- lsp -----
+nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition', bufnr)
+nmap('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation', bufnr)
+nmap('go', require('telescope.builtin').lsp_type_definitions, 'Type Definition', bufnr)
+nmap('gr', function()    require('telescope.builtin').lsp_references({ include_declaration = false }) end, '[G]oto [R]eferences', bufnr)
+
+nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
+vim.keymap.set({ 'n', 'i' }, '<C-M-k>', vim.lsp.buf.signature_help, { desc = 'LSP: Signature Documentation', buffer = bufnr, noremap = true, silent = true })
+
+nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
+nmap('<leader>sdS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace [S]ymbols', bufnr)
+
+nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
+
+nmap('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename ', bufnr)
+nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
+nmap('<leader>cc', vim.lsp.codelens.run, '[C]odelens run', bufnr)
+nmap('<leader>cC', vim.lsp.codelens.refresh, '[C]odelens run', bufnr)
+
+nmap('<leader>=', function()
+    vim.lsp.buf.format {
+        async = true
+    }
+end, 'Format current buffer with LSP', bufnr)
+
+vim.keymap.set('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
+vim.keymap.set('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
+
+
+
+----- tree / file explorer -----
+vim.keymap.set('n', '<leader>w', '', { desc = '+workspace/explorer' })
+
+vim.keymap.set('n', '<M-1>', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
+vim.keymap.set('n', '<leader>wt', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
+vim.keymap.set('n', '<leader>wf', ':Neotree focus<CR>', { desc = 'Neotree: focus' })
+vim.keymap.set('n', '<leader>ws', ':Neotree reveal<CR>', { desc = 'Neotree: reveal' })
+vim.keymap.set('n', '<leader>wb', ':Neotree buffers toggle=true<CR>', { desc = 'Neotree: buffers' })
+vim.keymap.set('n', '<leader>we', ':Neotree git_status toggle=true<CR>', { desc = 'Neotree: git_status' })
+
+
+----- telescope / search -----
+<C-e> -- scroll preview
+<C-y> -- scroll preview
+
+{ '<leader>sf',  function() require('telescope.builtin').find_files {} end,   desc = '[S]earch [F]iles' },
+{ '<leader>sb',  function() require('telescope.builtin').buffers {} end,      desc = '[S]earch [B]uffers' },
+{ '<leader>sh',  function() require('telescope.builtin').help_tags {} end,    desc = '[S]earch [H]elp' },
+{ '<leader>sk',  function() require('telescope.builtin').keymaps {} end,      desc = '[S]earch [K]eymaps' },
+{ '<leader>sw',  function() require('telescope.builtin').grep_string {} end,  desc = '[S]earch [T]ext by current [W]ord' },
+{ '<leader>sg',  function() require('telescope.builtin').live_grep {} end,    desc = '[S]earch [T]ext by [G]rep' },
+{ '<leader>sts', function() require('telescope.builtin').treesitter {} end,   desc = '[S]earch [T]reesitter [S]ymbols' },
+
+{ "<leader>gb",  function() require('telescope.builtin').git_branches {} end, desc = '[G]it [B]ranches' },
+{ "<leader>gs",  function() require('telescope.builtin').git_status {} end,   desc = '[G]it [S]tatus' },
+{ '<leader>gf',  function() require('telescope.builtin').git_files {} end,    desc = '[G]it [F]iles' },
+
+{ '<leader>s"',  function() require('telescope.builtin').registers {} end,    desc = '[S]earch [R]egister' },
+{ '<leader>sj',  function() require('telescope.builtin').jumplist {} end,     desc = '[S]earch [J]umplist' },
+{ '<leader>sl',  function() require('telescope.builtin').loclist {} end,      desc = '[S]earch [L]oclist' },
+{ '<leader>sq',  function() require('telescope.builtin').quickfix {} end,     desc = '[S]earch [Q]uickfix list' },
+
+{ '<leader>sx',  function() require('telescope.builtin').diagnostics {} end,  desc = '[S]earch [D]iagnostics' }

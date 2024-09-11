@@ -122,6 +122,9 @@ return {
             telescope.load_extension("ui-select")
         end,
         keys = {
+            { '<leader>s',  '',    desc = '+search' },
+            { '<leader>g',  '',    desc = '+git' },
+
             { '<leader>sf',  function() require('telescope.builtin').find_files {} end,   desc = '[S]earch [F]iles' },
             { '<leader>sb',  function() require('telescope.builtin').buffers {} end,      desc = '[S]earch [B]uffers' },
             { '<leader>sh',  function() require('telescope.builtin').help_tags {} end,    desc = '[S]earch [H]elp' },
