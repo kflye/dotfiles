@@ -1,5 +1,3 @@
-// If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
-// https://github.com/gmr458/.dotfiles/blob/main/zellij/.config/zellij/config.kdl
 keybinds {
     normal {
         unbind "Alt j" "Alt k"
@@ -150,7 +148,7 @@ keybinds {
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
     }
     shared_except "locked" {
-        unbind "Ctrl h" // was Move, now Alt-v
+        //unbind "Ctrl h" // was Move, now Alt-v // interferes somehow with navigator plugin
         unbind "Ctrl o" // was Session, now Alt-w
         unbind "Ctrl s" // was Scroll, now Alt-s
         unbind "Ctrl n" // was Resize, now Alt-r
@@ -173,7 +171,49 @@ keybinds {
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
+
+
+        bind "Ctrl h" {
+            MessagePlugin "https:github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "left";
+
+                move_mod "ctrl";  
+                resize_mod "alt";
+            };
+        }
+
+        bind "Ctrl j" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "down";
+
+                move_mod "ctrl";
+                resize_mod "alt";
+            };
+        }
+
+        bind "Ctrl k" {
+            MessagePlugin "https:github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "up";
+
+                move_mod "ctrl";
+                resize_mod "alt";
+            };
+        }
+
+        bind "Ctrl l" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "right";
+
+                move_mod "ctrl";
+                resize_mod "alt";
+            };
+        }
     }
+
     shared_except "normal" "locked" {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
     }

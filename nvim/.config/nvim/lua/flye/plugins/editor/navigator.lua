@@ -3,7 +3,8 @@ return {
     -- https://github.com/alex35mil/dotfiles
     -- https://github.com/hiasr/vim-zellij-navigator
     -- https://www.reddit.com/r/zellij/comments/1dupuxv/ctrl_hjkl_hassles/
-    "numToStr/Navigator.nvim",
+    -- dir = "~/Navigator.nvim",
+    'numToStr/Navigator.nvim',
     config = function()
         vim.keymap.set({ 'n', 't' }, '<C-h>', '<CMD>NavigatorLeft<CR>')
         vim.keymap.set({ 'n', 't' }, '<C-l>', '<CMD>NavigatorRight<CR>')
