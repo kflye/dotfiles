@@ -142,7 +142,7 @@ keybinds clear-defaults=true {
 
 
         bind "Ctrl h" {
-            MessagePlugin "https:github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "vim-zellij-navigator" {
                 name "move_focus";
                 payload "left";
 
@@ -152,7 +152,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Ctrl j" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "vim-zellij-navigator" {
                 name "move_focus";
                 payload "down";
 
@@ -162,7 +162,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Ctrl k" {
-            MessagePlugin "https:github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "vim-zellij-navigator" {
                 name "move_focus";
                 payload "up";
 
@@ -172,7 +172,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Ctrl l" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "vim-zellij-navigator" {
                 name "move_focus";
                 payload "right";
 
@@ -222,10 +222,12 @@ plugins {
     configuration location="zellij:configuration"
 
     zjstatus location="file:~/.config/zellij/plugins/zjstatus.wasm" 
+    vim-zellij-navigator location="file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" 
 }
 
  load_plugins {
-    "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" 
+    "zjstatus" 
+    "vim-zellij-navigator"
  }
 
 
