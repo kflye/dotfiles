@@ -220,6 +220,8 @@ plugins {
         cwd "/"
     }
     configuration location="zellij:configuration"
+
+    zjstatus location="file:~/.config/zellij/plugins/zjstatus.wasm" 
 }
 
  load_plugins {
