@@ -21,14 +21,16 @@ set clipboard+=ideaput
 set visualbell
 set noerrorbells
 
-" --- PLUGINS ---
+
+
+" ----- PLUGINS -----
 
 " https://towardsdatascience.com/the-essential-ideavim-remaps-291d4cd3971b
 "https://github.com/JetBrains/ideavim/wiki/NERDTree-support - remember shortcuts
 Plug 'preservim/nerdtree'    "Plugin Section
                              
 " Replace deleted/yanked text: gr{motion}
-Plug 'vim-scripts/ReplaceWithRegister'
+" Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -38,20 +40,23 @@ Plug 'machakann/vim-highlightedyank'
 
 Plug 'dbakker/vim-paragraph-motion'
 
-" --- REMAPS --- " remaps not used while coding starts with \
+set which-key
+" let g:WhichKey_ShowVimActions = "true"
+
+set notimeout
+
+
+" ----- REMAPS -----
+" remaps not used while coding starts with \
 nmap \e :e ~/.ideavimrc<CR>
 nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
 
-" --- Vim remaps ---
-" Map 0 to go to the first charactor of the line
-nnoremap 0 g^
 nnoremap x "_x
 
 nmap zo <Action>(ExpandRegion)
 nmap zc <Action>(CollapseRegion)
 nmap za <Action>(ExpandCollapseToggleAction)
 
-" Paste, keeping value in clipboard
 xmap <leader>p \"_dP
 
 " Move line up/down
@@ -72,6 +77,10 @@ nmap <c-l> <Action>(NextSplitter)
 nmap <c-h> <Action>(PrevSplitter)
 nmap <c-j> <Action>(NextSplitter)
 nmap <c-k> <Action>(PrevSplitter)
+nmap <s-l> <Action>(NextTab)
+nmap <s-h> <Action>(PreviousTab)
+nmap <s-right> <Action>(NextTab)
+nmap <s-left> <Action>(PreviousTab)
 
 
 
@@ -94,6 +103,7 @@ nmap <leader>qa <Action>(CloseAllEditorsButActive)
 
 
 " ----- Workspace / Explorer -----
+let g:WhichKeyDesc_windows = "<leader>w Workspace / Explorer"
 nmap <leader>wt <Action>(ActivateProjectToolWindow)
 nmap <leader>wf <Action>(ActivateProjectToolWindow)
 nmap <leader>ww <Action>(HideAllWindows)
@@ -115,6 +125,7 @@ endif
 
 
 " ----- Diagnostics -----
+let g:WhichKeyDesc_diag = "<leader>x Diagnostics / Errors"
 nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
 nmap <leader>ce <Action>(ShowErrorDescription)
 nmap [d <Action>(GotoPreviousError)
@@ -131,8 +142,10 @@ endif
 
 
 " ----- Test / Debug -----
+let g:WhichKeyDesc_test = "<leader>t Test / Debug"
 nmap <leader>tb <Action>(ToggleLineBreakpoint)
 nmap <leader>rc <Action>(ChooseRunConfiguration)
+let g:WhichKeyDesc_run = "<leader>s Run / Debug"
 nmap <leader>ru <Action>(Run)
 nmap <leader>ra <Action>(Rerun)
 nmap <leader>rd <Action>(Debug)
@@ -150,6 +163,7 @@ endif
 
 
 " ----- Search -----
+let g:WhichKeyDesc_search = "<leader>s Search"
 nmap <leader>se :action SearchEverywhere<CR>
 nmap <leader>sf <Action>(GotoFile)
 nmap <leader>sb <Action>(RecentFiles)
@@ -184,10 +198,12 @@ imap <C-A-k> <Action>(ParameterInfo)
 
 nmap <leader>gl <Action>(GotoRelated)
 
+let g:WhichKeyDesc_code = "<leader>c Code"
 nmap <leader>cr :action RenameElement<CR>
 nmap <leader>ca :action ShowIntentionActions<CR>
 vmap <leader>ca :action ShowIntentionActions<CR>
 nmap <leader>cR :action Refactorings.QuickListPopupAction<CR>
+let g:WhichKeyDesc_refactor = "<leader>r Refactor"
 nmap <leader>riv <Action>(IntroduceVariable) 
 nmap <leader>rif <Action>(IntroduceField) 
 nmap <leader>rip <Action>(IntroduceParameter) 
