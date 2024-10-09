@@ -1,11 +1,17 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+
 format = """
 $username\
 $time\
 $all"""
 
+right_format = """
+$time\
+"""
+
 [git_branch]
+symbol = " "
 format = "[$symbol$branch(:$remote_branch)]($style) "
 
 [git_status]
@@ -21,7 +27,6 @@ renamed = "  ${count}"
 untracked = "  ${count}"
 format = '([\[$all_status$ahead_behind \]]($style) )'
 
-
 # Replace the "❯" symbol in the prompt with "➜"
 [character] # The name of the module we are configuring is "character"
 success_symbol = "[➜](bold green)"
@@ -32,9 +37,11 @@ disabled = false
 
 [time]
 disabled = false
-format = "[$time]($style) "
+time_format = "%R"
+format = '[   $time ]($style)'
 
 [directory]
+read_only = " 󰌾"
 disabled = false
 format = "📁 [$path]($style)[$read_only]($read_only_style) "
 
@@ -44,3 +51,172 @@ style_root = "bold red"
 format = "⚡"
 disabled = false
 show_always = false
+
+[hostname]
+ssh_symbol = " "
+
+[docker_context]
+symbol = " "
+format = '[$symbol$context]($style) '
+
+[memory_usage]
+symbol = "󰍛 "
+threshold = 75
+disabled = false
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[aws]
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[gradle]
+symbol = " "
+format = '[$symbol($version )]($style)'
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = " "
+format = '[${symbol}(${version} )]($style)'
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+format = '[$symbol($version )]($style)'
+
+[lua]
+symbol = " "
+
+
+[package]
+symbol = "󰏗 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[python]
+symbol = " "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = "󱘗 "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[zig]
+symbol = " "
