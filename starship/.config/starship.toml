@@ -1,14 +1,9 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-
 format = """
 $username\
 $time\
 $all"""
-
-right_format = """
-$time\
-"""
 
 [git_branch]
 symbol = " "
