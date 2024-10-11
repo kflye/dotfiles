@@ -9,7 +9,6 @@ config.color_scheme = "Gruvbox dark, medium (base16)"
 -- config.color_scheme = 'catppuccin-macchiato'
 -- config.color_scheme = 'Kanagawa (Gogh)'
 
---
 config.leader = { key = "b", mods = "CTRL" }
 config.keys = {
     { key = "-",  mods = "LEADER", action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
