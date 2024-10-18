@@ -10,30 +10,26 @@ return {
 
             vim.keymap.set({ 'v', 'n' }, '<leader>d', '', { desc = '+debug' })
 
-            -- Basic debugging keymaps, feel free to change to your liking!
             vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
-            vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Debug: Start/Continue' })
+            vim.keymap.set('n', '<leader>rd', dap.continue, { desc = 'Debug: Start/Continue' })
+            vim.keymap.set('n', '<leader>tdl', dap.run_last, { desc = 'Debug: Run last' })
+            vim.keymap.set('n', '<leader>tC', dap.run_to_cursor, { desc = '[D]ebug: run to [C]ursor' })
+
             vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: Step Into' })
             vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Debug: Step Over' })
             vim.keymap.set('n', '<S-F11>', dap.step_out, { desc = 'Debug: Step Out' })
-            vim.keymap.set('n', '<leader>dt', dap.terminate, { desc = 'Debug: Run Stop' })
-            vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
-            vim.keymap.set('n', '<leader>dB', function()
-                dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-            end, { desc = 'Debug: Set Breakpoint' })
-            vim.keymap.set('n', '<leader>dC', dap.run_to_cursor, { desc = '[D]ebug: run to [C]ursor' })
+
+            vim.keymap.set('n', '<leader>tdt', dap.terminate, { desc = 'Debug: Run Stop' })
+
+            vim.keymap.set('n', '<leader>tb', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+            vim.keymap.set('n', '<leader>tB', function() dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, { desc = 'Debug: Set Breakpoint' })
             vim.keymap.set('n', '<leader>?', function() require('dapui').eval(nil, { enter = true }) end, { desc = 'Debug: Eval under cursor' })
 
-            vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: Repl open' })
-            vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = 'Debug: Run last' })
-            vim.keymap.set('n', '<leader>dw', widgets.hover, { desc = 'Debug: Hover [W]idgets' })
-            vim.keymap.set({ 'n', 'v' }, '<leader>dp', widgets.preview, { desc = 'Debug: Preview' })
-            vim.keymap.set('n', '<leader>df', function()
-                widgets.centered_float(widgets.frames)
-            end, { desc = 'Debug: Frames' })
-            vim.keymap.set('n', '<leader>ds', function()
-                widgets.centered_float(widgets.scopes)
-            end, { desc = 'Debug: Scopes' })
+            vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: [R]epl open' })
+            vim.keymap.set('n', '<leader>dh', widgets.hover, { desc = 'Debug: [H]over Widgets' })
+            vim.keymap.set({ 'n', 'v' }, '<leader>dp', widgets.preview, { desc = 'Debug: [P]review' })
+            vim.keymap.set('n', '<leader>df', function() widgets.centered_float(widgets.frames) end, { desc = 'Debug: [F]rames' })
+            vim.keymap.set('n', '<leader>ds', function() widgets.centered_float(widgets.scopes) end, { desc = 'Debug: [S]copes' })
         end,
 
     },
