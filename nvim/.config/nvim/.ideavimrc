@@ -111,7 +111,7 @@ nmap <leader>wz <Action>(ToggleZenMode)
 nmap <leader>wd <Action>(ToggleDistractionFreeMode)
 nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
 nmap <leader>wr <Action>(ActivateRunToolWindow)
-nmap <leader>tt <Action>(ActivateTerminalToolWindow)
+nmap <leader>wT <Action>(ActivateTerminalToolWindow)
 
 if &ide =~? 'intellij idea'
     nmap <leader>ws <Action>(SelectInProjectView)
@@ -144,11 +144,6 @@ endif
 " ----- Test / Debug -----
 let g:WhichKeyDesc_test = "<leader>t Test / Debug"
 nmap <leader>tb <Action>(ToggleLineBreakpoint)
-nmap <leader>rc <Action>(ChooseRunConfiguration)
-let g:WhichKeyDesc_run = "<leader>s Run / Debug"
-nmap <leader>ru <Action>(Run)
-nmap <leader>ra <Action>(Rerun)
-nmap <leader>rd <Action>(Debug)
 nmap <leader>tS <Action>(Stop)
 if &ide =~? 'intellij idea'
     nmap <leader>tr <Action>(RunClass)
@@ -159,6 +154,15 @@ elseif &ide =~? 'rider'
     nmap <leader>tF <Action>(RiderUnitTestRunSolutionAction)
     nmap <leader>te <Action>(RiderUnitTestSessionRerunFailedTestsAction)
 endif
+
+
+
+" ----- Run -----
+let g:WhichKeyDesc_test = "<leader>r Run / Debug"
+nmap <leader>rc <Action>(ChooseRunConfiguration)
+nmap <leader>ru <Action>(Run)
+nmap <leader>ra <Action>(Rerun)
+nmap <leader>rd <Action>(Debug)
 
 
 
@@ -203,10 +207,10 @@ nmap <leader>cr :action RenameElement<CR>
 nmap <leader>ca :action ShowIntentionActions<CR>
 vmap <leader>ca :action ShowIntentionActions<CR>
 nmap <leader>cR :action Refactorings.QuickListPopupAction<CR>
-let g:WhichKeyDesc_refactor = "<leader>r Refactor"
-nmap <leader>riv <Action>(IntroduceVariable) 
-nmap <leader>rif <Action>(IntroduceField) 
-nmap <leader>rip <Action>(IntroduceParameter) 
+let g:WhichKeyDesc_code_introduce = "<leader>ci Introduce(Variable/Field/Parameter)"
+nmap <leader>civ <Action>(IntroduceVariable)
+nmap <leader>cif <Action>(IntroduceField)
+nmap <leader>cip <Action>(IntroduceParameter)
 
 nmap <leader>= <Action>(ReformatCode)
 
