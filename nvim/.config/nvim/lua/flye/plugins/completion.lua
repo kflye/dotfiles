@@ -39,6 +39,9 @@ return {
             luasnip.config.setup {}
 
             return {
+                completion = {
+                    autocomplete = false,
+                },
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
