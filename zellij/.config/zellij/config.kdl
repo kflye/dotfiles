@@ -241,7 +241,7 @@ plugins {
 // mouse_mode false
 // copy_on_select false
 
-// theme "gruvbox-dark"
+theme "gruvbox-dark"
 
 // The name of the default layout to load on startup
 // Default: "default" // "compact"

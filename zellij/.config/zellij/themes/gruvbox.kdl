@@ -1,30 +1,29 @@
 
 themes {
- 	gruvbox-light {
- 		fg 60 56 54
-        bg 251 82 75
-        black 40 40 40
-        red 205 75 69
+    gruvbox-light {
+		fg 80 73 69
+        bg 213 196 161
+		black 235 219 178
+		red 214 93 14
+		green 121 116 14
+		yellow 215 153 33
+        blue 69 133 136
+        magenta 177 98 134
+        cyan 104 157 106
+        white 60 56 54
+		orange 152 0 5
+    }
+    gruvbox-dark {
+        fg 235 219 178
+        bg 80 73 69
+        black 60 56 54
+        red 204 36 29
         green 152 151 26
         yellow 215 153 33
         blue 69 133 136
         magenta 177 98 134
         cyan 104 157 106
-        white 213 196 161
+        white 251 241 199
         orange 214 93 14
- 	}
-
- 	gruvbox-dark {
- 		fg "#D5C4A1"
- 		bg "#282828"
- 		black "#3C3836"
- 		red "#CC241D"
- 		green "#98971A"
- 		yellow "#D79921"
- 		blue "#3C8588"
- 		magenta "#B16286"
- 		cyan "#689D6A"
- 		white "#FBF1C7"
- 		orange "#D65D0E"
- 	}
+    }
 }
