@@ -10,14 +10,24 @@ fi
 
 echo $XDG_CONFIG_HOME
 
-# sudo add-apt-repository ppa:git-core/ppa
-# sudo apt-add-repository ppa:fish-shell/release-3
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt-add-repository ppa:fish-shell/release-3
 
 
-sudo apt install ripgrep fd-find bat fzf zoxide python3-pip fish tmux git keychain \
+sudo apt install ripgrep fd-find bat fzf zoxide python3-pip fish git keychain \
 	ninja-build gettext cmake unzip curl \
-    stow jq bc
+    stow jq bc gnome-keyring
 
+if ! command -v rustup &> /dev/null; then
+	echo "rustup could not be found"
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	source $HOME/.cargo/env
+fi
+
+if ! command -v zellij &> /dev/null; then
+	echo "zellij could not be found"
+	cargo install --locked zellij
+fi
 
 if ! command -v lazygit &> /dev/null; then
 	echo "lazygit could not be found"
@@ -49,4 +59,4 @@ if ! command -v starship &> /dev/null; then
 fi
 
 
-./fish/setup.sh
+./setup_fish.sh
