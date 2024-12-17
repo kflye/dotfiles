@@ -55,6 +55,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',
     group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
     callback = function(event)
+        vim.keymap.set({ 'n' }, '<leader>c', '', { desc = '+code' })
+
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         local bufnr = event.buf
 
@@ -129,7 +131,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 })
 
-vim.keymap.set('n', '<leader>ce', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>ce', vim.diagnostic.open_float, { desc = '[C]ode [E]rror / diagnostic float' })
 vim.keymap.set('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
 vim.keymap.set('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
 -- Add buffer diagnostics to the location list.

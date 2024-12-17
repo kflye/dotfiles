@@ -4,7 +4,7 @@ return {
         lazy = false,
         version = "*",
         opts = {
-            open_mapping    = [[<leader>tt]],
+            open_mapping    = [[<leader>wT]],
             insert_mappings = false,
             direction = "float",
             float_opts = {
@@ -16,7 +16,7 @@ return {
         end,
         keys = {
             {
-                "<leader>wT",
+                "<leader>wG",
                 function()
                     local Terminal = require('toggleterm.terminal').Terminal
                     local lazygit  = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float", })
