@@ -1,4 +1,4 @@
-winget install --id=Docker.DockerDesktop -e  ; 
+# winget install --id=Docker.DockerDesktop -e  ; 
 # winget install --id=JetBrains.Toolbox -e  ; 
 # winget install --id=Postman.Postman -e  ; 
 # winget install --id=QMK.QMKToolbox -e  ; 
@@ -31,15 +31,15 @@ winget install --id=Docker.DockerDesktop -e  ;
 # https://github.com/sainnhe/gruvbox-material/wiki/Related-Projects
 
 
-scoop bucket add nerd-fonts
-scoop install nerd-fonts/JetBrainsMono-NF
+# scoop bucket add nerd-fonts
+# scoop install nerd-fonts/JetBrainsMono-NF
 
 # For neovim nigthly
 scoop bucket add main
 scoop bucket add extras
 scoop bucket add versions
 
-scoop install vcredist2022
+# scoop install vcredist2022
 
 
 scoop install main/7zip
@@ -51,7 +51,7 @@ scoop install extras/bitwarden
 scoop install extras/obsidian
 scoop install extras/spotify
 scoop install extras/vscode
-scoop install extras/qmk-toolbox
+# scoop install extras/qmk-toolbox
 scoop install extras/postman
 scoop install extras/jetbrains-toolbox
 
