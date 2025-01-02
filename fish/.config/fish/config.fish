@@ -15,6 +15,8 @@ if status is-interactive
         end
     end 
     eval $cmd
+    
+    fzf --fish | source
 
     # opam configuration (keyboard generator)
     source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true

@@ -15,6 +15,6 @@ sudo apt install xdg-utils wslu
 sudo apt install -y make curl python3 g++ pkg-config gnome-keyring xdg-utils wslu
 
 # Run inside Ubuntu/Debian session
-wsl.exe -d wsl-vpnkit --cd /app cat /app/wsl-vpnkit.service | sudo tee /etc/systemd/system/wsl-vpnkit.service
-sudo systemctl enable wsl-vpnkit
-sudo systemctl start wsl-vpnkit
+# wsl.exe -d wsl-vpnkit --cd /app cat /app/wsl-vpnkit.service | sudo tee /etc/systemd/system/wsl-vpnkit.service
+# sudo systemctl enable wsl-vpnkit
+# sudo systemctl start wsl-vpnkit
