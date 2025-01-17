@@ -26,7 +26,9 @@ end
 
 fish_add_path -a $HOME/.cargo/bin
 fish_add_path -a $HOME/.local/bin
+fish_add_path -a $HOME/.local/share/zig
 fish_add_path -a $HOME/local/llvm17-release/bin
+fish_add_path -a /usr/local/go/bin
 
 
 # Enable fzf key bindings

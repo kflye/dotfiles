@@ -26,6 +26,8 @@ return {
                         ignore_wrapper = false, -- whether to ignore maven/gradle wrapper
                     }),
                     require('rustaceanvim.neotest'),
+                    require("neotest-golang"),
+
                 },
                 status = { virtual_text = true },
                 output = { open_on_run = false },
@@ -60,4 +62,6 @@ return {
         init = function()
         end,
     },
+
+    { "fredrikaverpil/neotest-golang", version = "*" },
 }

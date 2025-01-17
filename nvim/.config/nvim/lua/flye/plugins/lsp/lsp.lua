@@ -287,6 +287,10 @@ return {
                             packageManager = 'npm',
                         }
                     }
+                end,
+                yamlls = function()
+                    require('lspconfig').yamlls.setup {
+                    }
                 end
             }
         },
