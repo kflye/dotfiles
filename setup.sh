@@ -14,7 +14,7 @@ sudo add-apt-repository ppa:git-core/ppa
 sudo apt-add-repository ppa:fish-shell/release-3
 
 
-sudo apt install ripgrep fd-find bat fzf zoxide python3-pip fish git keychain \
+sudo apt install ripgrep fd-find bat zoxide python3-pip fish git keychain \
 	ninja-build gettext cmake unzip curl \
     stow jq bc gnome-keyring
 
@@ -58,5 +58,9 @@ if ! command -v starship &> /dev/null; then
 	curl -sS https://starship.rs/install.sh | sh
 fi
 
+if ! command -v fzf &> /dev/null; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --no-bash --no-zsh
+fi
 
 ./setup_fish.sh
