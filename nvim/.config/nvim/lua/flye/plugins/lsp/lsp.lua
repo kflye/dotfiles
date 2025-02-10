@@ -153,7 +153,8 @@ return {
         dependencies = {
             { 'folke/neodev.nvim' },
             { 'hrsh7th/cmp-nvim-lsp' },
-            { 'neovim/nvim-lspconfig' }
+            { 'neovim/nvim-lspconfig' },
+            { 'sheerun/vim-polyglot' }, -- filetype detection, helm specifically
         },
         opts = {
             ensure_installed = {},
@@ -290,6 +291,17 @@ return {
                 end,
                 yamlls = function()
                     require('lspconfig').yamlls.setup {
+                    }
+                end,
+                helm_ls = function()
+                    require('lspconfig').helm_ls.setup {
+                        settings = {
+                            ['helm-ls'] = {
+                                yamlls = {
+                                    path = "yaml-language-server",
+                                }
+                            }
+                        }
                     }
                 end
             }

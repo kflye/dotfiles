@@ -236,7 +236,7 @@ plugins {
 //   - true (default)
 //   - false
 //
-// pane_frames true
+pane_frames true
 
 // mouse_mode false
 // copy_on_select false
