@@ -154,7 +154,7 @@ return {
             { 'folke/neodev.nvim' },
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'neovim/nvim-lspconfig' },
-            { 'sheerun/vim-polyglot' }, -- filetype detection, helm specifically
+            { 'qvalentin/helm-ls.nvim', ft = 'helm' }
         },
         opts = {
             ensure_installed = {},

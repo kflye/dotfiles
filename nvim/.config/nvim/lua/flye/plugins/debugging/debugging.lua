@@ -101,6 +101,9 @@ return {
                 }
             end
         end,
-    }
+    },
+    {
+        "leoluz/nvim-dap-go",
+    },
 
 }
