@@ -2,11 +2,11 @@ return {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
     dependencies = {
-        {"nvim-treesitter/nvim-treesitter-textobjects"},
-        {"nvim-treesitter/nvim-treesitter-context"}, -- alternative could be SmiteshP/nvim-navic
+        { "nvim-treesitter/nvim-treesitter-textobjects" },
+        { "nvim-treesitter/nvim-treesitter-context" }, -- alternative could be SmiteshP/nvim-navic
     },
     opts = {
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "tsx", "rust", "toml", "yaml", "c_sharp" },
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "tsx", "rust", "toml", "yaml", "c_sharp", "diff", "git_rebase", "gitcommit" },
         auto_install = true,
         highlight = {
             enable = true
@@ -60,7 +60,7 @@ return {
         }
     },
     init = function()
-      --  local treesitter_install = require 'nvim-treesitter.install'
+        --  local treesitter_install = require 'nvim-treesitter.install'
         --treesitter_install.prefer_git = false
         --treesitter_install.compilers = {"zig"}
     end,

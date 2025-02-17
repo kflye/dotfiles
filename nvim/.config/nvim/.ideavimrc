@@ -145,6 +145,7 @@ endif
 let g:WhichKeyDesc_test = "<leader>t Test / Debug"
 nmap <leader>tb <Action>(ToggleLineBreakpoint)
 nmap <leader>tS <Action>(Stop)
+nmap <leader>rS <Action>(Stop)
 if &ide =~? 'intellij idea'
     nmap <leader>tr <Action>(RunClass)
     nmap <leader>td <Action>(DebugClass)
@@ -217,6 +218,8 @@ nmap <leader>= <Action>(ReformatCode)
 nmap [[ <Action>(MethodUp)
 nmap ]] <Action>(MethodDown)
 " TODO: Find mapping in treesitter - Move element left/right -> MoveElementLeft
+nmap <leader>ml <Action>(MoveElementRight)
+nmap <leader>mh <Action>(MoveElementLeft)
 
 map <leader>oi <Action>(OptimizeImports)
 
@@ -233,6 +236,11 @@ nmap <leader>bs <Action>(BuildWholeSolutionAction)
 nmap <leader>ba <Action>(RebuildSolutionAction)
 
 endif
+
+
+nmap <leader>ac <Action>(copilot.chat.show)
+
+
 
 
 if &ide =~? 'intellij idea'
