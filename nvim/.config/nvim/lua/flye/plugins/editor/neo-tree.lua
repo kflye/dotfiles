@@ -48,8 +48,15 @@ return {
                 follow_current_file = { enabled = true },
                 use_libuv_file_watcher = true,
                 filtered_items = {
-                    show_hidden_count = true,
+                    visible = false, -- when true, they will just be displayed differently than normal items
                     hide_dotfiles = false,
+                    hide_gitignored = false,
+                    hide_hidden = false, -- only works on Windows for hidden files/directories
+                    show_hidden_count = true,
+                    hide_by_name = {
+                      ".git",
+                      "node_modules"
+                    },
                 },
             },
             window = {
