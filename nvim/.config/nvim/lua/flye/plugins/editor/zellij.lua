@@ -1,5 +1,5 @@
 return {
-    "https://git.sr.ht/~swaits/zellij-nav.nvim",
+    "swaits/zellij-nav.nvim",
     lazy = true,
     event = "VeryLazy",
     keys = {
@@ -9,4 +9,5 @@ return {
         { "<c-l>", "<cmd>ZellijNavigateRight<cr>", { silent = true, desc = "navigate right" } },
     },
     opts = {},
+    enabled = false,
 }
