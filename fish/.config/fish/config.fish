@@ -37,6 +37,8 @@ fish_add_path -a $HOME/.local/bin
 fish_add_path -a $HOME/.local/share/zig
 fish_add_path -a $HOME/local/llvm17-release/bin
 fish_add_path -a /usr/local/go/bin
+fish_add_path -a /usr/share/go/bin
+fish_add_path -a /usr/share/zig
 
 
 set -u XDG_CONFIG_HOME "$HOME/.config"
