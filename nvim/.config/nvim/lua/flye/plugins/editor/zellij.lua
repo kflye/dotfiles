@@ -9,5 +9,7 @@ return {
         { "<c-l>", "<cmd>ZellijNavigateRight<cr>", { silent = true, desc = "navigate right" } },
     },
     opts = {},
-    enabled = false,
+    cond = function()
+        return os.getenv("TMUX") == nil
+    end,
 }
