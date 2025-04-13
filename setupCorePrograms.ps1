@@ -1,27 +1,20 @@
 # winget install --id=Docker.DockerDesktop -e  ; 
-# winget install --id=JetBrains.Toolbox -e  ; 
-# winget install --id=Postman.Postman -e  ; 
-# winget install --id=QMK.QMKToolbox -e  ; 
+
+winget install --id=Git.Git -e  ;
+winget install --id=Microsoft.VisualStudioCode -e  ; 
 
 
-# winget install --id=Git.Git -e  ;
-# winget install --id=jftuga.less -e ;
-# winget install --id=dandavison.delta -e ;
-# winget install --id=Microsoft.VisualStudioCode -e  ; 
-# winget install --id=CoreyButler.NVMforWindows -e  ; # nvm for nodejs, 'nvm install 18.14.2 -> nvm use 18.14.2
-
-# winget install --id=ajeetdsouza.zoxide -e  ; 
-# winget install --id=Starship.Starship -e  ;
-
-# winget install --id=Microsoft.PowerToys -e  ; 
-# winget install --id=Obsidian.Obsidian -e  ; 
-# winget install --id=Bitwarden.Bitwarden -e ;
+winget install --id=Microsoft.PowerToys -e  ; 
+winget install --id=Obsidian.Obsidian -e  ; 
+winget install --id=Bitwarden.Bitwarden -e ;
 
 # winget install --id=SamHocevar.WinCompose -e ;
-# winget install --id=Spotify.Spotify -e  ; 
-# winget install --id=7zip.7zip -e  ;
+winget install --id=Spotify.Spotify -e  ; 
+winget install --id=7zip.7zip -e  ;
+winget install --id=SamHocevar.WinCompose  -e
 
-
+winget install --id=Rustlang.Rustup  -e
+winget install --id=GoLang.Go  -e
 
 # https://github.com/ryanoasis/nerd-fonts/releases/latest/
 # https://github.com/ryanoasis/nerd-fonts/discussions/1103
@@ -40,18 +33,12 @@ scoop bucket add extras
 scoop bucket add versions
 
 # scoop install vcredist2022
+# winget install --id=Microsoft.VCRedist.2015+.x64  -e
 
-
-scoop install main/7zip
+scoop install main/7zip # open 7-zip as admin and add context menu
 scoop install main/ntop
 scoop install extras/lazygit
-scoop install extras/wincompose
-scoop install extras/powertoys
-scoop install extras/bitwarden
 scoop install extras/obsidian
-scoop install extras/spotify
-scoop install extras/vscode
-# scoop install extras/qmk-toolbox
 scoop install extras/postman
 scoop install extras/jetbrains-toolbox
 
