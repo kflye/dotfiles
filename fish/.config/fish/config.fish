@@ -40,6 +40,8 @@ fish_add_path -a /usr/local/go/bin
 fish_add_path -a /usr/share/go/bin
 fish_add_path -a /usr/share/zig
 
+set -u VISUAL nvim
+set -u EDITOR "$VISUAL"
 
 set -u XDG_CONFIG_HOME "$HOME/.config"
 set -x NODE_OPTIONS --max-old-space-size=8192

@@ -10,6 +10,7 @@ return {
     },
     opts = {},
     cond = function()
-        return os.getenv("TMUX") == nil
+        return false
+        -- return os.getenv("TMUX") == nil
     end,
 }

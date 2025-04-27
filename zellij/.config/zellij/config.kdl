@@ -220,6 +220,8 @@ plugins {
         cwd "/"
     }
     configuration location="zellij:configuration"
+    plugin-manager location="zellij:plugin-manager"
+    about location="zellij:about"
 
     zjstatus location="file:~/.config/zellij/plugins/zjstatus.wasm" 
     vim-zellij-navigator location="file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" 
@@ -246,9 +248,12 @@ theme "gruvbox-dark"
 // The name of the default layout to load on startup
 // Default: "default" // "compact"
 //
-// default_layout "compact"
+default_layout "zjstatus_layout"
+// simplified_ui true
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
 //
 // default_mode "locked"
+
+// show_startup_tips false
