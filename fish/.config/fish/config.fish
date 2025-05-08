@@ -4,6 +4,7 @@ if status is-interactive
     starship init fish | source
     fzf --fish | source
     zoxide init fish | source
+    fzf --fish | source
 
     fish_config theme choose "kanagawa"
     # fish_config theme choose "tokyonight_storm"
