@@ -104,3 +104,5 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Don't have `o` add a comment
 vim.opt.formatoptions:remove "o"
+
+vim.o.winborder = 'none'

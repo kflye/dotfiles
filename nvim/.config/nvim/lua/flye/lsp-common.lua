@@ -1,11 +1,5 @@
 local M = {}
 
-function M.lsp_capabilities()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-    return capabilities
-end
-
 M.lsp_flags = {
     -- This is the default in Nvim 0.7+
     debounce_text_changes = 150
