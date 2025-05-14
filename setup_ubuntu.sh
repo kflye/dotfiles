@@ -2,14 +2,6 @@
 #
 # fractional scaling gnome :  gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']" 
 
-if [[ -z "$XDG_CONFIG_HOME" ]]; then
-	echo $XDG_CONFIG_HOME
-	echo ´XDG_CONFIG_HOME not set´
-	# exit 1
-fi
-
-echo $XDG_CONFIG_HOME
-
 sudo add-apt-repository ppa:git-core/ppa
 sudo apt-add-repository ppa:fish-shell/release-3
 
@@ -63,4 +55,7 @@ if ! command -v fzf &> /dev/null; then
     ~/.fzf/install --no-bash --no-zsh
 fi
 
-./setup_fish.sh
+if [ ! -f "${HOME}/.gitconfig.local" ]; then
+	echo "copying .gitconfig.local"
+	cp "${clone_path}/.gitconfig.local" "${HOME}/.gitconfig.local" 
+fi

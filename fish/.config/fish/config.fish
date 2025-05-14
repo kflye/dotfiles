@@ -2,6 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     fish_ssh_agent
     starship init fish | source
+    fzf --fish | source
     zoxide init fish | source
 
     fish_config theme choose "kanagawa"
@@ -16,8 +17,13 @@ if status is-interactive
     end 
     eval $cmd
     
+    if test -e "/usr/sbin/wsl2-ssh-agent"
+        echo "eval wsl2-ssh"
+        bass eval "$(/usr/sbin/wsl2-ssh-agent)"
+    end
+
     # clone and run install from https://github.com/junegunn/fzf 
-    fish_user_key_bindings
+    # fish_user_key_bindings
 
     # Enable fzf key bindings
     set -u FZF_DEFAULT_COMMAND "fd --type f --color=never --hidden"

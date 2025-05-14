@@ -54,9 +54,9 @@ return {
             { "<leader>tt", function() require("neotest").run.stop() end,                                       desc = "Stop / Terminate" },
         },
     },
-    {
-        dir = "~/neotest-jest/"
-    },
+    --    {
+    --       dir = "~/neotest-jest/"
+    --  },
     {
         "rcasia/neotest-java",
         init = function()

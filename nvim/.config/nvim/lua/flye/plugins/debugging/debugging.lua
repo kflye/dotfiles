@@ -66,7 +66,16 @@ return {
                 "microsoft/vscode-js-debug",
                 -- After install, build it and rename the dist directory to out
                 -- npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -Recurse -Force out && mv dist out
+                -- build = function()
+                --     local this_os = vim.loop.os_uname().sysname
+                --     if this_os:find "Windows" then
+                --         os.execute('npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -Recurse -Force out && mv dist out')
+                --     else
+                --         os.execute('npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out')
+                --     end
+                -- end,
                 build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
+
                 version = "1.*",
             },
             { "mfussenegger/nvim-dap" },
