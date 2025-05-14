@@ -19,7 +19,7 @@ if status is-interactive
     
     if test -e "/usr/sbin/wsl2-ssh-agent"
         echo "eval wsl2-ssh"
-        bass eval "$(/usr/sbin/wsl2-ssh-agent)"
+        eval "$(/usr/sbin/wsl2-ssh-agent)"
     end
 
     # clone and run install from https://github.com/junegunn/fzf 
