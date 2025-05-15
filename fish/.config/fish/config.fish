@@ -18,7 +18,6 @@ if status is-interactive
     eval $cmd
     
     if test -e "/usr/sbin/wsl2-ssh-agent"
-        echo "eval wsl2-ssh"
         eval "$(/usr/sbin/wsl2-ssh-agent)"
     end
 
