@@ -16,7 +16,8 @@
 sudo pacman -S --needed wget curl python3 \
 	ripgrep fd bat fzf zoxide python-pip fish keychain \
 	ninja gettext unzip lazygit starship \
-    stow jq bc zellij neovim git-delta
+    stow jq bc zellij neovim git-delta \
+    wofi waybar
 
 
 if [ ! -d "${HOME}/.local/bin" ]; then
