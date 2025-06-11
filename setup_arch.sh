@@ -12,6 +12,9 @@
 # [user]
 # default=flye
 #
+# nano /etc/locale.gen
+# sudo locale-gen
+#
 
 sudo pacman -S --needed wget curl python3 \
 	ripgrep fd bat fzf zoxide python-pip fish keychain \
