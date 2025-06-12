@@ -1,5 +1,3 @@
-local LspCommon = require('flye.lsp-common')
-
 -- Diagnostic keymaps
 -- LSP Diagnostics Options Setup
 
