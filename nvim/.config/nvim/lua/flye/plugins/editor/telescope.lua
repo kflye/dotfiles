@@ -3,6 +3,7 @@ return {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
         version = '0.1.x',
+        enabled = false,
         dependencies = {
             {
                 { 'nvim-lua/plenary.nvim' },
