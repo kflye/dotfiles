@@ -208,6 +208,7 @@ nmap <leader>cr :action RenameElement<CR>
 nmap <leader>ca :action ShowIntentionActions<CR>
 vmap <leader>ca :action ShowIntentionActions<CR>
 nmap <leader>cR :action Refactorings.QuickListPopupAction<CR>
+nmap <leader>ch :action ToggleInlayHintsGloballyAction<CR>
 let g:WhichKeyDesc_code_introduce = "<leader>ci Introduce(Variable/Field/Parameter)"
 nmap <leader>civ <Action>(IntroduceVariable)
 nmap <leader>cif <Action>(IntroduceField)
