@@ -66,6 +66,7 @@
 
 [rerere]
 	enabled = true
+	autoUpdate = true
 
 [delta] # https://github.com/dandavison/delta
 	true-color = always

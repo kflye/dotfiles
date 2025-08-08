@@ -73,6 +73,10 @@ nnoremap <Leader><Leader>r :%s//g<Left><Left>
 
 
 " ----- Window navigation -----
+nmap <c-up> <Action>(PrevSplitter)
+nmap <c-down> <Action>(NextSplitter)
+nmap <c-right> <Action>(NextSplitter)
+nmap <c-left> <Action>(PrevSplitter)
 nmap <c-l> <Action>(NextSplitter)
 nmap <c-h> <Action>(PrevSplitter)
 nmap <c-j> <Action>(NextSplitter)
