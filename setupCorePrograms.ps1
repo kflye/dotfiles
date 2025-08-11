@@ -16,6 +16,36 @@ winget install --id=SamHocevar.WinCompose  -e
 winget install --id=Rustlang.Rustup  -e
 winget install --id=GoLang.Go  -e
 
+### WORK ###
+
+# winget install -e --id gsass1.NTop
+# winget install -e --id JesseDuffield.lazygit
+# winget install -e --id Obsidian.Obsidian
+# winget install -e --id Postman.Postman
+# winget install -e --id JetBrains.Toolbox
+
+# winget install -e --id GnuWin32.Make # ERROR
+# winget install -e --id CoreyButler.NVMforWindows
+
+# winget install -e --id Starship.Starship
+# winget install -e --id ajeetdsouza.zoxide
+# winget install -e --id sharkdp.bat
+# winget install -e --id sharkdp.fd
+# winget install -e --id BurntSushi.ripgrep.GNU
+# winget install -e --id junegunn.fzf
+# winget install -e --id jftuga.less
+
+# winget install -e --id Neovim.Neovim
+
+# winget install -e --id Helm.Helm
+# winget install -e --id Insomnia.Insomnia
+
+# winget install -e --id dandavison.delta
+# winget install -e --id EclipseAdoptium.Temurin.17.JDK
+# winget install -e --id EclipseAdoptium.Temurin.21.JDK
+
+### WORK ###
+
 # https://github.com/ryanoasis/nerd-fonts/releases/latest/
 # https://github.com/ryanoasis/nerd-fonts/discussions/1103
 # Have installed all 'JetBrainsMonoNerdFont-' variants
@@ -40,13 +70,21 @@ scoop install main/ntop
 scoop install extras/lazygit
 scoop install extras/obsidian
 scoop install extras/postman
+scoop install extras/insomnia
 scoop install extras/jetbrains-toolbox
+scoop install extras/spotify
+scoop install extras/wincompose
+scoop install extras/powertoys
+scoop install extras/bitwarden
 
 
 scoop install main/git
 scoop install main/make
 scoop install main/gcc
 scoop install main/nvm
+scoop install main/go
+scoop install main/rustup
+scoop install main/helm
 
 
 scoop install main/starship
@@ -61,3 +99,7 @@ scoop install main/less
 
 scoop install main/neovim
 scoop install main/dark
+
+
+scoop install java/temurin17-jdk
+scoop install java/temurin21-jdk
