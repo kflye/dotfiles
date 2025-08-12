@@ -4,12 +4,12 @@ New-Item -ItemType SymbolicLink -Force -Path $profile -Target $path\Microsoft.Po
 
 
 function Install($moduleName) {
-    Install-Module $moduleName  -Confirm:$False -Force;
+    Install-Module $moduleName  -Confirm:$False -Force -Scope CurrentUser;
 }
 
 
-Install("posh-git")
-Install("PSfzf");
+# Install("posh-git")
+# Install("PSfzf");
 #Install("ZLocation");
 #Install("posh-sshell");
-Install("Terminal-Icons");
+# Install("Terminal-Icons");

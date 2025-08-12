@@ -1,26 +1,9 @@
 #!/usr/bin/env bash
-#
 
-#
-# pacman -S sudo
-# groupadd sudo
-# Enable sudoers: nano /etc/sudoers and uncomment lines %wheel ALL=(ALL) NOPASSWD: ALL and %sudo   ALL=(ALL) ALL
-# useradd -m -G wheel,sudo -s /bin/bash flye
-# passwd flye
-#
-# Add to /etc/wsl.conf
-# [user]
-# default=flye
-#
-# nano /etc/locale.gen
-# sudo locale-gen
-#
-
-sudo pacman -S --needed wget curl python3 \
+sudo pacman -S --needed wget curl git python3 \
 	ripgrep fd bat fzf zoxide python-pip fish keychain \
 	ninja gettext unzip lazygit starship \
     stow jq bc zellij neovim git-delta \
-    wofi waybar
 
 
 if [ ! -d "${HOME}/.local/bin" ]; then
