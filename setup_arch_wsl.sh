@@ -7,9 +7,9 @@
 
 user=$1
 
-if [ -z "$user" ]
+if [ -z "$user" ]; then
     echo 'No username provided'
-    exit 1
+    exit 1;
 fi
 
 
