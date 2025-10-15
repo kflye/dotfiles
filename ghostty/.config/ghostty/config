@@ -1,4 +1,4 @@
-theme = GruvboxDark
+theme = Gruvbox Dark
 
 font-family = "RedHatMono Nerd Font"
-
+font-size = 14
