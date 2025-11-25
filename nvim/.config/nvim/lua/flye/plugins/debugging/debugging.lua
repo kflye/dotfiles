@@ -28,8 +28,9 @@ return {
             vim.keymap.set({ 'n', 'v' }, '<leader>dp', widgets.preview, { desc = 'Debug: [P]review' })
             vim.keymap.set('n', '<leader>df', function() widgets.centered_float(widgets.frames) end, { desc = 'Debug: [F]rames' })
             vim.keymap.set('n', '<leader>ds', function() widgets.centered_float(widgets.scopes) end, { desc = 'Debug: [S]copes' })
-        end,
 
+            require('flye.plugins.dap.js-debug-adapter')
+        end,
     },
     {
         "rcarriga/nvim-dap-ui",
@@ -51,63 +52,9 @@ return {
             vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
         end,
     },
-    --  TODO: Have removed:    'jay-babu/mason-nvim-dap.nvim',
     {
         "theHamsta/nvim-dap-virtual-text",
         config = true,
-    },
-    {
-        "mxsdev/nvim-dap-vscode-js",
-        dependencies =
-        {
-            {
-                "microsoft/vscode-js-debug",
-                -- After install, build it and rename the dist directory to out
-                -- npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -Recurse -Force out && mv dist out
-                -- build = function()
-                --     local this_os = vim.loop.os_uname().sysname
-                --     if this_os:find "Windows" then
-                --         os.execute('npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -Recurse -Force out && mv dist out')
-                --     else
-                --         os.execute('npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out')
-                --     end
-                -- end,
-                build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
-
-                version = "1.*",
-            },
-            { "mfussenegger/nvim-dap" },
-        },
-        opts = function()
-            return {
-                debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
-                adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
-            }
-        end,
-        config = function(_, opts)
-            require("dap-vscode-js").setup(opts)
-            local dap = require("dap")
-
-            for _, language in ipairs({ "javascript", "typescript", "javascriptreact", "typescriptreact" }) do
-                dap.configurations[language] = {
-                    {
-                        type = "pwa-node",
-                        request = "launch",
-                        name = "Launch file",
-                        program = "${file}",
-                        cwd = "${workspaceFolder}",
-                    },
-                    {
-                        type = "pwa-node",
-                        request = "attach",
-                        name = "Attach",
-                        processId = require 'dap.utils'.pick_process,
-                        cwd = "${workspaceFolder}",
-                    },
-                    -- TODO: Attach to running angular / chrome process
-                }
-            end
-        end,
     },
     {
         "leoluz/nvim-dap-go",

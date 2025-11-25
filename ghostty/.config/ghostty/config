@@ -1,4 +1,11 @@
+# reload with (ctrl/cmd)+shift+,
 theme = Gruvbox Dark
 
 font-family = "RedHatMono Nerd Font"
 font-size = 14
+
+keybind = option+backspace=text:\x1b\x7f
+
+macos-option-as-alt = true
+keybind = alt+left=unbind
+keybind = alt+right=unbind

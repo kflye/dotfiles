@@ -136,6 +136,7 @@ return {
                 'codelldb',
                 'netcoredbg',
                 'lua_ls',
+                'js-debug-adapter'
             },
         },
         dependencies = {
