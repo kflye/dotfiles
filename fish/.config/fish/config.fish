@@ -32,14 +32,18 @@ if status is-interactive
 
     # opam configuration (keyboard generator)
     source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+    source $HOME/.config/fish/local.fish > /dev/null 2> /dev/null; or true
 
-    dbus-update-activation-environment --systemd DISPLAY
+    # dbus-update-activation-environment --systemd DISPLAY
 end
 
 fish_add_path -a $HOME/.cargo/bin
 fish_add_path -a $HOME/.local/bin
+fish_add_path -a $HOME/bin
 fish_add_path -a $HOME/.local/share/zig
 fish_add_path -a $HOME/local/llvm17-release/bin
+fish_add_path -a "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+fish_add_path -a "$HOME/.local/share/nvm/v22.19.0/bin"
 fish_add_path -a /usr/local/go/bin
 fish_add_path -a /usr/share/go/bin
 fish_add_path -a /usr/share/zig
