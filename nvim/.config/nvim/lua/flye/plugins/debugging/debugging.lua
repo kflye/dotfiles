@@ -10,14 +10,15 @@ return {
 
             vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
             vim.keymap.set('n', '<leader>rd', dap.continue, { desc = 'Debug: Start/Continue' })
+            vim.keymap.set('n', '<leader>rS', dap.terminate, { desc = 'Debug: Stop/Terminate' })
+            vim.keymap.set('n', '<leader>tS', dap.terminate, { desc = 'Debug: Stop/Terminate' })
             vim.keymap.set('n', '<leader>tdl', dap.run_last, { desc = 'Debug: Run last' })
-            vim.keymap.set('n', '<leader>tC', dap.run_to_cursor, { desc = '[D]ebug: run to [C]ursor' })
 
             vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: Step Into' })
             vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Debug: Step Over' })
             vim.keymap.set('n', '<S-F11>', dap.step_out, { desc = 'Debug: Step Out' })
-
-            vim.keymap.set('n', '<leader>tdt', dap.terminate, { desc = 'Debug: Run Stop' })
+            vim.keymap.set('n', '<F12>', dap.run_to_cursor, { desc = '[D]ebug: run to [C]ursor' })
+            vim.keymap.set('n', '<leader>tC', dap.run_to_cursor, { desc = '[D]ebug: run to [C]ursor' })
 
             vim.keymap.set('n', '<leader>tb', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
             vim.keymap.set('n', '<leader>tB', function() dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, { desc = 'Debug: Set Breakpoint' })
@@ -50,6 +51,7 @@ return {
 
             -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
             vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
+            vim.keymap.set('n', '<leader>tdt', dapui.toggle, { desc = 'Debug: See last session result.' })
         end,
     },
     {
