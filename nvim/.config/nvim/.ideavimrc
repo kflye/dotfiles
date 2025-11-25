@@ -150,6 +150,7 @@ let g:WhichKeyDesc_test = "<leader>t Test / Debug"
 nmap <leader>tb <Action>(ToggleLineBreakpoint)
 nmap <leader>tS <Action>(Stop)
 nmap <leader>rS <Action>(Stop)
+nmap <leader>tC <Action>(RunToCursor)
 if &ide =~? 'intellij idea'
     nmap <leader>tr <Action>(RunClass)
     nmap <leader>td <Action>(DebugClass)
