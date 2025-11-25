@@ -8,7 +8,7 @@ return {
 
             vim.keymap.set({ 'v', 'n' }, '<leader>d', '', { desc = '+debug' })
 
-            vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+            vim.keymap.set('n', '<F9>', dap.continue, { desc = 'Debug: Start/Continue' })
             vim.keymap.set('n', '<leader>rd', dap.continue, { desc = 'Debug: Start/Continue' })
             vim.keymap.set('n', '<leader>rS', dap.terminate, { desc = 'Debug: Stop/Terminate' })
             vim.keymap.set('n', '<leader>tS', dap.terminate, { desc = 'Debug: Stop/Terminate' })
