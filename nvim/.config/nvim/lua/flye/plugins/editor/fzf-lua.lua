@@ -46,7 +46,10 @@ return {
             { '<leader>sl',  function() require('fzf-lua').loclist {} end,      desc = '[S]earch [L]oclist' },
             { '<leader>sq',  function() require('fzf-lua').quickfix {} end,     desc = '[S]earch [Q]uickfix list' },
 
-            { '<leader>sx',  function() require('fzf-lua').diagnostics {} end,  desc = '[S]earch [D]iagnostics' }
+            { '<leader>sx',  function() require('fzf-lua').diagnostics {} end,  desc = '[S]earch [D]iagnostics' },
+
+            -- modify the current 'toggle-all' bind to send to quickfix list:
+            ["alt-a"] = "select-all+accept",
         }
     }
 }
