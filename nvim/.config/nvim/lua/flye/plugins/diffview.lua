@@ -1,6 +1,12 @@
 return {
     "sindrets/diffview.nvim",
-    opts = {},
+    opts = {
+        view = {
+            merge_tool = {
+                layout = "diff4_mixed"
+            }
+        }
+    },
     keys = {
         { '<leader>g',   '',                                           desc = '+git' },
         { '<leader>gdf', "<Cmd>DiffviewFileHistory --follow %<CR>",    desc = '[G]it [D]iff [F]ile' },
