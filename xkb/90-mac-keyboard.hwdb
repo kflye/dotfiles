@@ -1,0 +1,12 @@
+# sudo nano /etc/udev/hwdb.d/90-mac-keyboard.hwdb
+# apply after
+
+# sudo systemd-hwdb update
+# sudo udevadm trigger
+
+
+# Apple internal keyboard – swap Right Cmd and Right Alt
+evdev:input:b0003v05ACp*
+ KEYBOARD_KEY_700E7=rightalt   # Right Cmd → Right Alt
+ KEYBOARD_KEY_700E6=rightmeta  # Right Alt → Right Cmd
+
