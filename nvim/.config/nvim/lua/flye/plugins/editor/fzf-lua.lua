@@ -7,7 +7,11 @@ return {
                 hidden = true,
             }
         },
-
+        config = function(_, opts)
+            local fzf = require('fzf-lua')
+            fzf.setup(opts)
+            fzf.register_ui_select()
+        end,
         keys = {
             { '<leader>s', '', desc = '+search' },
             { '<leader>g', '', desc = '+git' },

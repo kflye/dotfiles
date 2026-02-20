@@ -62,27 +62,42 @@ vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv")
 
 
 -- LSP actions
-vim.keymap.set("n", '<leader>gd', function() vscode.action("editor.action.revealDefinition") end, { desc = '[G]oto [D]efinition' })
-vim.keymap.set("n", '<leader>gi', function() vscode.action("editor.action.goToImplementation") end, { desc = '[G]oto [I]mplementation' })
-vim.keymap.set("n", '<leader>go', function() vscode.action("editor.action.goToTypeDefinition") end, { desc = 'Type Definition' })
-vim.keymap.set("n", '<leader>gr', function() vscode.action("editor.action.goToReferences") end, { desc = '[G]oto [R]eferences' })
+-- Go-to: bare gX consistent with nvim lsp.lua and .ideavimrc
+vim.keymap.set("n", 'gd', function() vscode.action("editor.action.revealDefinition") end, { desc = '[G]oto [D]efinition' })
+vim.keymap.set("n", 'gi', function() vscode.action("editor.action.goToImplementation") end, { desc = '[G]oto [I]mplementation' })
+vim.keymap.set("n", 'go', function() vscode.action("editor.action.goToTypeDefinition") end, { desc = 'Type Definition' })
+vim.keymap.set("n", 'gO', function() vscode.action("editor.action.goToTypeDefinition") end, { desc = 'Type Definition (alt)' })
+vim.keymap.set("n", 'gr', function() vscode.action("editor.action.goToReferences") end, { desc = '[G]oto [R]eferences' })
+vim.keymap.set("n", 'gD', function() vscode.action("editor.action.revealDeclaration") end, { desc = '[G]oto [D]eclaration' })
 
-vim.keymap.set("n", "K", function() vscode.action("editor.action.marker.prev") end, { desc = "Hover Documentation" })
-vim.keymap.set("n", "<C-k>", function() vscode.action("editor.action.triggerParameterHints") end, { desc = "Signature Documentation" })
+-- Hover / signature help
+vim.keymap.set("n", "K", function() vscode.action("editor.action.showHover") end, { desc = "Hover Documentation" })
+vim.keymap.set("n", "<C-A-k>", function() vscode.action("editor.action.triggerParameterHints") end, { desc = "Signature Documentation" })
+vim.keymap.set("i", "<C-A-k>", function() vscode.action("editor.action.triggerParameterHints") end, { desc = "Signature Documentation" })
 
-vim.keymap.set("n", "<leader>sds", function() vscode.action("workbench.action.showAllSymbols") end, { desc = "[S]earch [D]ocument [S]ymbols" })
-vim.keymap.set("n", "<leader>sdS", function() vscode.action("workbench.action.showAllSymbols") end, { desc = "Workspace Symbols" })
+-- Code actions
+vim.keymap.set("n", "<leader>cr", function() vscode.action("editor.action.rename") end, { desc = "[C]ode [R]ename" })
+vim.keymap.set("n", "<leader>ca", function() vscode.action("editor.action.quickFix") end, { desc = "[C]ode [A]ctions" })
+vim.keymap.set("v", "<leader>ca", function() vscode.action("editor.action.quickFix") end, { desc = "[C]ode [A]ctions" })
 
-vim.keymap.set("n", "<leader>re", function() vscode.action("editor.action.rename") end, { desc = "" })
-vim.keymap.set("n", "<leader>ca", function() vscode.action("editor.action.quickFix") end, { desc = "" })
+-- Format document
+vim.keymap.set("n", "<leader>=", function() vscode.action("editor.action.formatDocument") end, { desc = "Format document" })
 
-vim.keymap.set("n", "<leader>=", function() vscode.action("editor.action.formatDocument") end, { desc = "format document" })
+-- Inlay hints toggle
+vim.keymap.set("n", "<leader>ch", function() vscode.action("editor.action.inlayHints.toggle") end, { desc = "[C]ode toggle inlay [H]ints" })
+
+-- Document / workspace symbols
+vim.keymap.set("n", "<leader>sds", function() vscode.action("workbench.action.gotoSymbol") end, { desc = "[S]earch [D]ocument [S]ymbols" })
+vim.keymap.set("n", "<leader>sdS", function() vscode.action("workbench.action.showAllSymbols") end, { desc = "[S]earch workspace [S]ymbols" })
 
 
 vim.keymap.set('n', '[d', function() vscode.action("editor.action.marker.prev") end, { desc = "Go to previous problem" })
 vim.keymap.set('n', ']d', function() vscode.action("editor.action.marker.next") end, { desc = "Go to next problem" })
-vim.keymap.set('n', '<leader>e', function() vscode.action("editor.action.showHover") end, { desc = "Open problem float" })
-vim.keymap.set('n', '<leader>q', function() vscode.action("workbench.action.closeActiveEditor") end)
+-- leader-prefixed aliases (consistent with .ideavimrc)
+vim.keymap.set('n', '<leader>ge', function() vscode.action("editor.action.marker.next") end, { desc = "Next error/diagnostic" })
+vim.keymap.set('n', '<leader>gE', function() vscode.action("editor.action.marker.prev") end, { desc = "Prev error/diagnostic" })
+-- Show hover/error info under cursor (nvim: diagnostic.open_float / ideavim: ShowErrorDescription)
+vim.keymap.set('n', '<leader>ce', function() vscode.action("editor.action.showHover") end, { desc = "[C]ode [E]rror / diagnostic float" })
 vim.keymap.set('n', '<leader>bd', function() vscode.action("workbench.action.closeActiveEditor") end)
 vim.keymap.set('n', '<leader>qa', function() vscode.action("workbench.action.closeOtherEditors") end)
 vim.keymap.set('n', '<leader>qA', function() vscode.action("workbench.action.closeEditorsInGroup") end)
@@ -103,7 +118,7 @@ vim.keymap.set('n', '<leader>sw', function()
     vscode.action("workbench.action.findInFiles")
 end, { desc = "[S]earch [T]ext by current [W]ord" })
 vim.keymap.set('n', '<leader>sg', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
-vim.keymap.set('n', '<leader>gf', function() vscode.action("") end, { desc = "[S]earch [G]it [F]iles" })
+vim.keymap.set('v', '<leader>sg', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
 
 -- window navigation
 vim.keymap.set('n', '<C-l>', function() vscode.action("workbench.action.focusNextGroup") end, { desc = "Move to next tab group" })
@@ -115,19 +130,42 @@ vim.keymap.set('n', '<S-h>', function() vscode.action("workbench.action.previous
 vim.keymap.set('n', '<C-right>', function() vscode.action("workbench.action.focusNextGroup") end, { desc = "Move to next tab group" })
 vim.keymap.set('n', '<C-left>', function() vscode.action("workbench.action.focusPreviousGroup") end, { desc = "Move to prev tab group" })
 
+-- Navigate back/forward (jump history)
+vim.keymap.set('n', '<C-o>', function() vscode.action("workbench.action.navigateBack") end, { desc = "Navigate back" })
+vim.keymap.set('n', '<C-i>', function() vscode.action("workbench.action.navigateForward") end, { desc = "Navigate forward" })
+
 -- terminal -- <C-`> default vscode keybinding
 vim.keymap.set('n', '<leader>tt', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "[T]oggle [T]erminal" })
+vim.keymap.set('n', '<leader>wT', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "[W]orkspace [T]erminal" })
 
 
 -- file explorer
-vim.keymap.set('n', '<leader>wt', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "Window/Explorer toggle" })
-vim.keymap.set('n', '<leader>ws', function() vscode.action("workbench.files.action.showActiveFileInExplorer") end, { desc = "Window/Explorer toggle" })
+vim.keymap.set('n', '<leader>wt', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "[W]orkspace [T]oggle sidebar" })
+vim.keymap.set('n', '<leader>wf', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "[W]orkspace [F]iles sidebar" })
+vim.keymap.set('n', '<leader>ws', function() vscode.action("workbench.files.action.showActiveFileInExplorer") end, { desc = "[W]orkspace [S]how file in explorer" })
+vim.keymap.set('n', '<leader>ww', function() vscode.action("workbench.action.togglePanel") end, { desc = "[W]orkspace toggle panel" })
+
+-- test explorer
+vim.keymap.set('n', '<leader>wu', function() vscode.action("workbench.view.testing.focus") end, { desc = "[W]orkspace [U]nit test explorer" })
 
 
 -- diagnostic / problems
 vim.keymap.set('n', '<leader>xx', function() vscode.action("workbench.actions.view.problems") end, { desc = "Toggle show all diagnostics" })
 
 
--- debugging
-vim.keymap.set('n', '<leader>tb', function() vscode.action("editor.debug.action.toggleBreakpoint") end, { desc = "Toggle breakpoint"})
-vim.keymap.set('n', '<leader>tB', function() vscode.action("editor.debug.action.toggleInlineBreakpoint") end, { desc = "Toggle breakpoint"})
+-- build
+vim.keymap.set('n', '<leader>bs', function() vscode.action("workbench.action.tasks.build") end, { desc = "[B]uild [S]olution" })
+vim.keymap.set('n', '<leader>ba', function() vscode.action("workbench.action.tasks.runTask") end, { desc = "[B]uild [A]ll / run task" })
+
+
+-- run / debug
+vim.keymap.set('n', '<leader>rd', function() vscode.action("workbench.action.debug.start") end, { desc = "[R]un [D]ebug" })
+vim.keymap.set('n', '<leader>ru', function() vscode.action("workbench.action.debug.run") end, { desc = "[R]un without debug" })
+vim.keymap.set('n', '<leader>ra', function() vscode.action("workbench.action.debug.restart") end, { desc = "[R]estart debug" })
+vim.keymap.set('n', '<leader>rS', function() vscode.action("workbench.action.debug.stop") end, { desc = "[R]un [S]top" })
+vim.keymap.set('n', '<leader>tS', function() vscode.action("workbench.action.debug.stop") end, { desc = "[T]erminate / [S]top debug" })
+vim.keymap.set('n', '<leader>tC', function() vscode.action("editor.debug.action.runToCursor") end, { desc = "[T]est run to [C]ursor" })
+
+-- breakpoints
+vim.keymap.set('n', '<leader>tb', function() vscode.action("editor.debug.action.toggleBreakpoint") end, { desc = "Toggle breakpoint" })
+vim.keymap.set('n', '<leader>tB', function() vscode.action("editor.debug.action.toggleInlineBreakpoint") end, { desc = "Toggle inline breakpoint" })

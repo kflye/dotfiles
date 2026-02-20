@@ -43,7 +43,7 @@ fish_add_path -a $HOME/bin
 fish_add_path -a $HOME/.local/share/zig
 fish_add_path -a $HOME/local/llvm17-release/bin
 fish_add_path -a "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
-fish_add_path -a "$HOME/.local/share/nvm/v22.19.0/bin"
+fish_add_path -a "$HOME/.local/share/nvm/v24.13.1/bin"
 fish_add_path -a /usr/local/go/bin
 fish_add_path -a /usr/share/go/bin
 fish_add_path -a /usr/share/zig

@@ -204,6 +204,7 @@ symbol = "󰟔 "
 
 [ruby]
 symbol = " "
+detect_variables = []
 
 [rust]
 symbol = "󱘗 "
