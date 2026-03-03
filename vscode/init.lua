@@ -148,6 +148,9 @@ vim.keymap.set('n', '<leader>ww', function() vscode.action("workbench.action.tog
 -- test explorer
 vim.keymap.set('n', '<leader>wu', function() vscode.action("workbench.view.testing.focus") end, { desc = "[W]orkspace [U]nit test explorer" })
 
+-- ai / copilot chat
+vim.keymap.set('n', '<leader>ac', function() vscode.action("workbench.action.chat.toggle") end, { desc = "[A]I [C]hat toggle" })
+
 
 -- diagnostic / problems
 vim.keymap.set('n', '<leader>xx', function() vscode.action("workbench.actions.view.problems") end, { desc = "Toggle show all diagnostics" })

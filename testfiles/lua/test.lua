@@ -16,6 +16,10 @@ function M.on_attach(client, bufnr)
             desc = desc
         })
     end
+
+    nmap("asdf", function()
+
+    end)
 end
 
 return M;

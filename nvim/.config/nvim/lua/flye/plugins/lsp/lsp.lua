@@ -55,19 +55,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- [d and ]d move between diagnostics in the current buffer ([D jumps to the first diagnostic, ]D jumps to the last)
         --
         -- LSP actions
-        nmap('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition', bufnr)
-        nmap('gi', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation', bufnr)
-        nmap('go', require('fzf-lua').lsp_typedefs, 'Type Definition', bufnr)
-        nmap('gr', function()
-            require('fzf-lua').lsp_references({ includeDeclaration = false })
-        end, '[G]oto [R]eferences', bufnr)
+        -- nmap('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition', bufnr)
+        -- nmap('gi', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation', bufnr)
+        -- nmap('go', require('fzf-lua').lsp_typedefs, 'Type Definition', bufnr)
+        -- nmap('gr', function()
+        --     require('fzf-lua').lsp_references({ includeDeclaration = false })
+        -- end, '[G]oto [R]eferences', bufnr)
 
         nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
         vim.keymap.set({ 'n', 'i' }, '<C-M-k>', vim.lsp.buf.signature_help,
             { desc = 'LSP: Signature Documentation', buffer = bufnr, noremap = true, silent = true })
 
-        nmap('<leader>sds', require('fzf-lua').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
-        nmap('<leader>sdS', require('fzf-lua').lsp_workspace_symbols, '[S]earch [W]orkspace [S]ymbols', bufnr)
+        -- nmap('<leader>sds', require('fzf-lua').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
+        -- nmap('<leader>sdS', require('fzf-lua').lsp_workspace_symbols, '[S]earch [W]orkspace [S]ymbols', bufnr)
 
         -- Lesser used LSP functionality
         nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)

@@ -44,7 +44,7 @@ return {
             map('n', '<leader>ghw', gitsigns.toggle_word_diff, { desc = "Toggle word diff" })
         end
     },                                     -- Replace deleted/yanked text: gr{motion}
-    { "vim-scripts/ReplaceWithRegister" }, -- ds / cs / ys - additional s for whole line
+    -- { "vim-scripts/ReplaceWithRegister" }, -- ds / cs / ys - additional s for whole line
     -- e.g ds", cs"[ , ysiw"
     { "tpope/vim-surround" }
 }
