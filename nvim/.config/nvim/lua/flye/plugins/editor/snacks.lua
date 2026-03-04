@@ -18,7 +18,6 @@ return {
         { "<leader>gd", function() Snacks.picker.git_diff() end,                                desc = "Git Diff (Hunks)" },
         { "<leader>gf", function() Snacks.picker.git_log_file() end,                            desc = "Git Log File" },
         -- Grep
-        { "<leader>sb", function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
         { "<leader>sB", function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
         { "<leader>sg", function() Snacks.picker.grep() end,                                    desc = "Grep" },
         { "<leader>sw", function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word", mode = { "n", "x" } },
@@ -33,7 +32,7 @@ return {
         { '<leader>s"', function() Snacks.picker.registers() end,                               desc = "Registers" },
         { '<leader>s/', function() Snacks.picker.search_history() end,                          desc = "Search History" },
         { "<leader>sa", function() Snacks.picker.autocmds() end,                                desc = "Autocmds" },
-        { "<leader>sb", function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
+        { "<leader>so", function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
         { "<leader>sc", function() Snacks.picker.command_history() end,                         desc = "Command History" },
         { "<leader>sC", function() Snacks.picker.commands() end,                                desc = "Commands" },
         { "<leader>sd", function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },

@@ -117,8 +117,8 @@ vim.keymap.set('n', '<leader>sw', function()
     vscode.action("editor.action.addSelectionToNextFindMatch")
     vscode.action("workbench.action.findInFiles")
 end, { desc = "[S]earch [T]ext by current [W]ord" })
-vim.keymap.set('n', '<leader>sg', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
-vim.keymap.set('v', '<leader>sg', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
+vim.keymap.set({'n', 'v'}, '<leader>sg', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
+vim.keymap.set({'n', 'v'}, '<leader>/', function() vscode.action("workbench.action.quickTextSearch") end, { desc = "[S]earch [T]ext by [G]rep" })
 
 -- window navigation
 vim.keymap.set('n', '<C-l>', function() vscode.action("workbench.action.focusNextGroup") end, { desc = "Move to next tab group" })

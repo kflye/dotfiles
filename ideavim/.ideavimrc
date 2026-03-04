@@ -32,6 +32,7 @@ Plug 'preservim/nerdtree'    "Plugin Section
 " Replace deleted/yanked text: gr{motion}
 " Plug 'vim-scripts/ReplaceWithRegister'
 
+" cs / ds / ys - change surround / delete surround / add surround
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 
@@ -180,8 +181,10 @@ nmap <leader>sb <Action>(RecentFiles)
 map <leader>sw <Action>(EditorSelectWord)
 nmap <leader>sg <Action>(FindInPath)
 xmap <leader>sg <Action>(FindInPath)
-nmap <leader>sds <Action>(FileStructurePopup)
-nmap <leader>sl <Action>(RecentLocations)
+nmap <leader>/ <Action>(FindInPath)
+xmap <leader>/ <Action>(FindInPath)
+nmap <leader>ss <Action>(FileStructurePopup)
+nmap <leader>sr <Action>(RecentLocations)
 
 nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
@@ -190,10 +193,14 @@ nmap <C-i> <Action>(Forward)
 
 " ----- Completion / snippets -----
 imap <c-y> <Action>(EditorChooseLookupItem)
-" nmap <c-y> <Action>(EditorChooseLookupItem) " TODO: Overlaps with move page one line down in normal mode
 imap <c-l> <Action>(NextTemplateVariable)
 imap <c-h> <Action>(PreviousTemplateVariable)
-
+nmap <c-space> <Action>(CodeCompletion)
+imap <c-space> <Action>(CodeCompletion)
+imap <s-space> <Action>(CallInlineCompletionAction)
+" CodeCompletion
+" CallInlineCompletionAction
+" InsertInlineCompletionAction
 
 
 " ----- LSP -----
@@ -214,10 +221,12 @@ nmap <leader>ca :action ShowIntentionActions<CR>
 vmap <leader>ca :action ShowIntentionActions<CR>
 nmap <leader>cR :action Refactorings.QuickListPopupAction<CR>
 nmap <leader>ch :action ToggleInlayHintsGloballyAction<CR>
-let g:WhichKeyDesc_code_introduce = "<leader>ci Introduce(Variable/Field/Parameter)"
+let g:WhichKeyDesc_code_introduce = "<leader>ci Introduce(Variable/Field/Parameter) / Inline"
 nmap <leader>civ <Action>(IntroduceVariable)
 nmap <leader>cif <Action>(IntroduceField)
 nmap <leader>cip <Action>(IntroduceParameter)
+nmap <leader>cii <Action>(Inline)
+" Vcs.RollbackChangedLines
 
 nmap <leader>= <Action>(ReformatCode)
 
