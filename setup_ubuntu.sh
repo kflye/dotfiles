@@ -57,5 +57,5 @@ fi
 
 if [ ! -f "${HOME}/.gitconfig.local" ]; then
 	echo "copying .gitconfig.local"
-	cp "${clone_path}/.gitconfig.local" "${HOME}/.gitconfig.local" 
+	cp ".gitconfig.local" "${HOME}/.gitconfig.local" 
 fi

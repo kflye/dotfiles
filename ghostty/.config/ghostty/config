@@ -2,7 +2,7 @@
 theme = Gruvbox Dark
 
 font-family = "RedHatMono Nerd Font"
-font-size = 14
+font-size = 10
 
 keybind = option+backspace=text:\x1b\x7f
 
