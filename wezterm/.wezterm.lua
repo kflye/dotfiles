@@ -4,6 +4,7 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 config.font = wezterm.font("RedHatMono Nerd Font") -- { weight = 'Light' }
+config.font_size = 12.5
 -- config.color_scheme = 'Rosé Pine (Gogh)'
 -- config.color_scheme = 'tokyonight_storm'
 -- config.color_scheme = 'Tokyo Night (Gogh)'
