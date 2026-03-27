@@ -165,7 +165,6 @@ theme "gruvbox-dark"
 //
 // default_layout "zjstatus_layout"
 default_layout "compact"
-// simplified_ui true
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
