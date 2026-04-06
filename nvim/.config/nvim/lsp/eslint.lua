@@ -1,5 +1,5 @@
-vim.lsp.config('eslint', {
+return {
     settings = {
         packageManager = 'npm',
     }
-})
+}

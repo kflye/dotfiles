@@ -1,3 +1,3 @@
-vim.lsp.config('powershell_es', {
+return {
     bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services/'
-})
+}

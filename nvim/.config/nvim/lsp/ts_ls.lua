@@ -1,4 +1,4 @@
-vim.lsp.config('ts_ls', {
+return {
     -- nvim-lspconfig has a default on attach
     -- on_attach = function(client, bufnr)
     --     -- uncomment if using prettier...
@@ -33,4 +33,4 @@ vim.lsp.config('ts_ls', {
             includeInlayEnumMemberValueHints = false
         }
     }
-})
+}

@@ -1,4 +1,4 @@
-vim.lsp.config('angularls', {
+return {
     on_attach = function(client, bufnr)
         vim.keymap.set('n', '<leader>gat', function()
             local r, c = unpack(vim.api.nvim_win_get_cursor(0))
@@ -34,4 +34,4 @@ vim.lsp.config('angularls', {
                 end, bufnr)
         end, {desc = '[G]o to [A]ngular [C]omponent', buffer = bufnr, noremap = true, silent = true})
     end,
-})
+}
