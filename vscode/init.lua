@@ -61,24 +61,21 @@ vim.keymap.set("v", "<M-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv")
 
 
--- LSP actions
--- Go-to: bare gX consistent with nvim lsp.lua and .ideavimrc
-vim.keymap.set("n", 'gd', function() vscode.action("editor.action.revealDefinition") end, { desc = '[G]oto [D]efinition' })
-vim.keymap.set("n", 'gi', function() vscode.action("editor.action.goToImplementation") end, { desc = '[G]oto [I]mplementation' })
-vim.keymap.set("n", 'go', function() vscode.action("editor.action.goToTypeDefinition") end, { desc = 'Type Definition' })
-vim.keymap.set("n", 'gO', function() vscode.action("editor.action.goToTypeDefinition") end, { desc = 'Type Definition (alt)' })
-vim.keymap.set("n", 'gr', function() vscode.action("editor.action.goToReferences") end, { desc = '[G]oto [R]eferences' })
-vim.keymap.set("n", 'gD', function() vscode.action("editor.action.revealDeclaration") end, { desc = '[G]oto [D]eclaration' })
+-- LSP actions — gr* scheme consistent with nvim 0.12 defaults and ideavim
+vim.keymap.set("n", 'grd', function() vscode.action("editor.action.revealDefinition") end, { desc = 'Goto Definition' })
+vim.keymap.set("n", 'grD', function() vscode.action("editor.action.revealDeclaration") end, { desc = 'Goto Declaration' })
+vim.keymap.set("n", 'grr', function() vscode.action("editor.action.goToReferences") end, { desc = 'References' })
+vim.keymap.set("n", 'gri', function() vscode.action("editor.action.goToImplementation") end, { desc = 'Goto Implementation' })
+vim.keymap.set("n", 'grt', function() vscode.action("editor.action.goToTypeDefinition") end, { desc = 'Goto Type Definition' })
+vim.keymap.set("n", 'grn', function() vscode.action("editor.action.rename") end, { desc = 'Rename' })
+vim.keymap.set("n", 'gra', function() vscode.action("editor.action.quickFix") end, { desc = 'Code Actions' })
+vim.keymap.set("v", 'gra', function() vscode.action("editor.action.quickFix") end, { desc = 'Code Actions' })
+vim.keymap.set("n", 'gO',  function() vscode.action("workbench.action.gotoSymbol") end, { desc = 'Document Symbols' })
 
 -- Hover / signature help
-vim.keymap.set("n", "K", function() vscode.action("editor.action.showHover") end, { desc = "Hover Documentation" })
-vim.keymap.set("n", "<C-A-k>", function() vscode.action("editor.action.triggerParameterHints") end, { desc = "Signature Documentation" })
-vim.keymap.set("i", "<C-A-k>", function() vscode.action("editor.action.triggerParameterHints") end, { desc = "Signature Documentation" })
-
--- Code actions
-vim.keymap.set("n", "<leader>cr", function() vscode.action("editor.action.rename") end, { desc = "[C]ode [R]ename" })
-vim.keymap.set("n", "<leader>ca", function() vscode.action("editor.action.quickFix") end, { desc = "[C]ode [A]ctions" })
-vim.keymap.set("v", "<leader>ca", function() vscode.action("editor.action.quickFix") end, { desc = "[C]ode [A]ctions" })
+vim.keymap.set("n", "K",     function() vscode.action("editor.action.showHover") end, { desc = "Hover" })
+vim.keymap.set("n", "<C-s>", function() vscode.action("editor.action.triggerParameterHints") end, { desc = "Signature help" })
+vim.keymap.set("i", "<C-s>", function() vscode.with_insert(function() vscode.action("editor.action.triggerParameterHints") end) end, { desc = "Signature help" })
 
 -- Format document
 vim.keymap.set("n", "<leader>=", function() vscode.action("editor.action.formatDocument") end, { desc = "Format document" })

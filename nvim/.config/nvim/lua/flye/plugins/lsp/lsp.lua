@@ -44,26 +44,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         local bufnr = event.buf
 
-        -- TODO: new defaults from nvim 0.11.1
-        --
-        -- grn in Normal mode maps to vim.lsp.buf.rename()
-        -- grr in Normal mode maps to vim.lsp.buf.references()
-        -- gri in Normal mode maps to vim.lsp.buf.implementation()
-        -- gO in Normal mode maps to vim.lsp.buf.document_symbol() (this is analogous to the gO mappings in help buffers and :Man page buffers to show a “table of contents”)
-        -- gra in Normal and Visual mode maps to vim.lsp.buf.code_action()
-        -- CTRL-S in Insert and Select mode maps to vim.lsp.buf.signature_help()
-        -- [d and ]d move between diagnostics in the current buffer ([D jumps to the first diagnostic, ]D jumps to the last)
-        --
-        -- LSP actions
-        -- nmap('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition', bufnr)
-        -- nmap('gi', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation', bufnr)
-        -- nmap('go', require('fzf-lua').lsp_typedefs, 'Type Definition', bufnr)
-        -- nmap('gr', function()
-        --     require('fzf-lua').lsp_references({ includeDeclaration = false })
-        -- end, '[G]oto [R]eferences', bufnr)
-
-        nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
-        vim.keymap.set({ 'n', 'i' }, '<C-M-k>', vim.lsp.buf.signature_help,
+        vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help,
             { desc = 'LSP: Signature Documentation', buffer = bufnr, noremap = true, silent = true })
 
         -- nmap('<leader>sds', require('fzf-lua').lsp_document_symbols, '[S]earch [D]ocument [S]ymbols', bufnr)
@@ -72,11 +53,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- Lesser used LSP functionality
         nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
         -- add/remove/list workspace_folders
-
-        nmap('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename ', bufnr)
-        nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ctions', bufnr)
-        nmap('<leader>cc', vim.lsp.codelens.run, '[C]odelens run', bufnr)
-        nmap('<leader>cC', vim.lsp.codelens.refresh, '[C]odelens run', bufnr)
 
         nmap('<leader>=', function()
             vim.lsp.buf.format {
