@@ -18,30 +18,38 @@ Delegate to the **planner** subagent:
 
 Wait for the plan. If the plan is unclear or incomplete, ask the planner to revise it before proceeding.
 
-### 2. Implement
+### 2. Present the plan for approval
+Present the planner's output to the user **in full**. Ask if they want to:
+- **Approve** and proceed to implementation
+- **Revise** — incorporate their feedback and send the updated requirements back to the planner (repeat steps 1–2)
+- **Abort** — stop the workflow entirely
+
+**Never proceed to implementation without explicit user approval.**
+
+### 3. Implement
 Delegate to the **implementer** subagent, passing the full plan:
 > "Implement the following plan exactly as described. Prefer minimal diffs and preserve existing code patterns: {plan}"
 
-### 3. Review
+### 4. Review
 Delegate to the **reviewer** subagent, passing the completed diff/changes:
 > "Review the following changes. Categorize all findings as CRITICAL, WARNING, or SUGGESTION. Return structured feedback: {changes}"
 
-- If there are **CRITICAL** findings: send them back to the **implementer** with the reviewer's feedback and repeat from step 2.
+- If there are **CRITICAL** findings: send them back to the **implementer** with the reviewer's feedback and repeat from step 3.
 - If there are only WARNINGs or SUGGESTIONs: proceed, noting them in your final summary.
 
-### 4. Test
+### 5. Test
 Delegate to the **tester** subagent:
 > "Run all relevant tests and the build. If there are failures, diagnose and fix them. Report pass/fail status and any changes made."
 
-- If the tester reports failures it could not fix: return to the **implementer** with the failure output and repeat from step 2.
+- If the tester reports failures it could not fix: return to the **implementer** with the failure output and repeat from step 3.
 
-### 5. Security audit (conditional)
+### 6. Security audit (conditional)
 If the task involves authentication, authorization, input handling, external APIs, secrets, or data persistence — delegate to the **security-auditor** subagent:
 > "Audit the following changes for security vulnerabilities, risky patterns, and secrets exposure: {changes}"
 
 Include any findings in the final summary.
 
-### 6. Summarize
+### 7. Summarize
 Report back to the user with:
 - What was done (brief)
 - Files changed
