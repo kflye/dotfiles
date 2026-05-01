@@ -70,7 +70,7 @@ vim.keymap.set("n", 'grt', function() vscode.action("editor.action.goToTypeDefin
 vim.keymap.set("n", 'grn', function() vscode.action("editor.action.rename") end, { desc = 'Rename' })
 vim.keymap.set("n", 'gra', function() vscode.action("editor.action.quickFix") end, { desc = 'Code Actions' })
 vim.keymap.set("v", 'gra', function() vscode.action("editor.action.quickFix") end, { desc = 'Code Actions' })
-vim.keymap.set("n", 'gO',  function() vscode.action("workbench.action.gotoSymbol") end, { desc = 'Document Symbols' })
+vim.keymap.set("n", 'grs',  function() vscode.action("workbench.action.gotoSymbol") end, { desc = 'Document Symbols' })
 
 -- Hover / signature help
 vim.keymap.set("n", "K",     function() vscode.action("editor.action.showHover") end, { desc = "Hover" })
@@ -94,7 +94,7 @@ vim.keymap.set('n', ']d', function() vscode.action("editor.action.marker.next") 
 vim.keymap.set('n', '<leader>ge', function() vscode.action("editor.action.marker.next") end, { desc = "Next error/diagnostic" })
 vim.keymap.set('n', '<leader>gE', function() vscode.action("editor.action.marker.prev") end, { desc = "Prev error/diagnostic" })
 -- Show hover/error info under cursor (nvim: diagnostic.open_float / ideavim: ShowErrorDescription)
-vim.keymap.set('n', '<leader>ce', function() vscode.action("editor.action.showHover") end, { desc = "[C]ode [E]rror / diagnostic float" })
+vim.keymap.set('n', 'gre', function() vscode.action("editor.action.showHover") end, { desc = "[C]ode [E]rror / diagnostic float" })
 vim.keymap.set('n', '<leader>bd', function() vscode.action("workbench.action.closeActiveEditor") end)
 vim.keymap.set('n', '<leader>qa', function() vscode.action("workbench.action.closeOtherEditors") end)
 vim.keymap.set('n', '<leader>qA', function() vscode.action("workbench.action.closeEditorsInGroup") end)

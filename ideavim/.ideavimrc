@@ -117,6 +117,7 @@ nmap <leader>wd <Action>(ToggleDistractionFreeMode)
 nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
 nmap <leader>wr <Action>(ActivateRunToolWindow)
 nmap <leader>wT <Action>(ActivateTerminalToolWindow)
+nmap <C-/> <Action>(ActivateTerminalToolWindow)
 
 if &ide =~? 'intellij idea'
     nmap <leader>ws <Action>(SelectInProjectView)
@@ -132,7 +133,7 @@ endif
 " ----- Diagnostics -----
 let g:WhichKeyDesc_diag = "<leader>x Diagnostics / Errors"
 nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
-nmap <leader>ce <Action>(ShowErrorDescription)
+nmap gre <Action>(ShowErrorDescription)
 nmap [d <Action>(GotoPreviousError)
 nmap ]d <Action>(GotoNextError)
 
@@ -185,7 +186,7 @@ nmap <leader>sg <Action>(FindInPath)
 xmap <leader>sg <Action>(FindInPath)
 nmap <leader>/ <Action>(FindInPath)
 xmap <leader>/ <Action>(FindInPath)
-nmap gO <Action>(FileStructurePopup)
+nmap grs <Action>(FileStructurePopup)
 nmap <leader>sr <Action>(RecentLocations)
 
 nmap <C-o> <Action>(Back)
