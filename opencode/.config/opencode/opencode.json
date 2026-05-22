@@ -47,7 +47,8 @@
       "git reflog*": "allow"
     },
     "external_directory": {
-      "*": "ask"
+      "*": "ask",
+      "~/repos/**": "allow"
     }
   },
   "agent": {
@@ -58,6 +59,41 @@
         }
       },
       "options": {}
+    }
+  },
+  "provider": {
+    "llama.cpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama-server (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8000/v1"
+      },
+      "models": {
+        "unsloth/Qwen3.6-27B-GGUF:Q4_K_M": {
+          "name": "Qwen3.6-27B Q4_K_M (local)",
+          "limit": {
+            "context": 65536,
+            "output": 65536
+          }
+        }
+      }
+    }
+    ,
+    "mlx_lm": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "mlx_lm.server (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8001/v1"
+      },
+      "models": {
+        "mlx-community/Qwen3.6-35B-A3B-4bit": {
+          "name": "Qwen3.6-35B-A3B 4bit (mlx_lm local)",
+          "limit": {
+            "context": 65536,
+            "output": 65536
+          }
+        }
+      }
     }
   }
 }
