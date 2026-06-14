@@ -117,8 +117,8 @@ xkb_symbols "basic_sym" {
     key <AC07> { [            j,            J,       parenleft,           Ntilde ] };
     key <AC08> { [            k,            K,      parenright,           Eacute ] };
     key <AC09> { [            l,            L,      underscore,           Iacute ] };
-    key <AC10> { [    semicolon,        colon,           colon,           Oacute ] };
-    key <AC11> { [   apostrophe,     quotedbl,              ae,               AE ] };
+    key <AC10> { [    semicolon,        colon,              ae,               AE ] };
+    key <AC11> { [   apostrophe,     quotedbl,          oslash,           Oslash ] };
     key <AC12> { [    backslash,          bar,          oslash,           Oslash ] };
 
     key <LSGT> { [            z,            Z,              oe,               OE ] };
@@ -137,3 +137,6 @@ xkb_symbols "basic_sym" {
 };
 
 
+øœæœoŒ
+
+Jt2LMzo$Kl#brlnPwW

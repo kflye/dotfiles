@@ -44,6 +44,10 @@ fish_add_path -a $HOME/.local/share/zig
 fish_add_path -a $HOME/local/llvm17-release/bin
 fish_add_path -a "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 fish_add_path -a "$HOME/.local/share/nvm/v24.13.1/bin"
+if command -q go
+    fish_add_path -a (go env GOPATH)/bin
+    fish_add_path -a (go env GOROOT)/bin
+end
 fish_add_path -a /usr/local/go/bin
 fish_add_path -a /usr/share/go/bin
 fish_add_path -a /usr/share/zig
@@ -53,3 +57,6 @@ set -gx EDITOR "$VISUAL"
 
 set -gx XDG_CONFIG_HOME "$HOME/.config"
 set --universal nvm_default_version lts
+
+# opencode
+fish_add_path $HOME/.opencode/bin
