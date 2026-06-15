@@ -1,6 +1,8 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    fish_ssh_agent
+    if not set -q SSH_AUTH_SOCK; or not test -S "$SSH_AUTH_SOCK"
+        functions -q fish_ssh_agent; and fish_ssh_agent
+    end
     starship init fish | source
     zoxide init fish | source
     fzf --fish | source
@@ -40,6 +42,7 @@ end
 fish_add_path -a $HOME/.cargo/bin
 fish_add_path -a $HOME/.local/bin
 fish_add_path -a $HOME/bin
+fish_add_path -a $HOME/.opencode/bin
 fish_add_path -a $HOME/.local/share/zig
 fish_add_path -a $HOME/local/llvm17-release/bin
 fish_add_path -a "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
