@@ -31,7 +31,7 @@
       "pip install*": "deny",
       "pip uninstall*": "deny",
       "cargo install*": "deny",
-      "git *": "deny",
+      "git *": "ask",
       "git status*": "allow",
       "git log*": "allow",
       "git diff*": "allow",

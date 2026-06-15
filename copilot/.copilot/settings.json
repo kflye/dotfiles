@@ -1,4 +1,18 @@
 {
+  "experimental": true,
   "autoUpdate": true,
-  "showReasoning": false
+  "showReasoning": false,
+  "footer": {
+    "showModelEffort": true,
+    "showDirectory": true,
+    "showBranch": true,
+    "showContextWindow": true,
+    "showQuota": false,
+    "showAiUsed": true,
+    "showAgent": true,
+    "showCodeChanges": false,
+    "showUsername": false,
+    "showSandbox": true,
+    "showCustom": true
+  }
 }

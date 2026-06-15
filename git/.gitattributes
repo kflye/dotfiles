@@ -1,33 +1,13 @@
-# https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/#line-endings-in-git
-# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
-# Set the default behavior. Force crlf on all files
-
-# Use to check index / working tree eol
-# git ls-files --eol
-
-# git add --renormalize .
-
-# After commit - fix local files
-# git rm --cached -r .
-# git reset --hard
-
-# core.autocrlf=true	* text=auto eol=crlf	LF	    CRLF
-# core.autocrlf=input	* text=auto	            LF	    original (LF or CRLF)
-
-# Set the default behavior, in case people don't have core.autocrlf set.
-# * text=auto
-
-# Explicitly declare text files you want to always be normalized and converted
-# to native line endings on checkout.
-*.c text
-*.h text
-
-# Declare files that will always have CRLF line endings on checkout.
-*.sln text eol=crlf
-
-# Bash files
-*.sh text eol=lf
-
-# Denote all files that are truly binary and should not be modified.
+# Global gitattributes - binary files only.
+# Line ending rules belong in per-repo .gitattributes.
 *.png binary
 *.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
