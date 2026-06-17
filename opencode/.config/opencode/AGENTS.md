@@ -91,3 +91,20 @@ When making any refactor (add/remove/rename/change behavior), keep the system co
 - Update API/integration tests that assert the changed surface.
 - Update mocks, stubs, and test builders that construct or validate the changed parts.
 - Update documentation or examples that describe the old behavior.
+
+---
+
+## Repo Memory Workflow
+
+When working in a repo that has a local `.ai-memory/` directory or an `ai-memory` command available:
+- Before broad exploration, run `ai-memory recall "<task>"` when feasible.
+- Use returned paths, commands, gotchas, and notes to guide targeted file reads.
+- Avoid broad searches until repo memory is missing, stale, or insufficient.
+- Verify memory against current files before editing; memory is guidance, not authority.
+- After substantial exploration, debugging, feature work, removal, or surprising discovery, add or update durable memory.
+- Write memory even if no files changed when a lengthy investigation produced reusable knowledge.
+- Do not write memory for trivial edits or obvious facts.
+- Do not save secrets, credentials, tokens, full logs, personal data, or large file dumps.
+- When features are removed or deprecated, mark memory as `removed` or `deprecated` instead of deleting it.
+- If learned-memory Markdown changes, run or rely on `ai-memory refresh` so the SQLite index stays current.
+- If memory is stale, wrong, or especially useful, record that through the available `ai-memory` command so usefulness and correctness can be measured.

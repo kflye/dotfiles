@@ -13,3 +13,4 @@ target/
 .vscode
 
 .github/*-instructions.md
+.ai-memory/

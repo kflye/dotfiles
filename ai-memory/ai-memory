@@ -1,0 +1,990 @@
+#!/usr/bin/env python3
+"""Local repo memory CLI.
+
+Phase 1 implementation:
+- Create a per-repo .ai-memory layout.
+- Initialize/rebuild a SQLite FTS index from Markdown source files.
+- Provide status and search commands for agents.
+"""
+
+from __future__ import annotations
+
+import sys
+sys.dont_write_bytecode = True
+
+import argparse
+import hashlib
+import re
+import sqlite3
+import subprocess
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+MEMORY_DIR = ".ai-memory"
+DB_NAME = "memory.db"
+MARKDOWN_FILES = {
+    "commands.md": "# Commands\n\nVerified commands that work in this repo.\n",
+    "gotchas.md": "# Gotchas\n\nNon-obvious traps future agents should not rediscover.\n",
+    "decisions.md": "# Decisions\n\nArchitectural or product decisions relevant to development.\n",
+    "observations.md": "# Observations\n\nDurable observations from exploration, debugging, and implementation.\n",
+    "feature-status.md": "# Feature Status\n\nFeature lifecycle notes: proposed, active, changed, deprecated, removed.\n",
+    "module-notes.md": "# Module Notes\n\nStable explanations of important modules and areas.\n",
+}
+NOTE_TEMPLATES = {
+    "gotcha": """# {title}
+
+kind: gotcha
+status: active
+confidence: medium
+verification_status: needs-verification
+created_at: {created_at}
+updated_at: {created_at}
+last_checked_commit: {commit}
+
+## Affected Paths
+
+{paths}
+
+## Summary
+
+{summary}
+
+## Details
+
+
+## Verification
+
+
+## Source
+
+agent
+""",
+    "decision": """# {title}
+
+kind: decision
+status: active
+confidence: medium
+verification_status: needs-verification
+created_at: {created_at}
+updated_at: {created_at}
+last_checked_commit: {commit}
+
+## Affected Paths
+
+{paths}
+
+## Decision
+
+{summary}
+
+## Rationale
+
+
+## Consequences
+
+
+## Verification
+
+
+## Source
+
+agent
+""",
+    "debug-session": """# {title}
+
+kind: debug-session
+status: active
+confidence: medium
+verification_status: needs-verification
+created_at: {created_at}
+updated_at: {created_at}
+last_checked_commit: {commit}
+
+## Affected Paths
+
+{paths}
+
+## Summary
+
+{summary}
+
+## What Was Investigated
+
+
+## Findings
+
+
+## Reusable Lesson
+
+
+## Verification
+
+
+## Source
+
+agent
+""",
+    "command": """# {title}
+
+kind: command
+status: active
+confidence: high
+verification_status: verified
+created_at: {created_at}
+updated_at: {created_at}
+last_checked_commit: {commit}
+
+## Affected Paths
+
+{paths}
+
+## Command
+
+```sh
+{summary}
+```
+
+## When To Use
+
+
+## Notes
+
+
+## Source
+
+agent
+""",
+    "feature": """# {title}
+
+kind: feature
+status: active
+confidence: medium
+verification_status: needs-verification
+created_at: {created_at}
+updated_at: {created_at}
+last_checked_commit: {commit}
+
+## Affected Paths
+
+{paths}
+
+## Summary
+
+{summary}
+
+## Current Status
+
+active
+
+## Gotchas
+
+
+## Verification
+
+
+## Source
+
+agent
+""",
+    "module-note": """# {title}
+
+kind: module-note
+status: active
+confidence: medium
+verification_status: needs-verification
+created_at: {created_at}
+updated_at: {created_at}
+last_checked_commit: {commit}
+
+## Affected Paths
+
+{paths}
+
+## Summary
+
+{summary}
+
+## Responsibilities
+
+
+## Important Relationships
+
+
+## Gotchas
+
+
+## Source
+
+agent
+""",
+}
+
+
+@dataclass(frozen=True)
+class RepoPaths:
+    repo: Path
+    memory: Path
+    db: Path
+    markdown: Path
+    sessions: Path
+    indexes: Path
+    templates: Path
+    metrics: Path
+
+
+@dataclass(frozen=True)
+class MemoryDocument:
+    source: Path
+    relative_path: str
+    title: str
+    kind: str
+    status: str | None
+    affected_paths: tuple[str, ...]
+    stale_paths: tuple[str, ...]
+    contents: str
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def timestamp_for_filename() -> str:
+    return datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+
+
+def slugify(value: str) -> str:
+    slug = []
+    previous_dash = False
+    for char in value.lower():
+        if char.isalnum():
+            slug.append(char)
+            previous_dash = False
+        elif not previous_dash:
+            slug.append("-")
+            previous_dash = True
+    return "".join(slug).strip("-") or "note"
+
+
+def run_git_root(cwd: Path) -> Path:
+    result = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        cwd=cwd,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        return Path(result.stdout.strip()).resolve()
+    return cwd.resolve()
+
+
+def paths_for(repo: Path) -> RepoPaths:
+    memory = repo / MEMORY_DIR
+    return RepoPaths(
+        repo=repo,
+        memory=memory,
+        db=memory / DB_NAME,
+        markdown=memory / "markdown",
+        sessions=memory / "sessions",
+        indexes=memory / "indexes",
+        templates=memory / "templates",
+        metrics=memory / "metrics",
+    )
+
+
+def ensure_layout(paths: RepoPaths) -> None:
+    for directory in (
+        paths.memory,
+        paths.markdown,
+        paths.sessions,
+        paths.indexes,
+        paths.templates,
+        paths.metrics,
+    ):
+        directory.mkdir(parents=True, exist_ok=True)
+
+    readme = paths.memory / "README.md"
+    if not readme.exists():
+        readme.write_text(
+            "# Local Repo Memory\n\n"
+            "Markdown is the source of truth. SQLite indexes can be rebuilt with `ai-memory refresh`.\n\n"
+            "Do not store secrets, credentials, full logs, or large file dumps here.\n",
+            encoding="utf-8",
+        )
+
+    for filename, contents in MARKDOWN_FILES.items():
+        file_path = paths.markdown / filename
+        if not file_path.exists():
+            file_path.write_text(contents, encoding="utf-8")
+
+    for kind, contents in NOTE_TEMPLATES.items():
+        template_path = paths.templates / f"{kind}.md"
+        if not template_path.exists():
+            template_path.write_text(contents, encoding="utf-8")
+
+
+def connect(db_path: Path) -> sqlite3.Connection:
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_schema(conn: sqlite3.Connection) -> None:
+    conn.executescript(
+        """
+        PRAGMA journal_mode = WAL;
+
+        CREATE TABLE IF NOT EXISTS documents(
+          id INTEGER PRIMARY KEY,
+          path TEXT NOT NULL UNIQUE,
+          kind TEXT NOT NULL,
+          title TEXT NOT NULL,
+          status TEXT,
+          created_at TEXT,
+          updated_at TEXT,
+          last_indexed_at TEXT NOT NULL,
+          last_checked_commit TEXT,
+          hash TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS document_paths(
+          document_id INTEGER NOT NULL,
+          path TEXT NOT NULL,
+          PRIMARY KEY(document_id, path),
+          FOREIGN KEY(document_id) REFERENCES documents(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS observations(
+          id INTEGER PRIMARY KEY,
+          session_path TEXT,
+          task TEXT,
+          summary TEXT,
+          created_at TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS events(
+          id INTEGER PRIMARY KEY,
+          event_type TEXT NOT NULL,
+          task TEXT,
+          query TEXT,
+          result_count INTEGER,
+          suggested_paths TEXT,
+          adopted_paths TEXT,
+          broad_search_after INTEGER,
+          useful INTEGER,
+          stale INTEGER,
+          notes TEXT,
+          created_at TEXT NOT NULL
+        );
+
+        CREATE VIRTUAL TABLE IF NOT EXISTS documents_fts
+        USING fts5(path UNINDEXED, title, body, kind UNINDEXED, status UNINDEXED);
+        """
+    )
+    conn.commit()
+
+
+def current_commit(repo: Path) -> str | None:
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    return result.stdout.strip()
+
+
+def git_dir(repo: Path) -> Path | None:
+    result = subprocess.run(
+        ["git", "rev-parse", "--git-dir"],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    git_dir_path = Path(result.stdout.strip())
+    if not git_dir_path.is_absolute():
+        git_dir_path = repo / git_dir_path
+    return git_dir_path.resolve()
+
+
+def file_hash(contents: str) -> str:
+    return hashlib.sha256(contents.encode("utf-8")).hexdigest()
+
+
+def title_from_markdown(contents: str, fallback: str) -> str:
+    for line in contents.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("#"):
+            return stripped.lstrip("#").strip() or fallback
+    return fallback
+
+
+def metadata_from_markdown(contents: str) -> dict[str, str]:
+    metadata: dict[str, str] = {}
+    for line in contents.splitlines()[:40]:
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        normalized = key.strip().lower().replace("-", "_")
+        if normalized in {
+            "kind",
+            "status",
+            "created_at",
+            "updated_at",
+            "confidence",
+            "verification_status",
+            "affected_paths",
+        }:
+            metadata[normalized] = value.strip()
+    return metadata
+
+
+def clean_path_value(value: str) -> str:
+    value = value.strip().strip("`'\"")
+    value = re.sub(r"^[-*]\s+", "", value).strip().strip("`'\"")
+    return value
+
+
+def extract_affected_paths(contents: str) -> tuple[str, ...]:
+    paths: list[str] = []
+    in_section = False
+    for line in contents.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("## "):
+            heading = stripped.lstrip("#").strip().lower()
+            in_section = heading == "affected paths"
+            continue
+        if not in_section:
+            continue
+        if not stripped:
+            continue
+        if stripped.startswith("#"):
+            break
+        if stripped.lower() in {"- unknown", "unknown", "- n/a", "n/a"}:
+            continue
+        if stripped.startswith(('-', '*')):
+            paths.append(clean_path_value(stripped))
+        elif ":" in stripped and stripped.lower().startswith("affected_paths"):
+            _, value = stripped.split(":", 1)
+            paths.extend(clean_path_value(part) for part in value.split(","))
+
+    metadata = metadata_from_markdown(contents)
+    if metadata.get("affected_paths"):
+        paths.extend(clean_path_value(part) for part in metadata["affected_paths"].split(","))
+
+    cleaned = []
+    seen = set()
+    for path in paths:
+        if not path or path.lower() in {"unknown", "n/a", "none"}:
+            continue
+        if "://" in path:
+            continue
+        if path not in seen:
+            cleaned.append(path)
+            seen.add(path)
+    return tuple(cleaned)
+
+
+def stale_paths_for(repo: Path, affected_paths: tuple[str, ...]) -> tuple[str, ...]:
+    stale: list[str] = []
+    for affected_path in affected_paths:
+        candidate = (repo / affected_path).resolve()
+        try:
+            candidate.relative_to(repo.resolve())
+        except ValueError:
+            stale.append(affected_path)
+            continue
+        if not candidate.exists():
+            stale.append(affected_path)
+    return tuple(stale)
+
+
+def kind_for(path: Path, memory_root: Path, metadata: dict[str, str]) -> str:
+    if metadata.get("kind"):
+        return metadata["kind"]
+    relative = path.relative_to(memory_root)
+    if relative.parts[0] == "sessions":
+        return "session"
+    if relative.parts[0] == "indexes":
+        return "index"
+    if path.parent.name == "markdown":
+        return path.stem.replace("-", "_")
+    return relative.parts[0]
+
+
+def markdown_sources(paths: RepoPaths) -> list[Path]:
+    sources: list[Path] = []
+    for root in (paths.markdown, paths.sessions, paths.indexes):
+        if not root.exists():
+            continue
+        sources.extend(sorted(root.rglob("*.md")))
+    return sources
+
+
+def user_memory_sources(paths: RepoPaths) -> list[Path]:
+    sources: list[Path] = []
+    for root in (paths.markdown, paths.sessions):
+        if not root.exists():
+            continue
+        sources.extend(sorted(root.rglob("*.md")))
+    return sources
+
+
+def collect_memory_documents(paths: RepoPaths) -> list[MemoryDocument]:
+    documents: list[MemoryDocument] = []
+    for source in user_memory_sources(paths):
+        contents = source.read_text(encoding="utf-8", errors="replace")
+        metadata = metadata_from_markdown(contents)
+        affected_paths = extract_affected_paths(contents)
+        documents.append(
+            MemoryDocument(
+                source=source,
+                relative_path=source.relative_to(paths.repo).as_posix(),
+                title=title_from_markdown(contents, source.stem),
+                kind=kind_for(source, paths.memory, metadata),
+                status=metadata.get("status"),
+                affected_paths=affected_paths,
+                stale_paths=stale_paths_for(paths.repo, affected_paths),
+                contents=contents,
+            )
+        )
+    return documents
+
+
+def write_generated_indexes(paths: RepoPaths) -> None:
+    ensure_layout(paths)
+    documents = collect_memory_documents(paths)
+    generated_at = utc_now()
+
+    by_kind: dict[str, list[MemoryDocument]] = {}
+    by_path: dict[str, list[MemoryDocument]] = {}
+    stale_documents = []
+    for document in documents:
+        by_kind.setdefault(document.kind, []).append(document)
+        if document.stale_paths:
+            stale_documents.append(document)
+        for affected_path in document.affected_paths:
+            by_path.setdefault(affected_path, []).append(document)
+
+    project_lines = [
+        "# Project Memory Map",
+        "",
+        "Generated by `ai-memory refresh`.",
+        f"Last updated: {generated_at}",
+        "",
+        "## Summary",
+        "",
+        f"- Memory documents: {len(documents)}",
+        f"- Documents with affected paths: {sum(1 for doc in documents if doc.affected_paths)}",
+        f"- Documents with stale paths: {len(stale_documents)}",
+        "",
+        "## By Kind",
+        "",
+    ]
+    for kind in sorted(by_kind):
+        project_lines.append(f"### {kind}")
+        project_lines.append("")
+        for document in sorted(by_kind[kind], key=lambda doc: doc.title.lower()):
+            status = f" status={document.status}" if document.status else ""
+            project_lines.append(f"- [{document.title}](../{document.source.relative_to(paths.memory).as_posix()}) ({document.relative_path}{status})")
+        project_lines.append("")
+    (paths.indexes / "project-map.md").write_text("\n".join(project_lines).rstrip() + "\n", encoding="utf-8")
+
+    file_lines = [
+        "# Memory File Index",
+        "",
+        "Generated by `ai-memory refresh`.",
+        f"Last updated: {generated_at}",
+        "",
+    ]
+    if by_path:
+        for affected_path in sorted(by_path):
+            exists = "exists" if (paths.repo / affected_path).exists() else "missing"
+            file_lines.append(f"## `{affected_path}` ({exists})")
+            file_lines.append("")
+            for document in sorted(by_path[affected_path], key=lambda doc: doc.title.lower()):
+                file_lines.append(f"- [{document.title}](../{document.source.relative_to(paths.memory).as_posix()}) ({document.kind})")
+            file_lines.append("")
+    else:
+        file_lines.append("No affected paths recorded yet.")
+        file_lines.append("")
+    (paths.indexes / "file-index.md").write_text("\n".join(file_lines).rstrip() + "\n", encoding="utf-8")
+
+    stale_lines = [
+        "# Stale Path Report",
+        "",
+        "Generated by `ai-memory refresh`.",
+        f"Last updated: {generated_at}",
+        "",
+    ]
+    if stale_documents:
+        stale_lines.append("The following memory notes reference paths that do not currently exist.")
+        stale_lines.append("")
+        for document in stale_documents:
+            stale_lines.append(f"## [{document.title}](../{document.source.relative_to(paths.memory).as_posix()})")
+            stale_lines.append("")
+            for stale_path in document.stale_paths:
+                stale_lines.append(f"- `{stale_path}`")
+            stale_lines.append("")
+    else:
+        stale_lines.append("No stale affected paths detected.")
+        stale_lines.append("")
+    (paths.indexes / "stale-paths.md").write_text("\n".join(stale_lines).rstrip() + "\n", encoding="utf-8")
+
+    instructions = """# ai-memory Agent Instructions
+
+Use this repo's learned memory before broad exploration when `.ai-memory/` exists.
+
+1. Run `ai-memory recall "<task>"` for gotchas, commands, decisions, debug lessons, feature status, and module notes.
+2. Use returned paths and notes to guide targeted file reads.
+3. Verify memory against current files before editing; memory is guidance, not authority.
+4. After substantial exploration, debugging, feature work, removal, or surprising discovery, add or update memory with `ai-memory note`.
+5. Run `ai-memory refresh` after manual edits under `.ai-memory/`.
+6. Do not store secrets, credentials, full logs, personal data, or large file dumps.
+
+Useful commands:
+
+```sh
+ai-memory recall "<task>"
+ai-memory search "<query>"
+ai-memory note --kind gotcha --title "..." --path path/to/file --summary "..."
+ai-memory refresh
+ai-memory status
+```
+"""
+    (paths.indexes / "agent-instructions.md").write_text(instructions, encoding="utf-8")
+
+
+def index_markdown(paths: RepoPaths) -> int:
+    ensure_layout(paths)
+    conn = connect(paths.db)
+    init_schema(conn)
+    commit = current_commit(paths.repo)
+    indexed_at = utc_now()
+
+    conn.execute("DELETE FROM document_paths")
+    conn.execute("DELETE FROM documents")
+    conn.execute("DELETE FROM documents_fts")
+
+    count = 0
+    for source in markdown_sources(paths):
+        contents = source.read_text(encoding="utf-8", errors="replace")
+        relative_path = source.relative_to(paths.repo).as_posix()
+        metadata = metadata_from_markdown(contents)
+        affected_paths = extract_affected_paths(contents)
+        title = title_from_markdown(contents, source.stem)
+        kind = kind_for(source, paths.memory, metadata)
+        status = metadata.get("status")
+        digest = file_hash(contents)
+        created_at = metadata.get("created_at")
+        updated_at = metadata.get("updated_at")
+        cursor = conn.execute(
+            """
+            INSERT INTO documents(
+              path, kind, title, status, created_at, updated_at,
+              last_indexed_at, last_checked_commit, hash
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                relative_path,
+                kind,
+                title,
+                status,
+                created_at,
+                updated_at,
+                indexed_at,
+                commit,
+                digest,
+            ),
+        )
+        document_id = int(cursor.lastrowid)
+        paths_to_index = affected_paths or (relative_path,)
+        for path_to_index in paths_to_index:
+            conn.execute(
+                "INSERT INTO document_paths(document_id, path) VALUES (?, ?)",
+                (document_id, path_to_index),
+            )
+        conn.execute(
+            "INSERT INTO documents_fts(path, title, body, kind, status) VALUES (?, ?, ?, ?, ?)",
+            (relative_path, title, contents, kind, status),
+        )
+        count += 1
+
+    conn.execute(
+        """
+        INSERT INTO events(event_type, result_count, notes, created_at)
+        VALUES (?, ?, ?, ?)
+        """,
+        ("index", count, "Rebuilt Markdown FTS index", indexed_at),
+    )
+    conn.commit()
+    conn.close()
+    return count
+
+
+def record_event(paths: RepoPaths, event_type: str, notes: str, result_count: int | None = None) -> None:
+    if not paths.db.exists():
+        return
+    conn = connect(paths.db)
+    init_schema(conn)
+    conn.execute(
+        """
+        INSERT INTO events(event_type, result_count, notes, created_at)
+        VALUES (?, ?, ?, ?)
+        """,
+        (event_type, result_count, notes, utc_now()),
+    )
+    conn.commit()
+    conn.close()
+
+
+def cmd_init(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    paths = paths_for(repo)
+    ensure_layout(paths)
+    conn = connect(paths.db)
+    init_schema(conn)
+    conn.close()
+    print(f"Initialized repo memory at {paths.memory}")
+    return 0
+
+
+def format_paths(paths: list[str]) -> str:
+    if not paths:
+        return "- unknown"
+    return "\n".join(f"- `{path}`" for path in paths)
+
+
+def render_note(kind: str, title: str, summary: str, paths: list[str], commit: str | None) -> str:
+    template = NOTE_TEMPLATES[kind]
+    return template.format(
+        title=title,
+        summary=summary or "TODO",
+        paths=format_paths(paths),
+        created_at=utc_now(),
+        commit=commit or "unknown",
+    )
+
+
+def note_destination(paths: RepoPaths, kind: str, title: str) -> Path:
+    if kind == "debug-session":
+        directory = paths.sessions
+    else:
+        directory = paths.markdown / kind
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory / f"{timestamp_for_filename()}-{slugify(title)}.md"
+
+
+def cmd_note(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    paths = paths_for(repo)
+    ensure_layout(paths)
+    if args.list_templates:
+        for kind in sorted(NOTE_TEMPLATES):
+            print(kind)
+        return 0
+
+    kind = args.kind
+    if args.template:
+        print(render_note(kind, args.title or "Memory Note", args.summary or "", args.path, current_commit(repo)))
+        return 0
+
+    if not args.title:
+        print("--title is required when creating a note.", file=sys.stderr)
+        return 1
+
+    note_path = note_destination(paths, kind, args.title)
+    note_path.write_text(
+        render_note(kind, args.title, args.summary or "", args.path, current_commit(repo)),
+        encoding="utf-8",
+    )
+    write_generated_indexes(paths)
+    count = index_markdown(paths)
+    record_event(paths, "note-created", note_path.relative_to(repo).as_posix(), count)
+    print(f"Created note: {note_path.relative_to(repo)}")
+    print(f"Indexed Markdown documents: {count}")
+    return 0
+
+
+def cmd_refresh(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    paths = paths_for(repo)
+    ensure_layout(paths)
+    write_generated_indexes(paths)
+    count = index_markdown(paths)
+    record_event(paths, "refresh", "Rebuilt Markdown/SQLite index", count)
+    print(f"Indexed Markdown documents: {count}")
+    return 0
+
+
+def cmd_status(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    paths = paths_for(repo)
+    conn = connect(paths.db) if paths.db.exists() else None
+    document_count = 0
+    last_indexed = None
+    stale_count = 0
+    if conn is not None:
+        init_schema(conn)
+        row = conn.execute("SELECT COUNT(*) AS count FROM documents").fetchone()
+        document_count = int(row["count"])
+        row = conn.execute("SELECT MAX(last_indexed_at) AS last_indexed FROM documents").fetchone()
+        last_indexed = row["last_indexed"]
+        conn.close()
+    if paths.memory.exists():
+        stale_count = sum(1 for document in collect_memory_documents(paths) if document.stale_paths)
+
+    print(f"Repo: {repo}")
+    print(f"Memory directory: {paths.memory} ({'exists' if paths.memory.exists() else 'missing'})")
+    print(f"Database: {paths.db} ({'exists' if paths.db.exists() else 'missing'})")
+    print(f"Indexed documents: {document_count}")
+    print(f"Last indexed: {last_indexed or 'never'}")
+    print(f"Generated project map: {paths.indexes / 'project-map.md'} ({'exists' if (paths.indexes / 'project-map.md').exists() else 'missing'})")
+    print(f"Generated file index: {paths.indexes / 'file-index.md'} ({'exists' if (paths.indexes / 'file-index.md').exists() else 'missing'})")
+    print(f"Stale memory documents: {stale_count}")
+    return 0
+
+
+def cmd_search(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    paths = paths_for(repo)
+    if not paths.db.exists():
+        print("Memory database is missing. Run `ai-memory init` and `ai-memory refresh` first.", file=sys.stderr)
+        return 1
+
+    conn = connect(paths.db)
+    init_schema(conn)
+    query = args.query
+    rows = search_rows(conn, query, args.limit)
+    conn.execute(
+        """
+        INSERT INTO events(event_type, query, result_count, created_at)
+        VALUES (?, ?, ?, ?)
+        """,
+        ("search", query, len(rows), utc_now()),
+    )
+    conn.commit()
+    conn.close()
+
+    if not rows:
+        print("No memory matches found.")
+        return 0
+
+    for index, row in enumerate(rows, start=1):
+        status = f" status={row['status']}" if row["status"] else ""
+        print(f"{index}. {row['title']} ({row['kind']}{status})")
+        print(f"   path: {row['path']}")
+        print(f"   {row['snippet']}")
+    return 0
+
+
+def search_rows(conn: sqlite3.Connection, query: str, limit: int) -> list[sqlite3.Row]:
+    try:
+        return conn.execute(
+            """
+            SELECT path, title, kind, status, snippet(documents_fts, 2, '[', ']', ' ... ', 12) AS snippet
+            FROM documents_fts
+            WHERE documents_fts MATCH ?
+            LIMIT ?
+            """,
+            (query, limit),
+        ).fetchall()
+    except sqlite3.OperationalError:
+        like_query = f"%{query}%"
+        return conn.execute(
+            """
+            SELECT path, title, kind, status, substr(body, 1, 240) AS snippet
+            FROM documents_fts
+            WHERE body LIKE ? OR title LIKE ?
+            LIMIT ?
+            """,
+            (like_query, like_query, limit),
+        ).fetchall()
+
+
+def cmd_recall(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    paths = paths_for(repo)
+    if not paths.db.exists():
+        print("Memory database is missing. Run `ai-memory init` and `ai-memory refresh` first.", file=sys.stderr)
+        return 1
+
+    conn = connect(paths.db)
+    init_schema(conn)
+    rows = search_rows(conn, args.task, args.limit)
+    conn.execute(
+        """
+        INSERT INTO events(event_type, task, query, result_count, created_at)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        ("recall", args.task, args.task, len(rows), utc_now()),
+    )
+    conn.commit()
+    conn.close()
+
+    print(f"# Repo Memory Recall: {args.task}")
+    print()
+    print("## Memory Matches")
+    if rows:
+        for index, row in enumerate(rows, start=1):
+            status = f" status={row['status']}" if row["status"] else ""
+            print(f"{index}. {row['title']} ({row['kind']}{status})")
+            print(f"   path: {row['path']}")
+            print(f"   {row['snippet']}")
+    else:
+        print("No matching Markdown memory found.")
+
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Local repo memory CLI")
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    init_parser = subparsers.add_parser("init", help="Initialize .ai-memory in the current repo")
+    init_parser.set_defaults(func=cmd_init)
+
+    refresh_parser = subparsers.add_parser("refresh", help="Rebuild Markdown/SQLite indexes")
+    refresh_parser.set_defaults(func=cmd_refresh)
+
+    search_parser = subparsers.add_parser("search", help="Search Markdown memory")
+    search_parser.add_argument("query", help="FTS query")
+    search_parser.add_argument("--limit", type=int, default=10, help="Maximum results")
+    search_parser.set_defaults(func=cmd_search)
+
+    recall_parser = subparsers.add_parser("recall", help="Return learned memory context for a task")
+    recall_parser.add_argument("task", help="Task or question to recall context for")
+    recall_parser.add_argument("--limit", type=int, default=8, help="Maximum memory matches")
+    recall_parser.set_defaults(func=cmd_recall)
+
+    note_parser = subparsers.add_parser("note", help="Create or render a durable memory note")
+    note_parser.add_argument("--kind", choices=sorted(NOTE_TEMPLATES), default="gotcha", help="Note template kind")
+    note_parser.add_argument("--title", help="Note title")
+    note_parser.add_argument("--summary", help="Short note summary")
+    note_parser.add_argument("--path", action="append", default=[], help="Affected path; repeatable")
+    note_parser.add_argument("--template", action="store_true", help="Print the rendered template instead of writing a note")
+    note_parser.add_argument("--list-templates", action="store_true", help="List available note templates")
+    note_parser.set_defaults(func=cmd_note)
+
+    status_parser = subparsers.add_parser("status", help="Show repo memory status")
+    status_parser.set_defaults(func=cmd_status)
+
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    return int(args.func(args))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
