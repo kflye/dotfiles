@@ -16,7 +16,7 @@
       "chown -R*": "deny",
       "dd *": "deny",
       "mkfs*": "deny",
-      "npm install*": "deny",
+      "npm install*": "ask",
       "npm i *": "deny",
       "npm i": "deny",
       "npm uninstall*": "deny",

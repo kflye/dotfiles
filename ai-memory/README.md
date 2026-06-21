@@ -12,6 +12,9 @@ Local learned-memory CLI for development agents.
 - `ai-memory recall "<task>"`
 - `ai-memory note`
 - `ai-memory status`
+- `ai-memory opencode install`
+- `ai-memory opencode status`
+- `ai-memory opencode uninstall`
 
 Markdown under `.ai-memory/` is the source of truth. SQLite is an index/cache and can be rebuilt with `ai-memory refresh`.
 
@@ -41,6 +44,28 @@ graphify copilot install
 graphify update .
 graphify hook install
 ```
+
+## OpenCode
+
+Install the OpenCode AGENTS reminder in the current repo:
+
+```sh
+ai-memory opencode install
+```
+
+Check installation status:
+
+```sh
+ai-memory opencode status
+```
+
+Remove the managed repo-local OpenCode integration:
+
+```sh
+ai-memory opencode uninstall
+```
+
+Run this per repo, like `graphify opencode install`. Restart OpenCode after installing or uninstalling so config-time files are reloaded.
 
 ## Notes
 

@@ -271,6 +271,8 @@ documents_fts(title, body, path);
 
 ## Usefulness Metrics
 
+Status: planned for Phase 4. The current implementation has a basic `events` table, but no user-facing metrics commands or usefulness feedback workflow yet.
+
 The system should record local-only usage metrics so it can prove whether it adds value.
 
 Metrics should be stored under:
@@ -320,6 +322,8 @@ Unhealthy signs:
 - Memory writes grow quickly but recall usefulness does not improve.
 
 ## Usage Log
+
+Status: foundation partially implemented. Basic events are written for refresh, search, recall, and note creation. Phase 4 should make these events actionable.
 
 Record a lightweight event log for observability.
 
@@ -373,6 +377,8 @@ Useful report sections:
 - Notes never returned by recall.
 
 ## Memory Correctness Checks
+
+Status: planned for Phase 4. Phase 3 detects stale affected paths, but does not yet provide reject/useful/verification commands.
 
 Memory is guidance, not authority. The system should include correctness checks.
 
@@ -518,8 +524,22 @@ This system should be repo-aware by tracking:
 ### Phase 4
 
 - Add compaction/deduplication.
+- Add `ai-memory metrics` summaries.
+- Add usefulness/correctness feedback commands: `mark-useful`, `reject`, `mark-stale`, and `verify`.
+- Use the existing `events` table as the metrics foundation.
 - Add optional semantic retrieval interface.
 - Evaluate ChromaDB or SQLite vector options.
+
+### Phase 5
+
+- Evaluate Mem0 self-hosted as an optional learned-memory backend once the local repo workflow is stable.
+- Keep Graphify separate for structural codebase memory.
+- Keep repo-aware behavior in `ai-memory` or a thin wrapper: repo detection, task recall, note kinds, affected paths, status, and agent-friendly output.
+- Map repo memory into Mem0 metadata: repo id/path, note kind, affected paths, status, commit, confidence, and verification state.
+- Compare Mem0 recall quality, operational friction, local-only setup, exportability, and maintenance cost against SQLite FTS and any Phase 4 semantic backend.
+- If Mem0 is adopted, treat it as a pluggable backend rather than the source of all policy. The policy remains the repo-memory workflow and OpenCode skill.
+- Require an export/backup path before relying on Mem0 for durable memory.
+- Do not make Mem0 mandatory unless it clearly improves recall quality and agent behavior enough to justify the server, LLM, and embedding dependencies.
 
 ## Success Criteria
 
@@ -529,5 +549,5 @@ The system is working when:
 - Agents inspect fewer irrelevant files.
 - Repeated debugging discoveries are captured.
 - Memory remains local and gitignored.
-- Markdown can be manually inspected and edited.
-- SQLite can be deleted and rebuilt without data loss.
+- Durable memory can be manually inspected, exported, and backed up.
+- Any local index/cache can be deleted and rebuilt without data loss.

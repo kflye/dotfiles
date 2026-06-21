@@ -1,1 +1,19 @@
 *.orig
+
+.DS_Store
+
+.idea
+bin
+obj
+
+# rust
+debug/
+target/
+
+**/*.rs.bk
+
+.vscode
+
+.github/*-instructions.md
+.ai-memory/
+graphify-out/

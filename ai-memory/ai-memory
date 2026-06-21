@@ -24,6 +24,23 @@ from pathlib import Path
 
 MEMORY_DIR = ".ai-memory"
 DB_NAME = "memory.db"
+OPENCODE_AGENTS_MARKER_START = "<!-- ai-memory opencode start -->"
+OPENCODE_AGENTS_MARKER_END = "<!-- ai-memory opencode end -->"
+OPENCODE_AGENTS_SECTION = f"""{OPENCODE_AGENTS_MARKER_START}
+## Repo Memory Workflow
+
+This repo uses local learned memory in `.ai-memory/`.
+
+- Before broad exploration, run `ai-memory recall "<task>"` when feasible.
+- Use returned paths, commands, gotchas, and notes to guide targeted file reads.
+- Avoid broad searches until repo memory is missing, stale, or insufficient.
+- Verify memory against current files before editing; memory is guidance, not authority.
+- After substantial exploration, debugging, feature work, removal, or surprising discovery, add or update durable memory with `ai-memory note`.
+- Do not write memory for trivial edits or obvious facts.
+- Do not save secrets, credentials, tokens, full logs, personal data, or large file dumps.
+- If learned-memory Markdown changes manually, run `ai-memory refresh` so the SQLite index stays current.
+{OPENCODE_AGENTS_MARKER_END}
+"""
 MARKDOWN_FILES = {
     "commands.md": "# Commands\n\nVerified commands that work in this repo.\n",
     "gotchas.md": "# Gotchas\n\nNon-obvious traps future agents should not rediscover.\n",
@@ -945,6 +962,71 @@ def cmd_recall(args: argparse.Namespace) -> int:
     return 0
 
 
+def remove_opencode_agents_section(contents: str) -> str:
+    marker_pattern = re.compile(
+        rf"\n*{re.escape(OPENCODE_AGENTS_MARKER_START)}.*?{re.escape(OPENCODE_AGENTS_MARKER_END)}\n*",
+        re.DOTALL,
+    )
+    updated = marker_pattern.sub("\n", contents)
+
+    legacy_section_pattern = re.compile(
+        r"\n*---\n\n## Repo Memory Workflow\n\n.*?(?=\n---\n\n|\Z)",
+        re.DOTALL,
+    )
+    updated = legacy_section_pattern.sub("\n", updated)
+    updated = re.sub(r"(?:\n---\n\n){2,}", "\n---\n\n", updated)
+    return updated.rstrip() + "\n"
+
+
+def install_opencode_agents_section(agents_path: Path) -> None:
+    if agents_path.exists():
+        contents = agents_path.read_text(encoding="utf-8")
+    else:
+        contents = "# Global Agent Instructions\n\n"
+
+    contents = remove_opencode_agents_section(contents)
+    contents = re.sub(r"(?:\n---\n?)+\s*$", "", contents).rstrip()
+    next_contents = f"{contents}\n\n---\n\n{OPENCODE_AGENTS_SECTION}" if contents else OPENCODE_AGENTS_SECTION
+    agents_path.parent.mkdir(parents=True, exist_ok=True)
+    agents_path.write_text(next_contents.rstrip() + "\n", encoding="utf-8")
+
+
+def opencode_agents_path_for_repo(repo: Path) -> Path:
+    return repo / "AGENTS.md"
+
+
+def cmd_opencode_install(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    agents_path = opencode_agents_path_for_repo(repo)
+    install_opencode_agents_section(agents_path)
+    print(f"Installed repo-local OpenCode AGENTS section: {agents_path}")
+    return 0
+
+
+def cmd_opencode_uninstall(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    agents_path = opencode_agents_path_for_repo(repo)
+    if agents_path.exists():
+        agents_path.write_text(remove_opencode_agents_section(agents_path.read_text(encoding="utf-8")), encoding="utf-8")
+        print(f"Removed repo-local ai-memory OpenCode AGENTS section: {agents_path}")
+    else:
+        print(f"Repo-local AGENTS file missing: {agents_path}")
+    return 0
+
+
+def cmd_opencode_status(args: argparse.Namespace) -> int:
+    repo = run_git_root(Path.cwd())
+    agents_path = opencode_agents_path_for_repo(repo)
+    agents_installed = False
+    if agents_path.exists():
+        contents = agents_path.read_text(encoding="utf-8")
+        agents_installed = OPENCODE_AGENTS_MARKER_START in contents and OPENCODE_AGENTS_MARKER_END in contents
+
+    print(f"Repo: {repo}")
+    print(f"Repo-local AGENTS section: {'installed' if agents_installed else 'missing'} ({agents_path})")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Local repo memory CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -976,6 +1058,18 @@ def build_parser() -> argparse.ArgumentParser:
 
     status_parser = subparsers.add_parser("status", help="Show repo memory status")
     status_parser.set_defaults(func=cmd_status)
+
+    opencode_parser = subparsers.add_parser("opencode", help="Manage OpenCode ai-memory integration")
+    opencode_subparsers = opencode_parser.add_subparsers(dest="opencode_command", required=True)
+
+    opencode_install_parser = opencode_subparsers.add_parser("install", help="Install repo-local OpenCode AGENTS snippet")
+    opencode_install_parser.set_defaults(func=cmd_opencode_install)
+
+    opencode_uninstall_parser = opencode_subparsers.add_parser("uninstall", help="Remove OpenCode ai-memory integration")
+    opencode_uninstall_parser.set_defaults(func=cmd_opencode_uninstall)
+
+    opencode_status_parser = opencode_subparsers.add_parser("status", help="Show repo-local OpenCode ai-memory integration status")
+    opencode_status_parser.set_defaults(func=cmd_opencode_status)
 
     return parser
 
