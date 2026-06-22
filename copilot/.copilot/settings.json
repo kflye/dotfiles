@@ -14,5 +14,8 @@
     "showUsername": false,
     "showSandbox": true,
     "showCustom": true
-  }
+  },
+  "allowedUrls": [
+    "https://docs.github.com"
+  ]
 }

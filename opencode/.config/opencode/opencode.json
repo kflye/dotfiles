@@ -48,7 +48,9 @@
     },
     "external_directory": {
       "*": "ask",
-      "~/repos/**": "allow"
+      "~/repos/**": "allow",
+      "/temp/**": "allow",
+      "/tmp/**": "allow"
     }
   },
   "agent": {
