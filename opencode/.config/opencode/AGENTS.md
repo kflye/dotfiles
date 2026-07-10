@@ -59,6 +59,7 @@ Evaluate every solution against:
 - When modifying a function or module, audit its current tests first. Close coverage gaps in the same commit.
 - Never leave a passing test that no longer reflects actual behavior after a refactor.
 - Do not mock what can be tested cheaply with real code.
+- **Before recommending or writing any test change, read the actual test file.** Understand its structure: is it parameterized? does it use a generic catch-all? Only then decide where to add coverage. Never suggest a new test case when the correct action is to add an entry to an existing parameterized test's data provider.
 
 ---
 

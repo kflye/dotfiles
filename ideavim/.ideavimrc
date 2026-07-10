@@ -1,5 +1,4 @@
 let mapleader=" "
-
 " --- SET ---
 set number relativenumber   " add line numbers (relative)
 
@@ -9,18 +8,20 @@ set smartcase
 set nohlsearch              " do not highlight search result
 set incsearch               " incremental search, go to match before pressing enter
 
-set scrolloff=8             " Minimal number of screen lines to keep above and below the cursor 
+set scrolloff=8             " Minimal number of screen lines to keep above and below the cursor
 
 set ideajoin
 set ideamarks
 set idearefactormode=keep
+
+set VimEverywhere
 
 set clipboard+=unnamed
 set clipboard+=ideaput
 
 set visualbell
 set noerrorbells
-
+set inccommand=nosplit
 
 
 " ----- PLUGINS -----
@@ -28,13 +29,17 @@ set noerrorbells
 " https://towardsdatascience.com/the-essential-ideavim-remaps-291d4cd3971b
 "https://github.com/JetBrains/ideavim/wiki/NERDTree-support - remember shortcuts
 Plug 'preservim/nerdtree'    "Plugin Section
-                             
+let g:NERDTreeQuitOnOpen = 1             
+
 " Replace deleted/yanked text: gr{motion}
 " Plug 'vim-scripts/ReplaceWithRegister'
 
 " cs / ds / ys - change surround / delete surround / add surround
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+
+" cin), da,, ci" - n means next
+Plug 'wellle/targets.vim'
 
 Plug 'machakann/vim-highlightedyank'
 "let g:highlightedyank_highlight_color = "rgba(160, 160, 160, 155)"
@@ -47,6 +52,7 @@ set which-key
 set notimeout
 
 
+""
 " ----- REMAPS -----
 " remaps not used while coding starts with \
 nmap \e :e ~/.ideavimrc<CR>
@@ -69,23 +75,20 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Search and replace
-nnoremap <Leader><Leader>r :%s//g<Left><Left>
+nnoremap <Leader><Leader>r :%s/
 
 
 
 " ----- Window navigation -----
-nmap <c-up> <Action>(PrevSplitter)
-nmap <c-down> <Action>(NextSplitter)
-nmap <c-right> <Action>(NextSplitter)
-nmap <c-left> <Action>(PrevSplitter)
-nmap <c-l> <Action>(NextSplitter)
-nmap <c-h> <Action>(PrevSplitter)
-nmap <c-j> <Action>(NextSplitter)
-nmap <c-k> <Action>(PrevSplitter)
+" Directional focus — editor splits + tool windows (via VimEverywhere)
+nmap <c-h> <c-w>h
+nmap <c-j> <c-w>j
+nmap <c-k> <c-w>k
+nmap <c-l> <c-w>l
 nmap <s-l> <Action>(NextTab)
 nmap <s-h> <Action>(PreviousTab)
 nmap <s-right> <Action>(NextTab)
-nmap <s-left> <Action>(PreviousTab)
+nmap <s-left> <Action>(PreviousTab)/
 
 
 
@@ -94,8 +97,8 @@ nmap <a-t> <Action>(StretchSplitToTop)
 nmap <a-s> <Action>(StretchSplitToBottom)
 nmap <a-.> <Action>(StretchSplitToRight)
 nmap <a-,> <Action>(StretchSplitToLeft)
-nmap <c-w>= <Action>(MaximizeEditorInSplit)
-nmap <c-w>\| <Action>(MaximizeEditorInSplit)
+" nmap <c-w>=  Equalize width
+" nmap <c-w>\| Maximize width
 
 nmap <c-w>q <Action>(CloseAllEditors)
 nmap <c-w>v <Action>(MoveTabRight)
@@ -192,12 +195,10 @@ nmap <leader>sr <Action>(RecentLocations)
 nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
 
-
-
 " ----- Completion / snippets -----
-imap <c-y> <Action>(EditorChooseLookupItem)
-imap <c-l> <Action>(NextTemplateVariable)
-imap <c-h> <Action>(PreviousTemplateVariable)
+" imap <c-y> Choose item
+imap <Tab> <Action>(NextTemplateVariable)
+imap <S-Tab> <Action>(PreviousTemplateVariable)
 nmap <c-space> <Action>(CodeCompletion)
 imap <c-space> <Action>(CodeCompletion)
 imap <s-space> <Action>(CallInlineCompletionAction)
