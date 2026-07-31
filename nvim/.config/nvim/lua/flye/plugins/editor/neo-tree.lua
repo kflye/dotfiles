@@ -5,7 +5,7 @@ return {
         enabled = true,
         lazy = false,
         branch = 'v3.x',
-        dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
+        dependencies = { "nvim-lua/plenary.nvim", "echasnovski/mini.icons", "MunifTanjim/nui.nvim" },
         opts = {
             close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
             enable_git_status = true,
@@ -71,7 +71,6 @@ return {
             vim.keymap.set('n', '<M-1>', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
             vim.keymap.set('n', '<leader>wt', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
             vim.keymap.set('n', '<leader>wf', ':Neotree focus<CR>', { desc = 'Neotree: focus' })
-            vim.keymap.set('n', '<leader>ws', ':Neotree reveal<CR>', { desc = 'Neotree: reveal' })
             vim.keymap.set('n', '<leader>wb', ':Neotree buffers toggle=true<CR>', { desc = 'Neotree: buffers' })
             vim.keymap.set('n', '<leader>we', ':Neotree git_status toggle=true<CR>', { desc = 'Neotree: git_status' })
         end,

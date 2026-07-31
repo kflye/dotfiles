@@ -7,7 +7,13 @@ return {
         { "<leader>/",  function() Snacks.picker.grep() end,                                    desc = "Grep" },
         { "<leader>:",  function() Snacks.picker.command_history() end,                         desc = "Command History" },
         { "<leader>n",  function() Snacks.picker.notifications() end,                           desc = "Notification History" },
-        { "<leader>e",  function() Snacks.explorer() end,                                       desc = "File Explorer" },
+        -- Explorer (snacks.explorer). Group prefix: <leader>e
+        { "<leader>e",  "",                                                                     desc = "+explorer" },
+        { "<leader>ee", function() Snacks.explorer() end,                                        desc = "Explorer: toggle" },
+        { "<leader>ef", function() Snacks.explorer.reveal() end,                                 desc = "Explorer: focus/reveal current file" },
+        { "<leader>eb", function() Snacks.picker.buffers() end,                                  desc = "Explorer: buffers (picker)" },
+        { "<leader>eg", function() Snacks.picker.git_status() end,                               desc = "Explorer: git status (picker)" },
+        { "<M-1>",      function() Snacks.explorer() end,                                        desc = "Explorer: toggle" },
         -- git
         { '<leader>g',  '',                                                                     desc = '+git' },
         { "<leader>gb", function() Snacks.picker.git_branches() end,                            desc = "Git Branches" },
@@ -65,7 +71,7 @@ return {
         { "<leader>qa", function() Snacks.bufdelete.other() end,                                desc = "Delete other buffers" },
         { "<leader>qA", function() Snacks.bufdelete.all() end,                                  desc = "Delete all buffers" },
         -- Terminal
-        { "<leader>wT", function() Snacks.terminal.toggle() end,                                desc = "Terminal" },
+        { "<leader>wt", function() Snacks.terminal.toggle() end,                                desc = "Terminal" },
 
     },
     init = function()
@@ -120,7 +126,7 @@ return {
         picker = {
             sources = {
                 files = { ignored = false, hidden = true },
-                explorer = { ignored = false, hidden = true },
+                explorer = { ignored = false, hidden = true, auto_close = false }, -- set auto_close = true to close explorer after opening a file
                 grep = { ignored = false, hidden = true },
                 grep_word = { ignored = false, hidden = true },
                 grep_buffers = { ignored = false, hidden = true },

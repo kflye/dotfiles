@@ -119,16 +119,26 @@ nmap <leader>wz <Action>(ToggleZenMode)
 nmap <leader>wd <Action>(ToggleDistractionFreeMode)
 nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
 nmap <leader>wr <Action>(ActivateRunToolWindow)
-nmap <leader>wT <Action>(ActivateTerminalToolWindow)
+nmap <leader>wt <Action>(ActivateTerminalToolWindow)
 nmap <C-/> <Action>(ActivateTerminalToolWindow)
 
 if &ide =~? 'intellij idea'
-    nmap <leader>ws <Action>(SelectInProjectView)
     nmap <leader>wn <Action>(ActivateNuGetToolWindow) " TODO: gradle package search?
 elseif &ide =~? 'rider'
-    nmap <leader>ws <Action>(LocateInSolutionView)
     nmap <leader>wn <Action>(ActivateNuGetToolWindow)
     nmap <leader>wh <Action>(HideSideWindows)
+endif
+
+" ----- Explorer (mirrors neovim snacks.explorer <leader>e bindings) -----
+let g:WhichKeyDesc_explorer = "<leader>e Explorer"
+nmap <leader>ee <Action>(ActivateProjectToolWindow)
+nmap <leader>eb <Action>(RecentFiles)
+nmap <leader>eg <Action>(ActivateVersionControlToolWindow)
+
+if &ide =~? 'intellij idea'
+    nmap <leader>ef <Action>(SelectInProjectView)
+elseif &ide =~? 'rider'
+    nmap <leader>ef <Action>(LocateInSolutionView)
 endif
 
 

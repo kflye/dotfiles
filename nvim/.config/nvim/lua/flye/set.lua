@@ -73,7 +73,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.netrw_bufsettings = "noma nomod nu nobl nowrap ro rnu"
 
-local this_os = vim.loop.os_uname().sysname
+local this_os = vim.uv.os_uname().sysname
 
 if this_os:find "Windows" then
     vim.o.shell = 'pwsh'

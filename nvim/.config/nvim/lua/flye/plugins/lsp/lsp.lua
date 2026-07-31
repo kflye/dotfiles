@@ -54,18 +54,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
         nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
         -- add/remove/list workspace_folders
 
-        nmap('<leader>=', function()
-            vim.lsp.buf.format {
-                async = true
-            }
-        end, 'Format current buffer with LSP', bufnr)
-
 
         -- The following autocommand is used o enable inlay hints in your
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             vim.lsp.inlay_hint.enable(true)
             nmap('<leader>ch', function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
@@ -74,9 +68,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 })
 
+-- Enable LSP servers configured in the `lsp/` directory (Neovim 0.11+ native).
+-- nvim-lspconfig supplies the upstream `cmd`/`filetypes`/`root_markers`; the
+-- local `lsp/*.lua` files deep-merge our `settings`/`on_init` overrides on top.
+vim.lsp.enable({
+    'ts_ls',
+    'lua_ls',
+    'eslint',
+    'angularls',
+    'helm_ls',
+    'powershell_es',
+})
+
 return {
     {
-        'williamboman/mason.nvim',
+        'mason-org/mason.nvim',
         opts = {
             registries = {
                 -- 'github:nvim-java/mason-registry',
@@ -85,38 +91,36 @@ return {
         },
         config = true
     },
+    -- nvim-lspconfig is kept for its maintained `lsp/*.lua` server definitions
+    -- (cmd/filetypes/root_markers), which Neovim merges with our local overrides.
     {
-        'williamboman/mason-lspconfig.nvim',
+        'neovim/nvim-lspconfig',
         dependencies = {
-            { 'neovim/nvim-lspconfig' },
-            { 'qvalentin/helm-ls.nvim', ft = 'helm' }
+            { 'qvalentin/helm-ls.nvim', ft = 'helm' },
         },
-        opts = {
-            ensure_installed = {},
-        },
-        config = function(_, opts)
-            require('mason-lspconfig').setup(opts)
-        end
-
     },
     -- Auto-Install LSPs, linters, formatters, debuggers
     -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
     {
         'WhoIsSethDaniel/mason-tool-installer.nvim',
         opts = {
+            -- NOTE: these are mason REGISTRY package names, not LSP/lspconfig
+            -- names. mason-lspconfig used to translate LSP names (ts_ls, eslint,
+            -- lua_ls) to package names; without it, use registry names directly.
             ensure_installed = {
-                'ts_ls',
-                'eslint',
+                'typescript-language-server', -- ts_ls
+                'eslint-lsp',                 -- eslint
+                'angular-language-server',    -- angularls (ngserver)
                 'eslint_d',
                 'prettier',
                 'codelldb',
                 'netcoredbg',
-                'lua_ls',
+                'lua-language-server',        -- lua_ls
                 'js-debug-adapter'
             },
         },
         dependencies = {
-            'williamboman/mason-lspconfig.nvim',
+            'mason-org/mason.nvim',
         }
     },
 }

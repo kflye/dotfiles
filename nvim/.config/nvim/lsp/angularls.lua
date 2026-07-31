@@ -7,13 +7,13 @@ return {
                 position = { line = r, character = c },
             }
             print('go to angular template', vim.inspect(args))
-            local util = require('vim.lsp.util')
+            local util = vim.lsp.util
 
-            client.request('angular/getTemplateLocationForComponent', args,
+            client:request('angular/getTemplateLocationForComponent', args,
                 function(err, result, ctx, config)
                     config = config or {}
                     if result then
-                        util.jump_to_location(result, client.offset_encoding, config.reuse_win)
+                        util.show_document(result, client.offset_encoding, { reuse_win = config.reuse_win, focus = true })
                     end
                 end, bufnr)
         end, {desc = '[G]o to [A]ngular [T]emplate', buffer = bufnr, noremap = true, silent = true})
@@ -23,13 +23,13 @@ return {
                 textDocument = { uri = 'file://' .. vim.api.nvim_buf_get_name(bufnr) },
             }
             print('go to angular component', vim.inspect(args))
-            local util = require('vim.lsp.util')
+            local util = vim.lsp.util
 
-            client.request('angular/getComponentsWithTemplateFile', args,
+            client:request('angular/getComponentsWithTemplateFile', args,
                 function(err, result, ctx, config)
                     config = config or {}
                     if result then
-                        util.jump_to_location(result[1], client.offset_encoding, config.reuse_win)
+                        util.show_document(result[1], client.offset_encoding, { reuse_win = config.reuse_win, focus = true })
                     end
                 end, bufnr)
         end, {desc = '[G]o to [A]ngular [C]omponent', buffer = bufnr, noremap = true, silent = true})

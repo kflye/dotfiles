@@ -20,6 +20,6 @@ return {
                 }
             },
         },
-        dependencies = { 'nvim-tree/nvim-web-devicons', 'AndreM222/copilot-lualine' }
+        dependencies = { 'echasnovski/mini.icons', 'AndreM222/copilot-lualine' }
     }
 }
