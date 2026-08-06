@@ -103,36 +103,52 @@ nmap <a-,> <Action>(StretchSplitToLeft)
 nmap <c-w>q <Action>(CloseAllEditors)
 nmap <c-w>v <Action>(MoveTabRight)
 nmap <c-w>s <Action>(MoveTabDown)
-nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
 
+let g:WhichKeyDesc_bd = "<leader>bd Close buffer"
 nmap <leader>bd <Action>(CloseContent)
+let g:WhichKeyDesc_qa = "<leader>qa Close other buffers"
 nmap <leader>qa <Action>(CloseAllEditorsButActive)
 
 
 
 " ----- Workspace (layout / UI only) -----
-let g:WhichKeyDesc_windows = "<leader>w Workspace"
+let g:WhichKeyDesc_workspace = "<leader>w Workspace"
+let g:WhichKeyDesc_workspace_move  = "<leader>wm Move editor to opposite tab group"
 nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+let g:WhichKeyDesc_workspace_hide  = "<leader>ww Hide all windows"
 nmap <leader>ww <Action>(HideAllWindows)
+let g:WhichKeyDesc_workspace_zen   = "<leader>wz Zen mode"
 nmap <leader>wz <Action>(ToggleZenMode)
+let g:WhichKeyDesc_workspace_dist  = "<leader>wd Distraction free mode"
 nmap <leader>wd <Action>(ToggleDistractionFreeMode)
 nmap <C-/> <Action>(ActivateTerminalToolWindow)
 
 " ----- Explorer / Panels -----
 let g:WhichKeyDesc_explorer = "<leader>e Explorer / Panels"
+let g:WhichKeyDesc_explorer_tree     = "<leader>ee Explorer: toggle"
 nmap <leader>ee <Action>(ActivateProjectToolWindow)
+let g:WhichKeyDesc_explorer_terminal = "<leader>et Terminal"
 nmap <leader>et <Action>(ActivateTerminalToolWindow)
+let g:WhichKeyDesc_explorer_unit     = "<leader>eu Unit tests panel"
 nmap <leader>eu <Action>(ActivateUnitTestsToolWindow)
+let g:WhichKeyDesc_explorer_run      = "<leader>er Run panel"
 nmap <leader>er <Action>(ActivateRunToolWindow)
+let g:WhichKeyDesc_explorer_buffers  = "<leader>eb Recent files"
 nmap <leader>eb <Action>(RecentFiles)
-nmap <leader>eg <Action>(ActivateVersionControlToolWindow)
+let g:WhichKeyDesc_explorer_git      = "<leader>eg Git commit panel"
+nmap <leader>eg <Action>(ActivateCommitToolWindow)
 
 if &ide =~? 'intellij idea'
+    let g:WhichKeyDesc_explorer_reveal  = "<leader>ef Reveal current file in project tree"
     nmap <leader>ef <Action>(SelectInProjectView)
+    let g:WhichKeyDesc_explorer_nuget   = "<leader>en NuGet / package manager"
     nmap <leader>en <Action>(ActivateNuGetToolWindow) " TODO: gradle package search?
 elseif &ide =~? 'rider'
+    let g:WhichKeyDesc_explorer_reveal  = "<leader>ef Reveal current file in solution view"
     nmap <leader>ef <Action>(LocateInSolutionView)
+    let g:WhichKeyDesc_explorer_nuget   = "<leader>en NuGet package manager"
     nmap <leader>en <Action>(ActivateNuGetToolWindow)
+    let g:WhichKeyDesc_explorer_hide    = "<leader>eh Hide side windows"
     nmap <leader>eh <Action>(HideSideWindows)
 endif
 
@@ -140,14 +156,15 @@ endif
 
 " ----- Diagnostics -----
 let g:WhichKeyDesc_diag = "<leader>x Diagnostics / Errors"
+let g:WhichKeyDesc_diag_problems = "<leader>xx Problems panel"
 nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
 nmap gre <Action>(ShowErrorDescription)
 nmap [d <Action>(GotoPreviousError)
 nmap ]d <Action>(GotoNextError)
 
-
 if &ide =~? 'intellij idea'
 elseif &ide =~? 'rider'
+    let g:WhichKeyDesc_diag_solution = "<leader>xw Errors in solution"
     nmap <leader>xw <Action>(Rider.ProblemsView.ErrorsInSolution)
     nmap <leader>ge <Action>(ReSharperGotoNextErrorInSolution)
     nmap <leader>gE <Action>(ReSharperGotoPrevErrorInSolution)
@@ -157,51 +174,78 @@ endif
 
 " ----- Test -----
 let g:WhichKeyDesc_test = "<leader>t Test"
+let g:WhichKeyDesc_test_stop  = "<leader>tt Stop"
 nmap <leader>tt <Action>(Stop)
+let g:WhichKeyDesc_test_last  = "<leader>tl Run last"
 nmap <leader>tl <Action>(Rerun)
 
 if &ide =~? 'intellij idea'
+    let g:WhichKeyDesc_test_run    = "<leader>tr Run nearest (method or class)"
     nmap <leader>tr <Action>(RunClass)
+    let g:WhichKeyDesc_test_debug  = "<leader>td Debug nearest (method or class)"
     nmap <leader>td <Action>(DebugClass)
+    let g:WhichKeyDesc_test_failed = "<leader>te Rerun failed tests"
     nmap <leader>te <Action>(RerunFailedTests)
 elseif &ide =~? 'rider'
+    let g:WhichKeyDesc_test_run    = "<leader>tr Run nearest test"
     nmap <leader>tr <Action>(RiderUnitTestRunContextAction)
+    let g:WhichKeyDesc_test_debug  = "<leader>td Debug nearest test"
     nmap <leader>td <Action>(RiderUnitTestDebugContextAction)
+    let g:WhichKeyDesc_test_all    = "<leader>tF Run all tests in solution"
     nmap <leader>tF <Action>(RiderUnitTestRunSolutionAction)
+    let g:WhichKeyDesc_test_failed = "<leader>te Rerun failed tests"
     nmap <leader>te <Action>(RiderUnitTestSessionRerunFailedTestsAction)
 endif
 
 " ----- Debug -----
 let g:WhichKeyDesc_debug = "<leader>d Debug"
+let g:WhichKeyDesc_debug_continue   = "<leader>dc Continue / resume session"
 nmap <leader>dc <Action>(Resume)
+let g:WhichKeyDesc_debug_stop       = "<leader>ds Stop session"
 nmap <leader>ds <Action>(Stop)
+let g:WhichKeyDesc_debug_last       = "<leader>dl Rerun last debug session"
 nmap <leader>dl <Action>(Rerun)
+let g:WhichKeyDesc_debug_cursor     = "<leader>dC Run to cursor"
 nmap <leader>dC <Action>(RunToCursor)
+let g:WhichKeyDesc_debug_bp         = "<leader>db Toggle breakpoint"
 nmap <leader>db <Action>(ToggleLineBreakpoint)
+let g:WhichKeyDesc_debug_bp_cond    = "<leader>dB Conditional breakpoint"
 nmap <leader>dB <Action>(AddConditionalBreakpoint)
+let g:WhichKeyDesc_debug_bp_view    = "<leader>dS View all breakpoints"
 nmap <leader>dS <Action>(ViewBreakpoints)
 
 " ----- Run -----
 let g:WhichKeyDesc_run = "<leader>r Run"
+let g:WhichKeyDesc_run_choose = "<leader>rc Choose run configuration"
 nmap <leader>rc <Action>(ChooseRunConfiguration)
+let g:WhichKeyDesc_run_run    = "<leader>ru Run"
 nmap <leader>ru <Action>(Run)
+let g:WhichKeyDesc_run_debug  = "<leader>rd Debug (start session)"
 nmap <leader>rd <Action>(Debug)
 
 
 
 " ----- Search -----
 let g:WhichKeyDesc_search = "<leader>s Search"
+let g:WhichKeyDesc_search_everywhere = "<leader>se Search everywhere"
 nmap <leader>se :action SearchEverywhere<CR>
+let g:WhichKeyDesc_search_file       = "<leader>sf Go to file"
 nmap <leader>sf <Action>(GotoFile)
+let g:WhichKeyDesc_search_buffers    = "<leader>sb Recent files"
 nmap <leader>sb <Action>(RecentFiles)
+let g:WhichKeyDesc_search_project    = "<leader>sp Open project"
 nmap <leader>sp <Action>(OpenProjectWindows)
+let g:WhichKeyDesc_search_projects   = "<leader>sP Recent projects"
 nmap <leader>sP <Action>(RecentProjectListGroup)
+let g:WhichKeyDesc_search_word       = "<leader>sw Select / extend word"
 map <leader>sw <Action>(EditorSelectWord)
+let g:WhichKeyDesc_search_grep       = "<leader>sg Grep / find in path"
 nmap <leader>sg <Action>(FindInPath)
 xmap <leader>sg <Action>(FindInPath)
 nmap <leader>/ <Action>(FindInPath)
 xmap <leader>/ <Action>(FindInPath)
 nmap grs <Action>(FileStructurePopup)
+let g:WhichKeyDesc_search_recent_loc = "<leader>sr Recent locations"
 nmap <leader>sr <Action>(RecentLocations)
 
 nmap <C-o> <Action>(Back)
@@ -236,42 +280,50 @@ nmap grn :action RenameElement<CR>
 nmap gra :action ShowIntentionActions<CR>
 vmap gra :action ShowIntentionActions<CR>
 nmap grR :action Refactorings.QuickListPopupAction<CR>
+let g:WhichKeyDesc_code_hints    = "<leader>ch Toggle inlay hints"
 nmap <leader>ch :action ToggleInlayHintsGloballyAction<CR>
-let g:WhichKeyDesc_code_introduce = "<leader>ci Introduce(Variable/Field/Parameter) / Inline"
+let g:WhichKeyDesc_code_introduce = "<leader>ci Introduce (variable / field / parameter) / inline"
 nmap <leader>civ <Action>(IntroduceVariable)
 nmap <leader>cif <Action>(IntroduceField)
 nmap <leader>cip <Action>(IntroduceParameter)
 nmap <leader>cii <Action>(Inline)
 " Vcs.RollbackChangedLines
 
+let g:WhichKeyDesc_format = "<leader>= Reformat code"
 nmap <leader>= <Action>(ReformatCode)
 
 nmap [[ <Action>(MethodUp)
 nmap ]] <Action>(MethodDown)
 " TODO: Find mapping in treesitter - Move element left/right -> MoveElementLeft
+let g:WhichKeyDesc_move = "<leader>m Move element"
+let g:WhichKeyDesc_move_right = "<leader>ml Move element right"
 nmap <leader>ml <Action>(MoveElementRight)
+let g:WhichKeyDesc_move_left  = "<leader>mh Move element left"
 nmap <leader>mh <Action>(MoveElementLeft)
 
+let g:WhichKeyDesc_imports = "<leader>oi Optimize imports"
 map <leader>oi <Action>(OptimizeImports)
 
 
+" ----- Build -----
+let g:WhichKeyDesc_build = "<leader>b Build"
 if &ide =~? 'intellij idea'
-
-nmap <leader>bs <Action>(CompileDirty)
-nmap <leader>ba <Action>(CompileProject)
-
+    let g:WhichKeyDesc_build_dirty   = "<leader>bs Compile changed files"
+    nmap <leader>bs <Action>(CompileDirty)
+    let g:WhichKeyDesc_build_all     = "<leader>ba Compile project"
+    nmap <leader>ba <Action>(CompileProject)
 elseif &ide =~? 'rider'
-
-" BuildWholeSolutionAction
-nmap <leader>bs <Action>(BuildWholeSolutionAction)
-nmap <leader>ba <Action>(RebuildSolutionAction)
-
+    let g:WhichKeyDesc_build_dirty   = "<leader>bs Build solution"
+    nmap <leader>bs <Action>(BuildWholeSolutionAction)
+    let g:WhichKeyDesc_build_all     = "<leader>ba Rebuild solution"
+    nmap <leader>ba <Action>(RebuildSolutionAction)
 endif
 
 
+" ----- AI -----
+let g:WhichKeyDesc_ai      = "<leader>a AI"
+let g:WhichKeyDesc_ai_chat = "<leader>ac Copilot chat"
 nmap <leader>ac <Action>(copilot.chat.show)
-
-
 
 
 if &ide =~? 'intellij idea'
