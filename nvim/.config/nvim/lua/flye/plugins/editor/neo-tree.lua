@@ -66,13 +66,11 @@ return {
         config = function(_, opts)
             require('neo-tree').setup(opts)
 
-            vim.keymap.set('n', '<leader>w', '', { desc = '+workspace/explorer' })
-
-            vim.keymap.set('n', '<M-1>', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
-            vim.keymap.set('n', '<leader>wt', ':Neotree toggle<CR>', { desc = 'Neotree: toggle' })
-            vim.keymap.set('n', '<leader>wf', ':Neotree focus<CR>', { desc = 'Neotree: focus' })
-            vim.keymap.set('n', '<leader>wb', ':Neotree buffers toggle=true<CR>', { desc = 'Neotree: buffers' })
-            vim.keymap.set('n', '<leader>we', ':Neotree git_status toggle=true<CR>', { desc = 'Neotree: git_status' })
+            vim.keymap.set('n', '<leader>e',  '',                                       { desc = '+explorer' })
+            vim.keymap.set('n', '<leader>ee', ':Neotree toggle<CR>',                    { desc = 'Explorer: toggle' })
+            vim.keymap.set('n', '<leader>ef', ':Neotree reveal<CR>',                    { desc = 'Explorer: focus/reveal current file' })
+            vim.keymap.set('n', '<leader>eb', ':Neotree buffers toggle=true<CR>',       { desc = 'Explorer: buffers' })
+            vim.keymap.set('n', '<leader>eg', ':Neotree git_status toggle=true<CR>',    { desc = 'Explorer: git status' })
         end,
     }
 }

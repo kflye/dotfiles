@@ -131,19 +131,14 @@ vim.keymap.set('n', '<C-left>', function() vscode.action("workbench.action.focus
 vim.keymap.set('n', '<C-o>', function() vscode.action("workbench.action.navigateBack") end, { desc = "Navigate back" })
 vim.keymap.set('n', '<C-i>', function() vscode.action("workbench.action.navigateForward") end, { desc = "Navigate forward" })
 
--- terminal -- <C-`> default vscode keybinding
-vim.keymap.set('n', '<leader>tt', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "[T]oggle [T]erminal" })
-vim.keymap.set('n', '<leader>wT', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "[W]orkspace [T]erminal" })
+-- terminal
+vim.keymap.set('n', '<leader>et', function() vscode.action("workbench.action.terminal.toggleTerminal") end, { desc = "Terminal toggle" })
 
-
--- file explorer
-vim.keymap.set('n', '<leader>wt', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "[W]orkspace [T]oggle sidebar" })
-vim.keymap.set('n', '<leader>wf', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "[W]orkspace [F]iles sidebar" })
-vim.keymap.set('n', '<leader>ws', function() vscode.action("workbench.files.action.showActiveFileInExplorer") end, { desc = "[W]orkspace [S]how file in explorer" })
-vim.keymap.set('n', '<leader>ww', function() vscode.action("workbench.action.togglePanel") end, { desc = "[W]orkspace toggle panel" })
-
--- test explorer
-vim.keymap.set('n', '<leader>wu', function() vscode.action("workbench.view.testing.focus") end, { desc = "[W]orkspace [U]nit test explorer" })
+-- file explorer / panels
+vim.keymap.set('n', '<leader>ee', function() vscode.action("workbench.action.toggleSidebarVisibility") end, { desc = "Explorer: toggle sidebar" })
+vim.keymap.set('n', '<leader>ef', function() vscode.action("workbench.files.action.showActiveFileInExplorer") end, { desc = "Explorer: reveal current file" })
+vim.keymap.set('n', '<leader>eu', function() vscode.action("workbench.view.testing.focus") end, { desc = "Explorer: unit test panel" })
+vim.keymap.set('n', '<leader>ww', function() vscode.action("workbench.action.togglePanel") end, { desc = "Workspace: toggle panel" })
 
 -- ai / copilot chat
 vim.keymap.set('n', '<leader>ac', function() vscode.action("workbench.action.chat.toggle") end, { desc = "[A]I [C]hat toggle" })

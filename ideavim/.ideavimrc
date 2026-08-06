@@ -110,35 +110,30 @@ nmap <leader>qa <Action>(CloseAllEditorsButActive)
 
 
 
-" ----- Workspace / Explorer -----
-let g:WhichKeyDesc_windows = "<leader>w Workspace / Explorer"
-nmap <leader>wt <Action>(ActivateProjectToolWindow)
-nmap <leader>wf <Action>(ActivateProjectToolWindow)
+" ----- Workspace (layout / UI only) -----
+let g:WhichKeyDesc_windows = "<leader>w Workspace"
+nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
 nmap <leader>ww <Action>(HideAllWindows)
 nmap <leader>wz <Action>(ToggleZenMode)
 nmap <leader>wd <Action>(ToggleDistractionFreeMode)
-nmap <leader>wu <Action>(ActivateUnitTestsToolWindow)
-nmap <leader>wr <Action>(ActivateRunToolWindow)
-nmap <leader>wt <Action>(ActivateTerminalToolWindow)
 nmap <C-/> <Action>(ActivateTerminalToolWindow)
 
-if &ide =~? 'intellij idea'
-    nmap <leader>wn <Action>(ActivateNuGetToolWindow) " TODO: gradle package search?
-elseif &ide =~? 'rider'
-    nmap <leader>wn <Action>(ActivateNuGetToolWindow)
-    nmap <leader>wh <Action>(HideSideWindows)
-endif
-
-" ----- Explorer (mirrors neovim snacks.explorer <leader>e bindings) -----
-let g:WhichKeyDesc_explorer = "<leader>e Explorer"
+" ----- Explorer / Panels -----
+let g:WhichKeyDesc_explorer = "<leader>e Explorer / Panels"
 nmap <leader>ee <Action>(ActivateProjectToolWindow)
+nmap <leader>et <Action>(ActivateTerminalToolWindow)
+nmap <leader>eu <Action>(ActivateUnitTestsToolWindow)
+nmap <leader>er <Action>(ActivateRunToolWindow)
 nmap <leader>eb <Action>(RecentFiles)
 nmap <leader>eg <Action>(ActivateVersionControlToolWindow)
 
 if &ide =~? 'intellij idea'
     nmap <leader>ef <Action>(SelectInProjectView)
+    nmap <leader>en <Action>(ActivateNuGetToolWindow) " TODO: gradle package search?
 elseif &ide =~? 'rider'
     nmap <leader>ef <Action>(LocateInSolutionView)
+    nmap <leader>en <Action>(ActivateNuGetToolWindow)
+    nmap <leader>eh <Action>(HideSideWindows)
 endif
 
 
@@ -160,15 +155,15 @@ endif
 
 
 
-" ----- Test / Debug -----
-let g:WhichKeyDesc_test = "<leader>t Test / Debug"
-nmap <leader>tb <Action>(ToggleLineBreakpoint)
-nmap <leader>tS <Action>(Stop)
-nmap <leader>rS <Action>(Stop)
-nmap <leader>tC <Action>(RunToCursor)
+" ----- Test -----
+let g:WhichKeyDesc_test = "<leader>t Test"
+nmap <leader>tt <Action>(Stop)
+nmap <leader>tl <Action>(Rerun)
+
 if &ide =~? 'intellij idea'
     nmap <leader>tr <Action>(RunClass)
     nmap <leader>td <Action>(DebugClass)
+    nmap <leader>te <Action>(RerunFailedTests)
 elseif &ide =~? 'rider'
     nmap <leader>tr <Action>(RiderUnitTestRunContextAction)
     nmap <leader>td <Action>(RiderUnitTestDebugContextAction)
@@ -176,13 +171,20 @@ elseif &ide =~? 'rider'
     nmap <leader>te <Action>(RiderUnitTestSessionRerunFailedTestsAction)
 endif
 
-
+" ----- Debug -----
+let g:WhichKeyDesc_debug = "<leader>d Debug"
+nmap <leader>dc <Action>(Resume)
+nmap <leader>ds <Action>(Stop)
+nmap <leader>dl <Action>(Rerun)
+nmap <leader>dC <Action>(RunToCursor)
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+nmap <leader>dB <Action>(AddConditionalBreakpoint)
+nmap <leader>dS <Action>(ViewBreakpoints)
 
 " ----- Run -----
-let g:WhichKeyDesc_test = "<leader>r Run / Debug"
+let g:WhichKeyDesc_run = "<leader>r Run"
 nmap <leader>rc <Action>(ChooseRunConfiguration)
 nmap <leader>ru <Action>(Run)
-nmap <leader>ra <Action>(Rerun)
 nmap <leader>rd <Action>(Debug)
 
 

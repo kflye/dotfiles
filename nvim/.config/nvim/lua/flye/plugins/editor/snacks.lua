@@ -71,7 +71,7 @@ return {
         { "<leader>qa", function() Snacks.bufdelete.other() end,                                desc = "Delete other buffers" },
         { "<leader>qA", function() Snacks.bufdelete.all() end,                                  desc = "Delete all buffers" },
         -- Terminal
-        { "<leader>wt", function() Snacks.terminal.toggle() end,                                desc = "Terminal" },
+        { "<leader>et", function() Snacks.terminal.toggle() end,                                desc = "Terminal" },
 
     },
     init = function()
