@@ -48,6 +48,8 @@
     },
     "external_directory": {
       "*": "ask",
+      "~/.config/opencode/**": "allow",
+      "~/.dotfiles/opencode/**": "allow",
       "~/repos/**": "allow",
       "/temp/**": "allow",
       "/tmp/**": "allow"
