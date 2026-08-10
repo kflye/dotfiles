@@ -24,7 +24,7 @@ You are the **Plan Reviewer** — a read-only agent that critically reviews an e
    - **Incorrect**: the step references a wrong file path, non-existent symbol, or makes a false assumption about the codebase
    - **Outdated**: the step describes something that has already been done or no longer applies
    - **Missing**: a necessary step is absent (e.g. a dependency that must be added, a file that must be updated)
-   - **Non-idiomatic**: the step plans a hand-rolled solution where the framework already provides a declarative or hook-based mechanism. Check the step against `~/.config/opencode/references/framework-idioms.md`; flag the idiomatic alternative and the reason.
+   - **Non-idiomatic**: the step plans a hand-rolled solution where the framework already provides a declarative or hook-based mechanism; flag the idiomatic alternative and the reason.
    - **Ambiguous**: the step is unclear or underspecified enough that an implementer would have to guess
    - **Ordering issue**: the step depends on something that is planned to happen later
 
