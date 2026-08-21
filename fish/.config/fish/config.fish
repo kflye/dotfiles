@@ -63,3 +63,4 @@ set --universal nvm_default_version lts
 
 # opencode
 fish_add_path $HOME/.opencode/bin
+set -gx OPENCODE_CONFIG "$HOME/.config/opencode/opencode.local.json"

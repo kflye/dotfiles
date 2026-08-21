@@ -89,6 +89,8 @@ function cat($name) {
 }
 
 
+$env:OPENCODE_CONFIG = "$HOME/.config/opencode/opencode.local.json"
+
 function tcp_prog {
     param (
         [PSDefaultValue(Help = 'TCP Port to lookup')]
