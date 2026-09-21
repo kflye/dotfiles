@@ -7,4 +7,4 @@ New-Item -ItemType SymbolicLink -Force -Path $windowsTerminalSettingsPath -Targe
 
 New-Item -ItemType SymbolicLink -Force -Path $windowsTerminalPreviewSettingsPath -Target $target;
 
-New-Item -ItemType SymbolicLink -Force -Path $scoopInstall -Target $target;
+#New-Item -ItemType SymbolicLink -Force -Path $scoopInstall -Target $target;

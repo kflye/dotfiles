@@ -1,15 +1,24 @@
 $path = "$PSScriptRoot"
 
-New-Item -ItemType SymbolicLink -Force -Path $profile -Target $path\Microsoft.PowerShell_profile.ps1;
+Set-Content -Path $PROFILE -Encoding utf8 -Value @'
+$dotfileProfile = Join-Path $HOME '.dotfiles\powershell\Microsoft.PowerShell_profile.ps1'
 
+if (Test-Path $dotfileProfile) {
+    . $dotfileProfile
+}
+else {
+    Write-Warning "Dotfile profile not found: $dotfileProfile"
+}
+'@
 
 function Install($moduleName) {
     Install-Module $moduleName  -Confirm:$False -Force -Scope CurrentUser;
 }
 
 
-# Install("posh-git")
 # Install("PSfzf");
-#Install("ZLocation");
-#Install("posh-sshell");
 # Install("Terminal-Icons");
+# Install("posh-git")
+
+# Install("posh-sshell");
+# Install("ZLocation");
