@@ -67,5 +67,17 @@
   },
   "plugin": [
     "opencode-local-provider"
-  ]
+  ],
+  "mcp": {
+    "freecad": {
+      "type": "local",
+      "command": ["uvx", "freecad-mcp"],
+      "enabled": true
+    },
+    "fusion-desktop": {
+      "type": "remote",
+      "url": "http://127.0.0.1:27182/mcp",
+      "enabled": true
+    }
+  }
 }
