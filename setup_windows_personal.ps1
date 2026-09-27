@@ -10,10 +10,18 @@ winget install --id=EpicGames.EpicGamesLauncher -e ;
 winget install --id=Blizzard.BattleNet  -e ;
 
 winget install --id=Meta.Oculus  -e ;
-winget install --id SideQuestVR.SideQuest -e ;
 winget install --id=VirtualDesktop.Streamer  -e
 
 winget install --id=QMK.QMKToolbox -e ; 
 
-winget install --id=Dropbox.Dropbox  -e ;
 winget install --id=OpenWhisperSystems.Signal  -e ;
+winget install --id SoftFever.OrcaSlicer -e ;
+winget install --id Proton.ProtonVPN -e ;
+winget install --id Tailscale.Tailscale -e ;
+winget install --id ClassicOldSong.Apollo -e ;
+winget install --id Playnite.Playnite -e ;
+winget install --id Roblox.RobloxStudio -e ;
+
+scoop install main/luau-lsp
+scoop install main/stylua
+scoop install main/selene

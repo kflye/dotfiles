@@ -6,6 +6,7 @@ elseif ($IsWindows) {
     $env:PATH += ";$env:APPDATA\local\bin"
     $env:HOME = "$env:userprofile"
     $env:SHELL = "C:\Program Files\PowerShell\7\pwsh.exe"
+    $env:CC = "gcc"
 }
 elseif ($IsLinux) {
     Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(#{HOMEBREW_PREFIX}/bin/brew shellenv) | Invoke-Expression'
