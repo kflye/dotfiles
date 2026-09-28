@@ -18,6 +18,9 @@ set VimEverywhere
 
 set clipboard+=unnamed
 set clipboard+=ideaput
+sethandler <C-c> a:ide
+sethandler <C-v> a:ide
+sethandler <C-x> a:ide
 
 set visualbell
 set noerrorbells
@@ -87,8 +90,10 @@ nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
 nmap <s-l> <Action>(NextTab)
 nmap <s-h> <Action>(PreviousTab)
+nmap <c-s-l> <Action>(NextProjectWindow)
+nmap <c-s-h> <Action>(PreviousProjectWindow)
 nmap <s-right> <Action>(NextTab)
-nmap <s-left> <Action>(PreviousTab)/
+nmap <s-left> <Action>(PreviousTab)
 
 
 
@@ -191,8 +196,8 @@ elseif &ide =~? 'rider'
     nmap <leader>tr <Action>(RiderUnitTestRunContextAction)
     let g:WhichKeyDesc_test_debug  = "<leader>td Debug nearest test"
     nmap <leader>td <Action>(RiderUnitTestDebugContextAction)
-    let g:WhichKeyDesc_test_all    = "<leader>tF Run all tests in solution"
-    nmap <leader>tF <Action>(RiderUnitTestRunSolutionAction)
+    let g:WhichKeyDesc_test_all    = "<leader>ts Run all tests in solution"
+    nmap <leader>ts <Action>(RiderUnitTestRunSolutionAction)
     let g:WhichKeyDesc_test_failed = "<leader>te Rerun failed tests"
     nmap <leader>te <Action>(RiderUnitTestSessionRerunFailedTestsAction)
 endif
@@ -315,8 +320,8 @@ if &ide =~? 'intellij idea'
 elseif &ide =~? 'rider'
     let g:WhichKeyDesc_build_dirty   = "<leader>bs Build solution"
     nmap <leader>bs <Action>(BuildWholeSolutionAction)
-    let g:WhichKeyDesc_build_all     = "<leader>ba Rebuild solution"
-    nmap <leader>ba <Action>(RebuildSolutionAction)
+    let g:WhichKeyDesc_build_all     = "<leader>bS Rebuild solution"
+    nmap <leader>bS <Action>(RebuildSolutionAction)
 endif
 
 
