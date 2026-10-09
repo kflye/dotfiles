@@ -31,7 +31,8 @@
       "pip install*": "deny",
       "pip uninstall*": "deny",
       "cargo install*": "deny",
-      "git *": "ask",
+      "git *": "allow",
+      "git push*": "ask",
       "git status*": "allow",
       "git log*": "allow",
       "git diff*": "allow",
@@ -47,7 +48,7 @@
       "git reflog*": "allow"
     },
     "external_directory": {
-      "*": "ask",
+      "*": "allow",
       "~/.config/opencode/**": "allow",
       "~/.dotfiles/opencode/**": "allow",
       "~/repos/**": "allow",
