@@ -1,6 +1,7 @@
 return {
     "folke/snacks.nvim",
     keys = {
+        { "<C-w>z", function() Snacks.zen.zoom() end, desc = "Toggle window zoom" },
         -- Top Pickers & Explorer
         -- { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Smart Find Files" },
         { "<leader>,",  function() Snacks.picker.buffers() end,                                 desc = "Buffers" },

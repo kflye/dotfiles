@@ -88,16 +88,19 @@ nmap <c-h> <c-w>h
 nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
-nmap <s-l> <Action>(NextTab)
-nmap <s-h> <Action>(PreviousTab)
+" nmap <s-l> <Action>(NextTab)
+" nmap <s-h> <Action>(PreviousTab)
 nmap <c-s-l> <Action>(NextProjectWindow)
 nmap <c-s-h> <Action>(PreviousProjectWindow)
 nmap <s-right> <Action>(NextTab)
 nmap <s-left> <Action>(PreviousTab)
+nmap <s-h> <Action>(JumpToLastChange)
+nmap <s-l> <Action>(JumpToNextChange)
 
 
 
 " ----- Window management -----
+nmap <c-w>z <Action>(MaximizeEditorInSplit)
 nmap <a-t> <Action>(StretchSplitToTop)
 nmap <a-s> <Action>(StretchSplitToBottom)
 nmap <a-.> <Action>(StretchSplitToRight)
@@ -109,15 +112,17 @@ nmap <c-w>q <Action>(CloseAllEditors)
 nmap <c-w>v <Action>(MoveTabRight)
 nmap <c-w>s <Action>(MoveTabDown)
 
-let g:WhichKeyDesc_bd = "<leader>bd Close buffer"
-nmap <leader>bd <Action>(CloseContent)
+let g:WhichKeyDesc_bd = "<leader>qq Close buffer"
+nmap <leader>qq <Action>(CloseContent)
 let g:WhichKeyDesc_qa = "<leader>qa Close other buffers"
 nmap <leader>qa <Action>(CloseAllEditorsButActive)
+let g:WhichKeyDesc_qa = "<leader>qA Close all buffers"
+nmap <leader>qA <Action>(CloseAllEditors)
 
 
 
 " ----- Workspace (layout / UI only) -----
-let g:WhichKeyDesc_workspace = "<leader>w Workspace"
+let g:WhichKeyDesc_workspace       = "<leader>w Workspace"
 let g:WhichKeyDesc_workspace_move  = "<leader>wm Move editor to opposite tab group"
 nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
 let g:WhichKeyDesc_workspace_hide  = "<leader>ww Hide all windows"
@@ -129,7 +134,7 @@ nmap <leader>wd <Action>(ToggleDistractionFreeMode)
 nmap <C-/> <Action>(ActivateTerminalToolWindow)
 
 " ----- Explorer / Panels -----
-let g:WhichKeyDesc_explorer = "<leader>e Explorer / Panels"
+let g:WhichKeyDesc_explorer          = "<leader>e Explorer / Panels"
 let g:WhichKeyDesc_explorer_tree     = "<leader>ee Explorer: toggle"
 nmap <leader>ee <Action>(ActivateProjectToolWindow)
 let g:WhichKeyDesc_explorer_terminal = "<leader>et Terminal"
@@ -142,6 +147,9 @@ let g:WhichKeyDesc_explorer_buffers  = "<leader>eb Recent files"
 nmap <leader>eb <Action>(RecentFiles)
 let g:WhichKeyDesc_explorer_git      = "<leader>eg Git commit panel"
 nmap <leader>eg <Action>(ActivateCommitToolWindow)
+let g:WhichKeyDesc_explorer_pr      = "<leader>ep Pull request panel"
+nmap <leader>ep <Action>(ActivatePullRequestsToolWindow)
+
 
 if &ide =~? 'intellij idea'
     let g:WhichKeyDesc_explorer_reveal  = "<leader>ef Reveal current file in project tree"
@@ -203,7 +211,7 @@ elseif &ide =~? 'rider'
 endif
 
 " ----- Debug -----
-let g:WhichKeyDesc_debug = "<leader>d Debug"
+let g:WhichKeyDesc_debug            = "<leader>d Debug"
 let g:WhichKeyDesc_debug_continue   = "<leader>dc Continue / resume session"
 nmap <leader>dc <Action>(Resume)
 let g:WhichKeyDesc_debug_stop       = "<leader>ds Stop session"
@@ -231,13 +239,17 @@ nmap <leader>rd <Action>(Debug)
 
 
 " ----- Search -----
-let g:WhichKeyDesc_search = "<leader>s Search"
+let g:WhichKeyDesc_search            = "<leader>s Search"
 let g:WhichKeyDesc_search_everywhere = "<leader>se Search everywhere"
 nmap <leader>se :action SearchEverywhere<CR>
 let g:WhichKeyDesc_search_file       = "<leader>sf Go to file"
 nmap <leader>sf <Action>(GotoFile)
 let g:WhichKeyDesc_search_buffers    = "<leader>sb Recent files"
 nmap <leader>sb <Action>(RecentFiles)
+let g:WhichKeyDesc_search_locations  = "<leader>sl Recent locations"
+nmap <leader>sl <Action>(RecentLocations)
+let g:WhichKeyDesc_search_recent_loc = "<leader>sr Recent locations"
+nmap <leader>sr <Action>(RecentLocations)
 let g:WhichKeyDesc_search_project    = "<leader>sp Open project"
 nmap <leader>sp <Action>(OpenProjectWindows)
 let g:WhichKeyDesc_search_projects   = "<leader>sP Recent projects"
@@ -249,12 +261,13 @@ nmap <leader>sg <Action>(FindInPath)
 xmap <leader>sg <Action>(FindInPath)
 nmap <leader>/ <Action>(FindInPath)
 xmap <leader>/ <Action>(FindInPath)
-nmap grs <Action>(FileStructurePopup)
-let g:WhichKeyDesc_search_recent_loc = "<leader>sr Recent locations"
-nmap <leader>sr <Action>(RecentLocations)
 
 nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
+
+" ----- Git -----
+let g:WhichKeyDesc_search_git_status   = "<leader>gs Git status"
+nmap <leader>gs <Action>(GitStatusPicker.Open)
 
 " ----- Completion / snippets -----
 " imap <c-y> Choose item
@@ -273,6 +286,7 @@ nmap grd <Action>(GotoDeclaration)
 nmap gri <Action>(GotoImplementation)
 nmap grt <Action>(GotoTypeDeclaration)
 nmap grr <Action>(ShowUsages)
+nmap grs <Action>(FileStructurePopup)
 
 nmap K <Action>(QuickJavaDoc)
 nmap <C-s> <Action>(ParameterInfo)

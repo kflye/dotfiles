@@ -1,0 +1,30 @@
+onboarding = false
+[ui]
+status_indicators = "symbols"
+
+[theme]
+name = "gruvbox"
+
+[keys]
+prefix = "ctrl+b"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+split_vertical = "prefix+v"
+split_horizontal = "prefix+s"
+detach = "prefix+d"
+rename_tab = "prefix+comma"
+rename_workspace = "prefix+$"
+close_tab = "prefix+ampersand"
+cycle_pane_next = "prefix+o"
+open_notification_target = "prefix+shift+o"
+settings = "prefix+shift+s"
+resize_pane_down = "ctrl+alt+t"
+resize_pane_up = "ctrl+alt+s"
+resize_pane_right = "ctrl+alt+."
+resize_pane_left = "ctrl+alt+comma"
+swap_pane_left = ""
+swap_pane_down = ""
+swap_pane_up = ""
+swap_pane_right = ""

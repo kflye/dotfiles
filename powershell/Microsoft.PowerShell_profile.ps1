@@ -4,6 +4,7 @@ if ($IsMacOS) {
 }
 elseif ($IsWindows) {
     $env:PATH += ";$env:APPDATA\local\bin"
+    $env:Path = "$env:LOCALAPPDATA\Microsoft\WinGet\Links;$env:Path"
     $env:HOME = "$env:userprofile"
     $env:SHELL = "C:\Program Files\PowerShell\7\pwsh.exe"
     $env:CC = "gcc"
@@ -87,6 +88,10 @@ function which($name) {
 
 function cat($name) {
     Get-Content $name
+}
+
+function base64([string]$Text) {
+    [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($Text))
 }
 
 
