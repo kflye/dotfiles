@@ -1,84 +1,76 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "share": "disabled",
-  "permission": {
-    "bash": {
-      "*": "allow",
-      "sudo *": "deny",
-      "doas *": "deny",
-      "mv /*": "deny",
-      "> /*": "deny",
-      "cp -r /*": "deny",
-      "rm -rf*": "deny",
-      "rm -r *": "deny",
-      "rmdir *": "deny",
-      "chmod -R*": "deny",
-      "chown -R*": "deny",
-      "dd *": "deny",
-      "mkfs*": "deny",
-      "npm install*": "ask",
-      "npm i *": "deny",
-      "npm i": "deny",
-      "npm uninstall*": "deny",
-      "yarn add*": "deny",
-      "yarn remove*": "deny",
-      "pnpm add*": "deny",
-      "pnpm remove*": "deny",
-      "bun add*": "deny",
-      "bun remove*": "deny",
-      "brew install*": "deny",
-      "brew uninstall*": "deny",
-      "pip install*": "deny",
-      "pip uninstall*": "deny",
-      "cargo install*": "deny",
-      "git *": "allow",
-      "git push*": "ask",
-      "git status*": "allow",
-      "git log*": "allow",
-      "git diff*": "allow",
-      "git show*": "allow",
-      "git branch*": "allow",
-      "git remote -v*": "allow",
-      "git rev-parse*": "allow",
-      "git ls-files*": "allow",
-      "git blame*": "allow",
-      "git shortlog*": "allow",
-      "git describe*": "allow",
-      "git cat-file*": "allow",
-      "git reflog*": "allow"
-    },
-    "external_directory": {
-      "*": "allow",
-      "~/.config/opencode/**": "allow",
-      "~/.dotfiles/opencode/**": "allow",
-      "~/repos/**": "allow",
-      "/temp/**": "allow",
-      "/tmp/**": "allow"
-    }
-  },
-  "agent": {
-    "supervisor": {
-      "permission": {
-        "task": {
-          "*": "allow"
-        }
-      },
-      "options": {}
-    }
-  },
-  "plugin": [
-    "opencode-local-provider"
+  "permissions": [
+    { "action": "shell", "resource": "*", "effect": "allow" },
+    { "action": "shell", "resource": "sudo *", "effect": "deny" },
+    { "action": "shell", "resource": "doas *", "effect": "deny" },
+    { "action": "shell", "resource": "mv /*", "effect": "deny" },
+    { "action": "shell", "resource": "> /*", "effect": "deny" },
+    { "action": "shell", "resource": "cp -r /*", "effect": "deny" },
+    { "action": "shell", "resource": "rm -rf*", "effect": "deny" },
+    { "action": "shell", "resource": "rm -r *", "effect": "deny" },
+    { "action": "shell", "resource": "rmdir *", "effect": "deny" },
+    { "action": "shell", "resource": "chmod -R*", "effect": "deny" },
+    { "action": "shell", "resource": "chown -R*", "effect": "deny" },
+    { "action": "shell", "resource": "dd *", "effect": "deny" },
+    { "action": "shell", "resource": "mkfs*", "effect": "deny" },
+    { "action": "shell", "resource": "npm install*", "effect": "ask" },
+    { "action": "shell", "resource": "npm i *", "effect": "deny" },
+    { "action": "shell", "resource": "npm i", "effect": "deny" },
+    { "action": "shell", "resource": "npm uninstall*", "effect": "deny" },
+    { "action": "shell", "resource": "yarn add*", "effect": "deny" },
+    { "action": "shell", "resource": "yarn remove*", "effect": "deny" },
+    { "action": "shell", "resource": "pnpm add*", "effect": "deny" },
+    { "action": "shell", "resource": "pnpm remove*", "effect": "deny" },
+    { "action": "shell", "resource": "bun add*", "effect": "deny" },
+    { "action": "shell", "resource": "bun remove*", "effect": "deny" },
+    { "action": "shell", "resource": "brew install*", "effect": "deny" },
+    { "action": "shell", "resource": "brew uninstall*", "effect": "deny" },
+    { "action": "shell", "resource": "pip install*", "effect": "deny" },
+    { "action": "shell", "resource": "pip uninstall*", "effect": "deny" },
+    { "action": "shell", "resource": "cargo install*", "effect": "deny" },
+    { "action": "shell", "resource": "git *", "effect": "allow" },
+    { "action": "shell", "resource": "git push*", "effect": "ask" },
+    { "action": "shell", "resource": "git status*", "effect": "allow" },
+    { "action": "shell", "resource": "git log*", "effect": "allow" },
+    { "action": "shell", "resource": "git diff*", "effect": "allow" },
+    { "action": "shell", "resource": "git show*", "effect": "allow" },
+    { "action": "shell", "resource": "git branch*", "effect": "allow" },
+    { "action": "shell", "resource": "git remote -v*", "effect": "allow" },
+    { "action": "shell", "resource": "git rev-parse*", "effect": "allow" },
+    { "action": "shell", "resource": "git ls-files*", "effect": "allow" },
+    { "action": "shell", "resource": "git blame*", "effect": "allow" },
+    { "action": "shell", "resource": "git shortlog*", "effect": "allow" },
+    { "action": "shell", "resource": "git describe*", "effect": "allow" },
+    { "action": "shell", "resource": "git cat-file*", "effect": "allow" },
+    { "action": "shell", "resource": "git reflog*", "effect": "allow" },
+    { "action": "external_directory", "resource": "*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.config/opencode/**", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.dotfiles/opencode/**", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/repos/**", "effect": "allow" },
+    { "action": "external_directory", "resource": "/temp/**", "effect": "allow" },
+    { "action": "external_directory", "resource": "/tmp/**", "effect": "allow" }
   ],
+  "agents": {
+    "supervisor": {
+      "permissions": [
+        { "action": "subagent", "resource": "*", "effect": "allow" }
+      ]
+    }
+  },
   "mcp": {
-    "freecad": {
-      "type": "local",
-      "command": ["uvx", "freecad-mcp"],
-      "enabled": true
-    },
-    "fusion-desktop": {
-      "type": "remote",
-      "url": "http://127.0.0.1:27182/mcp",
-      "enabled": true
+    "servers": {
+      "freecad": {
+        "type": "local",
+        "command": ["uvx", "freecad-mcp@latest"],
+        "disabled": false
+      },
+      "fusion-desktop": {
+        "type": "remote",
+        "url": "http://127.0.0.1:27182/mcp",
+        "disabled": false
+      }
     }
   }
 }
