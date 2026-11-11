@@ -5,6 +5,9 @@ status_indicators = "symbols"
 [theme]
 name = "gruvbox"
 
+[terminal]
+default_shell = "pwsh.exe"
+
 [keys]
 prefix = "ctrl+b"
 focus_pane_left = "prefix+h"
