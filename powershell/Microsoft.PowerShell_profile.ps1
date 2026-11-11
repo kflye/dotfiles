@@ -6,7 +6,7 @@ elseif ($IsWindows) {
     $env:PATH += ";$env:APPDATA\local\bin"
     $env:Path = "$env:LOCALAPPDATA\Microsoft\WinGet\Links;$env:Path"
     $env:HOME = "$env:userprofile"
-    $env:SHELL = "C:\Program Files\PowerShell\7\pwsh.exe"
+    $env:SHELL = Join-Path $PSHOME 'pwsh.exe'
     $env:CC = "gcc"
 }
 elseif ($IsLinux) {
